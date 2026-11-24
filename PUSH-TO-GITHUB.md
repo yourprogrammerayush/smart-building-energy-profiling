@@ -16,7 +16,7 @@ sandbox has no credentials). Nothing else is missing or blocked.
 | Tracked files | 61 — code, data, 18 SVG figures, fonts, logos, notebook, report, site, docs |
 | Largest file | 2.5 MB (`Final-Project-Report.pdf`) — well under GitHub's 100 MB hard limit |
 | Repository size | ~4.9 MB of Git history (61 files, largest 2.5 MB) |
-| Archives | `*.zip` and `*.bundle` are **git-ignored** and purged from history (the 8 MB archive is published on Drive, not in Git) |
+| Archives | `*.zip` and `*.bundle` are **git-ignored** and purged from history (the 15 MB archive is published on Drive, not in Git) |
 | Ready-to-serve site | `deploy/` — published to GitHub Pages by `.github/workflows/pages.yml` |
 | GitHub Pages workflow | `.github/workflows/pages.yml` (optional, see §5) |
 | Line endings / binary rules | `.gitattributes` |
@@ -75,12 +75,12 @@ git push -u origin main
 
 ## 4. Pushing from a different machine
 
-`Smart-Building-Energy-Wastage-Anomaly-Profiling-Ayush-Jha-25SCS1003001336.bundle` (in this
+`09_PROJECT-GIT-BUNDLE.BUNDLE` (in this
 workspace) is a single-file copy of the whole repository **including history**. On any machine
 with Git:
 
 ```bash
-git clone Smart-Building-Energy-Wastage-Anomaly-Profiling-Ayush-Jha-25SCS1003001336.bundle repo
+git clone 09_PROJECT-GIT-BUNDLE.BUNDLE repo
 cd repo
 git remote set-url origin https://github.com/<your-username>/smart-building-energy-profiling.git
 git push -u origin main

@@ -27,16 +27,16 @@ Drive archive folder:       https://drive.google.com/drive/folders/11nythpv22YAK
 
 STEP 1 — get the authoritative history
 - Open the Drive folder above and download
-  Smart-Building-Energy-Wastage-Anomaly-Profiling-Ayush-Jha-25SCS1003001336.bundle
+  09_PROJECT-GIT-BUNDLE.BUNDLE
   to ~/Downloads (keep the exact filename).
-- In that same folder the ZIP with the same base name holds the full working tree
+- In that same folder `08_PROJECT-ARCHIVE.ZIP` holds the full working tree
   (code, data, 18 SVG figures, notebook, 80-page PDF, deploy/ site); use it if the
   bundle route is inconvenient, but prefer the bundle because it carries the history.
 
 STEP 2 — bring it into a clone of my existing repository
     git clone https://github.com/yourprogrammerayush/smart-building-energy-profiling.git
     cd smart-building-energy-profiling
-    git fetch ~/Downloads/Smart-Building-Energy-Wastage-Anomaly-Profiling-Ayush-Jha-25SCS1003001336.bundle main:incoming
+    git fetch ~/Downloads/09_PROJECT-GIT-BUNDLE.BUNDLE main:incoming
     git checkout main
     git merge --ff-only incoming
       # if that refuses because the remote history diverged, the bundle is the
