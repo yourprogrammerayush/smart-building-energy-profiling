@@ -5,7 +5,7 @@
 **Institution:** IILM University, Greater Noida · School of Computer Science and Engineering
 **Faculty Guide:** Aditya Bangia · **Academic Year:** 2026-27
 
-[![Live Site](https://img.shields.io/badge/Live%20Site-smart--building--energy--profiling.vercel.app-000000?style=flat-square)](https://smart-building-energy-profiling.vercel.app)
+[![Live Site](https://img.shields.io/badge/Live%20Site-yourprogrammerayush.github.io-0B6E4F?style=flat-square)](https://yourprogrammerayush.github.io/smart-building-energy-profiling/)
 [![Report](https://img.shields.io/badge/Report-Final--Project--Report.pdf-b31b1b?style=flat-square)](https://drive.google.com/file/d/1Fgmeblm_4hibiQqlzque6yOk12RfPkdC/view)
 [![Notebook](https://img.shields.io/badge/Notebook-HTML%20%2B%20.ipynb-f37626?style=flat-square)](https://drive.google.com/file/d/1-x3Xt8kvDKInc7wvPPYmnTjIA2vHIY8Z/view)
 [![Data](https://img.shields.io/badge/Data-CC%20BY--SA%204.0-4c9f70?style=flat-square)](https://drive.google.com/file/d/1TMp_QXR5y0Ip58CRa9MvR6lYcrgDwfj2/view)
@@ -60,8 +60,8 @@ served from the public Google Drive mirror and are linked from every page of the
 
 | Deliverable | Link |
 |---|---|
-| Interactive web application (charts, audit queue, savings simulator) | https://smart-building-energy-profiling.vercel.app |
-| Final project report (PDF, 78 pages, IEEE references, code appendix) | https://drive.google.com/file/d/1Fgmeblm_4hibiQqlzque6yOk12RfPkdC/view |
+| Interactive web application (charts, audit queue, savings simulator) | https://yourprogrammerayush.github.io/smart-building-energy-profiling/ |
+| Final project report (PDF, 80 pages, IEEE references, code appendix) | https://drive.google.com/file/d/1Fgmeblm_4hibiQqlzque6yOk12RfPkdC/view |
 | Executed notebook (HTML) | https://drive.google.com/file/d/1-x3Xt8kvDKInc7wvPPYmnTjIA2vHIY8Z/view |
 | Notebook source (.ipynb) | https://drive.google.com/file/d/1juwjRrv5_8cwq4m-GBpNkO1_QCTALfur/view |
 | Analytical pipeline (Python) | https://drive.google.com/file/d/1_WAHattOaBqFc_xRNFKqwP_8OW9He29Q/view |
@@ -88,7 +88,7 @@ Smart-Building-Energy-Wastage-Anomaly-Profiling-Ayush-Jha-25SCS1003001336/
 │   ├── fonts/                        # Times New Roman quartet (embedded in PDF)
 │   └── logos/                        # IILM crests (RGBA, 2160 x 2160)
 ├── reports/
-│   ├── Final-Project-Report.pdf      # 78-page report, Roman + Arabic folios, bookmarks
+│   ├── Final-Project-Report.pdf      # 80-page report, Roman + Arabic folios, bookmarks
 │   ├── build_report.py               # HTML/CSS -> WeasyPrint -> PyMuPDF report engine
 │   ├── report_lib.py                 # layout, design tokens, figure/table registry
 │   ├── front_matter.py               # title, certificate, declaration, abstract, TOC...
@@ -96,11 +96,10 @@ Smart-Building-Energy-Wastage-Anomaly-Profiling-Ayush-Jha-25SCS1003001336/
 │   ├── content_b.py                  # chapters 5-8, references, appendices
 │   ├── audit_report.py               # font / overflow / TOC / link QA audit
 │   └── audit_report.json             # machine-readable audit output
-├── site/                             # full multi-file web app (source of truth for the UI)
-│   ├── index.html                    # interactive dashboard
-│   ├── assets/                       # styles.css, app.js, project-data.js, logos
-│   ├── reports/  notebook/  code/  data/   # browser-downloadable copies
-├── deploy/index.html                 # single-file build actually served by Vercel
+├── build_site.py                     # builds deploy/ from the JSON + dataset (no hand-typed numbers)
+├── deploy/                           # the published site: index.html + same-origin artefact copies
+│   ├── index.html                    # self-contained page (inline CSS/JS/SVG)
+│   └── reports/ notebook/ code/ data/ assets/figures/   # downloadable copies + figures
 ├── research/Research-Brief.md        # literature synthesis, dataset comparison matrix
 ├── DECISIONS.md                      # every architectural & methodological decision
 ├── PROJECT-LINKS.md                  # verified live URLs
@@ -120,7 +119,8 @@ python3 code/Energy-Analysis-Script.py
 
 # 3. notebook: execute top-to-bottom and export HTML
 jupyter nbconvert --execute --in-place notebooks/Analysis-Notebook.ipynb
-jupyter nbconvert --to html notebooks/Analysis-Notebook.ipynb --output-dir site/notebook
+jupyter nbconvert --to html notebooks/Analysis-Notebook.ipynb   # writes notebooks/Analysis-Notebook.html
+python3 build_site.py                                              # regenerates deploy/
 
 # 4. report: build the PDF, then audit it
 python3 reports/build_report.py
@@ -159,7 +159,7 @@ test), so no shuffling is involved and re-runs reproduce the reported values exa
 
 ## 7. Report engineering (worth noting for reviewers)
 
-The 78-page PDF is generated, not hand-assembled: `reports/build_report.py` renders a
+The 80-page PDF is generated, not hand-assembled: `reports/build_report.py` renders a
 body document and a front-matter document separately (so front matter carries **roman
 folios i–ix** and the body **arabic 1–69**), merges them with PyMuPDF, restores 107
 cross-document TOC/LOF/LOT links, writes a 79-entry outline plus PDF metadata, and then

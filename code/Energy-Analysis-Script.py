@@ -88,18 +88,20 @@ if (FONT_DIR / "TimesNewRoman.ttf").exists():
             fm.fontManager.addfont(str(ttf_path))
     FONT_FAMILY = "Times New Roman Cyr"
 
-# §7 Pure Saturated Accent Palette + Approved Neutrals
+# §7 Refined multi-hue accent palette + approved neutrals
+# Calibrated for print and screen; the six hues remain distinguishable in
+# greyscale (relative-luminance ordering) as well as in colour.
 PALETTE = {
-    "blue": "#0000FF",      # Primary data series / expected baseline
-    "red": "#FF0000",       # Anomalies / wastage / alerts
-    "green": "#00FF00",     # Savings / optimized / normal target
-    "cyan": "#00FFFF",      # Secondary series / weather / campus
-    "magenta": "#FF00FF",   # Tertiary series / cluster / threshold
-    "yellow": "#FFFF00",    # Warning band / off-hour highlight
-    "navy": "#0B1F3A",      # Structural headings / dark borders
-    "charcoal": "#222222",  # Secondary neutral line
-    "black": "#000000",     # Body text & axes
-    "grid": "#D8DEE9",      # Subtle gray gridlines on pure white
+    "blue": "#2C5F87",      # Primary data series / expected baseline (steel blue)
+    "red": "#B5462F",       # Anomalies / wastage / alerts (coral red)
+    "green": "#2F7D52",     # Savings / optimized / normal target (forest green)
+    "cyan": "#12707F",      # Secondary series / weather / campus (deep teal)
+    "magenta": "#5F4B8B",   # Tertiary series / cluster / threshold (plum)
+    "yellow": "#E0A32E",    # Warning band / off-hour highlight (amber)
+    "navy": "#13303B",      # Structural headings / dark borders (teal-ink)
+    "charcoal": "#2B2F33",  # Secondary neutral line
+    "black": "#111418",     # Body text & axes
+    "grid": "#DDE2E7",      # Subtle gray gridlines on pure white
     "white": "#FFFFFF",     # Canvas background
 }
 
@@ -122,9 +124,13 @@ plt.rcParams.update({
     "axes.edgecolor": PALETTE["charcoal"],
     "axes.linewidth": 0.9,
     "axes.grid": True,
+    # Grid sits BEHIND lines, bars, spans, markers and text.  Matplotlib's
+    # default ("line") leaves the grid above patches, which is what made the
+    # gridlines cross the bars and diagram elements; True pins it at zorder 0.5.
+    "axes.axisbelow": True,
     "grid.color": PALETTE["grid"],
-    "grid.linewidth": 0.6,
-    "grid.alpha": 0.85,
+    "grid.linewidth": 0.7,
+    "grid.alpha": 1.0,
     "legend.frameon": True,
     "legend.facecolor": PALETTE["white"],
     "legend.edgecolor": PALETTE["charcoal"],
@@ -142,6 +148,10 @@ TOTAL_SQM = 31462.6
 
 def save_svg(fig: plt.Figure, filename: str) -> str:
     path = FIG_DIR / filename
+    # Only re-assert the layering contract here; never re-enable a grid that
+    # a figure deliberately switched off (e.g. the twin axis in Fig. 4-2).
+    for _ax in fig.get_axes():
+        _ax.set_axisbelow(True)
     fig.savefig(path, format="svg", bbox_inches="tight")
     plt.close(fig)
     return str(path.relative_to(ROOT))

@@ -1,9 +1,8 @@
 name: Publish site to GitHub Pages
 
-# Optional mirror of the live Vercel deployment.
+# Canonical publication of the project site.
 # Enable once: repo Settings -> Pages -> Build and deployment -> Source = "GitHub Actions".
-# The published site is the same single-file application served at
-# https://smart-building-energy-profiling.vercel.app
+# The published site is https://yourprogrammerayush.github.io/smart-building-energy-profiling/
 
 on:
   push:
@@ -38,8 +37,7 @@ jobs:
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
         with:
-          # Single-file app that is actually deployed to Vercel.
-          # Swap to `site` to publish the full multi-file version instead.
+          # Self-contained site: index.html + same-origin artefact copies.
           path: deploy
 
       - name: Deploy to Pages

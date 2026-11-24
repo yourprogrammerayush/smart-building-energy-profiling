@@ -4,7 +4,8 @@ abstract, table of contents, list of figures, list of tables, abbreviations."""
 from __future__ import annotations
 
 from report_lib import (ACADEMIC_YEAR, COURSE, COURSE_NAME, DEPARTMENT, DRIVE_FOLDER,
-                        FACULTY, LIVE_SITE, PROJECT_TITLE, ROOT, SECTION, TEAM,
+                        FACULTY, GITHUB_REPO, GITHUB_REPO_SHORT, LIVE_SITE,
+                        LIVE_SITE_SHORT, PROJECT_TITLE, ROOT, SECTION, TEAM,
                         TITLE_PLAIN, UNIVERSITY)
 
 LOGO = (ROOT / "assets" / "logos" / "IILM-Logo.png").as_posix()
@@ -18,34 +19,46 @@ def cover_page() -> str:
     return f"""
 <section class="fm first">
 <div class="cover">
-  <img class="logo" src="{LOGO}" alt="IILM University crest">
-  <p class="uni">{UNIVERSITY}</p>
-  <p class="dept">{DEPARTMENT}</p>
-  <div class="rule"></div>
-  <p class="kicker">Mini Project Report</p>
-  <p class="title">{PROJECT_TITLE}</p>
-  <p class="subtitle">Quantifying operational energy wastage in a six-building
-     university and commercial district using smart-meter telemetry, weather
-     covariates and syllabus-locked machine learning</p>
-  <p class="submitline">A mini project report submitted in partial fulfilment of the
-     requirements of the course<br>
-     <strong>{COURSE_NAME}</strong> ({COURSE}) &nbsp;&#183;&nbsp; B.Tech Computer
-     Science and Engineering &nbsp;&#183;&nbsp; Semester III</p>
-  <table class="metatable">
-    <tr><td class="k">Submitted by</td><td class="v">Team {SECTION} &#8212; five members
-        (see table below)</td></tr>
-    <tr><td class="k">Faculty Guide</td><td class="v">{FACULTY}</td></tr>
-    <tr><td class="k">Academic Year</td><td class="v">{ACADEMIC_YEAR}</td></tr>
-    <tr><td class="k">Live Project Website</td><td class="v">{LIVE_SITE}</td></tr>
-  </table>
-  <p class="footerline">Greater Noida, Uttar Pradesh, India &nbsp;&#183;&nbsp;
-     November 2026</p>
-  <div class="rule" style="margin-top:4mm"></div>
-  <table class="data" style="font-size:8.8pt">
-    <thead><tr><th class="l">Student Name</th><th class="c">Roll Number</th>
-      <th class="l">Primary Contribution</th></tr></thead>
-    <tbody>{members}</tbody>
-  </table>
+  <div class="coverframe"><div class="coverframe-inner">
+    <div class="cgroup">
+    <img class="logo" src="{LOGO}" alt="IILM University crest">
+    <p class="uni">{UNIVERSITY}</p>
+    <p class="dept">{DEPARTMENT}</p>
+    <div class="rule"></div>
+    </div>
+    <div class="cgroup">
+    <p class="kicker">Mini Project Report</p>
+    <p class="title">{PROJECT_TITLE}</p>
+    <p class="subtitle">Quantifying operational energy wastage in a six-building
+       university and commercial district using smart-meter telemetry, weather
+       covariates and syllabus-locked machine learning</p>
+    <p class="submitline">A mini project report submitted in partial fulfilment of the
+       requirements of the course<br>
+       <strong>{COURSE_NAME}</strong> ({COURSE}) &nbsp;&#183;&nbsp; B.Tech Computer
+       Science and Engineering &nbsp;&#183;&nbsp; Semester III</p>
+    </div>
+    <div class="cgroup">
+    <table class="metatable">
+      <tr class="accent-1"><td class="k">Submitted by</td>
+        <td class="v">Team {SECTION} &#8212; five members (table below)</td></tr>
+      <tr class="accent-2"><td class="k">Faculty Guide</td>
+        <td class="v">{FACULTY}</td></tr>
+      <tr class="accent-3"><td class="k">Academic Year</td>
+        <td class="v">{ACADEMIC_YEAR}</td></tr>
+      <tr class="accent-1"><td class="k">Live Website</td>
+        <td class="v"><a class="link" href="{LIVE_SITE}">{LIVE_SITE_SHORT}</a></td></tr>
+      <tr class="accent-4"><td class="k">Source Repository</td>
+        <td class="v"><a class="link" href="{GITHUB_REPO}">{GITHUB_REPO_SHORT}</a></td></tr>
+    </table>
+    <table class="membertable">
+      <thead><tr><th class="l">Student Name</th><th class="c">Roll Number</th>
+        <th class="l">Primary Contribution</th></tr></thead>
+      <tbody>{members}</tbody>
+    </table>
+    <p class="footerline">Greater Noida, Uttar Pradesh, India &nbsp;&#183;&nbsp;
+       November 2026</p>
+    </div>
+  </div></div>
 </div>
 </section>"""
 
@@ -93,9 +106,9 @@ def certificate_page() -> str:
     </tr>
   </table>
 
-  <p class="small muted" style="margin-top:10mm">Examination session: November&#8211;December
-  2026 &nbsp;&#183;&nbsp; Report version 1.0 &nbsp;&#183;&nbsp; Place: Greater Noida,
-  Uttar Pradesh, India.</p>
+  <p class="small muted" style="margin-top:10mm">Examination session:
+  November&#8211;December 2026 &nbsp;&#183;&nbsp; Place: Greater Noida, Uttar
+  Pradesh, India.</p>
 </section>"""
 
 
