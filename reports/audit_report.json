@@ -1,0 +1,272 @@
+{
+ "file": {
+  "path": "reports/Final-Project-Report.pdf",
+  "size_mb": 2.407,
+  "pages": 78,
+  "front_pages": 9,
+  "body_pages": 69
+ },
+ "page_sizes": {
+  "595.3x841.9pt": 78
+ },
+ "fonts": {
+  "DejaVu-Sans-Mono": {
+   "pages": 42,
+   "chars": 81627
+  },
+  "TNR_Bold-Bold": {
+   "pages": 57,
+   "chars": 10109
+  },
+  "TNR_Ital-Italic": {
+   "pages": 73,
+   "chars": 5774
+  },
+  "TNR_Reg": {
+   "pages": 78,
+   "chars": 102573
+  },
+  "Times-New-Roman-Cyr-Bold": {
+   "pages": 15,
+   "chars": 2806
+  },
+  "Times-New-Roman-Cyr-Ital": {
+   "pages": 14,
+   "chars": 5204
+  }
+ },
+ "mono_pages": [
+  2,
+  7,
+  12,
+  16,
+  17,
+  18,
+  19,
+  20,
+  21,
+  23,
+  26,
+  27,
+  32,
+  34,
+  36,
+  39,
+  48,
+  52,
+  53,
+  54,
+  55,
+  56,
+  57,
+  58,
+  59,
+  60,
+  61,
+  62,
+  63,
+  64,
+  65,
+  66,
+  67,
+  68,
+  69,
+  70,
+  71,
+  72,
+  73,
+  74,
+  75,
+  77
+ ],
+ "overflow_count": 0,
+ "overflow_sample": [],
+ "stranded_headings": [],
+ "images": {
+  "2160x2160": 1,
+  "26x521": 1,
+  "16x318": 1
+ },
+ "figure_presence": [
+  {
+   "fig": "Figure 3.1",
+   "page": 18,
+   "vector_ops": 269,
+   "images": 0
+  },
+  {
+   "fig": "Figure 4.1",
+   "page": 22,
+   "vector_ops": 27,
+   "images": 0
+  },
+  {
+   "fig": "Figure 4.2",
+   "page": 25,
+   "vector_ops": 7,
+   "images": 0
+  },
+  {
+   "fig": "Figure 5.1",
+   "page": 30,
+   "vector_ops": 297,
+   "images": 0
+  },
+  {
+   "fig": "Figure 5.2",
+   "page": 31,
+   "vector_ops": 313,
+   "images": 0
+  },
+  {
+   "fig": "Figure 5.3",
+   "page": 31,
+   "vector_ops": 313,
+   "images": 0
+  },
+  {
+   "fig": "Figure 5.4",
+   "page": 32,
+   "vector_ops": 365,
+   "images": 0
+  },
+  {
+   "fig": "Figure 5.5",
+   "page": 33,
+   "vector_ops": 4405,
+   "images": 0
+  },
+  {
+   "fig": "Figure 5.6",
+   "page": 34,
+   "vector_ops": 1024,
+   "images": 2
+  },
+  {
+   "fig": "Figure 5.7",
+   "page": 34,
+   "vector_ops": 1024,
+   "images": 2
+  },
+  {
+   "fig": "Figure 6.1",
+   "page": 36,
+   "vector_ops": 1722,
+   "images": 0
+  },
+  {
+   "fig": "Figure 6.4",
+   "page": 38,
+   "vector_ops": 368,
+   "images": 0
+  },
+  {
+   "fig": "Figure 6.5",
+   "page": 39,
+   "vector_ops": 228,
+   "images": 0
+  },
+  {
+   "fig": "Figure 6.6",
+   "page": 40,
+   "vector_ops": 201,
+   "images": 0
+  },
+  {
+   "fig": "Figure 6.2",
+   "page": 42,
+   "vector_ops": 1106,
+   "images": 0
+  },
+  {
+   "fig": "Figure 6.3",
+   "page": 42,
+   "vector_ops": 1106,
+   "images": 0
+  },
+  {
+   "fig": "Figure 7.1",
+   "page": 44,
+   "vector_ops": 49,
+   "images": 0
+  },
+  {
+   "fig": "Figure 7.2",
+   "page": 45,
+   "vector_ops": 176,
+   "images": 0
+  }
+ ],
+ "toc_entries_parsed": 61,
+ "toc_mismatches": [],
+ "lof_mismatches": [],
+ "lot_mismatches": [],
+ "links": {
+  "uri": [
+   "https://drive.google.com/drive/folders/11nythpv22YAKNrwq1X8lfrp4Fq-hj01C",
+   "https://smart-building-energy-profiling.vercel.app",
+   "https://smart-building-energy-profiling.vercel.app/code/Energy-Analysis-Script.py",
+   "https://smart-building-energy-profiling.vercel.app/data/dataset.csv",
+   "https://smart-building-energy-profiling.vercel.app/notebook/Analysis-Notebook.html",
+   "https://smart-building-energy-profiling.vercel.app/reports/Final-Project-Report.pdf"
+  ],
+  "uri_count": 10,
+  "internal_goto": 107
+ },
+ "outline_entries": 79,
+ "outline_sample": [
+  [
+   1,
+   "Title Page",
+   1
+  ],
+  [
+   1,
+   "Certificate",
+   2
+  ],
+  [
+   1,
+   "Declaration",
+   3
+  ],
+  [
+   1,
+   "Acknowledgement",
+   4
+  ],
+  [
+   1,
+   "Abstract",
+   5
+  ],
+  [
+   1,
+   "Table of Contents",
+   6
+  ]
+ ],
+ "metadata": {
+  "format": "PDF 1.7",
+  "title": "Smart Building Energy Wastage & Anomaly Profiling: A Data-Driven Approach Using Smart-Meter and Weather Data",
+  "author": "Ayush Jha (25SCS1003001336); Archit Baloni (25SCS1003003550); Ashutosh Sahoo (25SCS1003004011); Dev Bhaskar Singh (25SCS1003003174); Aman Kumar Gupta (25SCS1003003645)",
+  "subject": "Mini Project Report - 26CSEM321 Data Visualization and Analysis, B.Tech CSE Semester III, IILM University, Greater Noida, 2026-27",
+  "keywords": "smart meter analytics, building energy wastage, anomaly detection, one-class SVM, K-Means, multiple linear regression, data visualization, sustainability, IILM University",
+  "creator": "WeasyPrint 6x (HTML/CSS to PDF) + PyMuPDF",
+  "producer": "WeasyPrint / PyMuPDF",
+  "creationDate": "D:20261125090000+05'30'",
+  "modDate": "D:20261125090000+05'30'"
+ },
+ "roman_folios": [
+  "ii",
+  "iii",
+  "iv",
+  "v",
+  "vi",
+  "vii",
+  "viii",
+  "ix"
+ ],
+ "issues": [],
+ "status": "PASS"
+}

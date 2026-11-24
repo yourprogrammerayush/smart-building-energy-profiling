@@ -1,0 +1,7 @@
+building_id,site_id,primaryspaceusage,sub_primaryspaceusage,sqm,sqft,lat,lng,timezone,yearbuilt
+Fox_office_Clayton,Fox,Office,Office,488.5,5258.0,33.42442530000004,-111.9281403999998,US/Mountain,
+Fox_education_Tamika,Fox,Education,College Laboratory,8339.9,89770.0,33.42442530000004,-111.9281403999998,US/Mountain,
+Fox_education_Kris,Fox,Education,Student Union,2837.5,30543.0,33.42442530000004,-111.9281403999998,US/Mountain,
+Fox_education_Carleen,Fox,Education,College Laboratory,6635.2,71421.0,33.42442530000004,-111.9281403999998,US/Mountain,
+Fox_office_Vicki,Fox,Office,Office,6580.5,70832.0,33.42442530000004,-111.9281403999998,US/Mountain,2014.0
+Fox_office_Joy,Fox,Office,Office,6581.0,70837.0,33.42442530000004,-111.9281403999998,US/Mountain,2014.0
