@@ -1,0 +1,775 @@
+{
+  "preprocessing_table": [
+    {
+      "issue": "Smart-meter sensor dropouts (6 buildings)",
+      "affected_columns": "Fox_office_* & Fox_education_*",
+      "raw_count": 51,
+      "pct_rows": 0.048,
+      "treatment": "Time-indexed linear interpolation across short 1-3 hr telemetry gaps"
+    },
+    {
+      "issue": "Core weather station dropouts",
+      "affected_columns": "airTemperature, dewTemperature, seaLvlPressure, windSpeed",
+      "raw_count": 71,
+      "pct_rows": 0.101,
+      "treatment": "Temporal linear interpolation + boundary backfill/forward-fill"
+    },
+    {
+      "issue": "High-missingness auxiliary sky/wind-angle sensors",
+      "affected_columns": "cloudCoverage, windDirection",
+      "raw_count": 6187,
+      "pct_rows": 17.63,
+      "treatment": "Median-by-hour imputation for EDA; excluded from core ML matrix to prevent noise"
+    },
+    {
+      "issue": "ISD trace precipitation sentinel (-1.0 mm)",
+      "affected_columns": "precipDepth1HR",
+      "raw_count": 284,
+      "pct_rows": 1.62,
+      "treatment": "Replaced -1.0 trace flags with 0.05 mm and filled missing hours with 0.0 mm"
+    },
+    {
+      "issue": "Extreme hourly load spikes / dips (1.5 x IQR audit)",
+      "affected_columns": "total_kwh",
+      "raw_count": 0,
+      "pct_rows": 0.0,
+      "treatment": "Retained & flagged (iqr_high_flag=1) because high spikes represent physical HVAC signal"
+    }
+  ],
+  "statistics": {
+    "total_rows": 17544,
+    "total_days": 731,
+    "total_energy_kwh": 13677269.83,
+    "total_energy_mwh": 13677.27,
+    "annual_avg_mwh": 6838.63,
+    "annual_eui_kwh_m2": 217.36,
+    "mean_hourly_kwh": 779.6,
+    "std_hourly_kwh": 235.51,
+    "median_hourly_kwh": 744.38,
+    "min_hourly_kwh": 139.92,
+    "max_hourly_kwh": 1432.92,
+    "weekday_mean_kwh": 822.0,
+    "weekend_mean_kwh": 674.4,
+    "weekday_weekend_ratio": 1.219,
+    "welch_t_stat": 45.76,
+    "welch_p_val": 0.0,
+    "mannwhitney_u": 42427162.5,
+    "mannwhitney_p_val": 2.944064106292615e-283,
+    "work_hour_mean_kwh": 994.55,
+    "off_hour_mean_kwh": 591.78,
+    "off_to_work_ratio": 0.595,
+    "off_hour_t_stat": 129.27,
+    "off_hour_share_pct": 25.3,
+    "weekend_share_pct": 24.85,
+    "pearson_r_temp": 0.7505,
+    "pearson_p_temp": 0.0,
+    "pearson_r_cdd": 0.7512,
+    "pearson_r_rh": -0.4178,
+    "descriptive_table": {
+      "total_kwh": {
+        "count": 17544.0,
+        "mean": 779.6,
+        "std": 235.51,
+        "min": 139.92,
+        "q25": 583.57,
+        "median": 744.38,
+        "q75": 946.25,
+        "max": 1432.92,
+        "skew": 0.47
+      },
+      "office_kwh": {
+        "count": 17544.0,
+        "mean": 416.39,
+        "std": 111.47,
+        "min": 67.25,
+        "q25": 323.46,
+        "median": 403.24,
+        "q75": 494.65,
+        "max": 740.43,
+        "skew": 0.45
+      },
+      "edu_kwh": {
+        "count": 17544.0,
+        "mean": 363.21,
+        "std": 129.24,
+        "min": 53.9,
+        "q25": 260.06,
+        "median": 342.4,
+        "q75": 452.54,
+        "max": 757.1,
+        "skew": 0.51
+      },
+      "airTemperature": {
+        "count": 17544.0,
+        "mean": 25.08,
+        "std": 9.15,
+        "min": 2.2,
+        "q25": 17.8,
+        "median": 25.6,
+        "q75": 32.2,
+        "max": 48.3,
+        "skew": -0.05
+      },
+      "rel_humidity": {
+        "count": 17544.0,
+        "mean": 30.83,
+        "std": 18.91,
+        "min": 2.13,
+        "q25": 16.62,
+        "median": 26.18,
+        "q75": 40.43,
+        "max": 96.85,
+        "skew": 1.12
+      },
+      "windSpeed": {
+        "count": 17544.0,
+        "mean": 2.91,
+        "std": 1.95,
+        "min": 0.0,
+        "q25": 1.5,
+        "median": 2.6,
+        "q75": 4.1,
+        "max": 15.4,
+        "skew": 0.88
+      },
+      "seaLvlPressure": {
+        "count": 17544.0,
+        "mean": 1011.42,
+        "std": 5.19,
+        "min": 996.1,
+        "q25": 1007.8,
+        "median": 1010.8,
+        "q75": 1014.6,
+        "max": 1032.2,
+        "skew": 0.5
+      },
+      "cdd_18": {
+        "count": 17544.0,
+        "mean": 8.07,
+        "std": 7.41,
+        "min": 0.0,
+        "q25": 0.0,
+        "median": 7.3,
+        "q75": 13.9,
+        "max": 30.0,
+        "skew": 0.49
+      }
+    },
+    "seasonal_summary": {
+      "Winter": {
+        "mean": 600.42,
+        "std": 143.75,
+        "median": 562.52,
+        "max": 1012.54
+      },
+      "Spring": {
+        "mean": 765.92,
+        "std": 208.91,
+        "median": 736.62,
+        "max": 1332.42
+      },
+      "Summer": {
+        "mean": 955.46,
+        "std": 215.61,
+        "median": 947.92,
+        "max": 1432.92
+      },
+      "Autumn": {
+        "mean": 793.82,
+        "std": 218.03,
+        "median": 760.51,
+        "max": 1391.65
+      }
+    }
+  },
+  "machine_learning": {
+    "dt_best_params": {
+      "max_depth": 12,
+      "min_samples_leaf": 10
+    },
+    "svc_best_params": {
+      "C": 5.0,
+      "gamma": 0.05
+    },
+    "dt_cls_best_params": {
+      "max_depth": 5,
+      "min_samples_leaf": 5
+    },
+    "regression_comparison": {
+      "Counterfactual_Schedule_Weather_MLR": {
+        "r2": 0.9,
+        "rmse": 75.43,
+        "mae": 56.33,
+        "mape_pct": 7.6
+      },
+      "Full_Autoregressive_Weather_MLR": {
+        "r2": 0.9351,
+        "rmse": 60.76,
+        "mae": 44.65,
+        "mape_pct": 6.01
+      },
+      "Tuned_Decision_Tree_Regressor": {
+        "r2": 0.9207,
+        "rmse": 67.19,
+        "mae": 47.0,
+        "mape_pct": 6.2
+      }
+    },
+    "mlr_intercept_std": 781.55,
+    "mlr_intercept_raw": 1644.25,
+    "mlr_coefficients": [
+      {
+        "feature": "lag_168h",
+        "raw_coef": 0.4491,
+        "std_coef": 104.07
+      },
+      {
+        "feature": "lag_24h",
+        "raw_coef": 0.2623,
+        "std_coef": 60.61
+      },
+      {
+        "feature": "cdd_18",
+        "raw_coef": 5.2866,
+        "std_coef": 31.94
+      },
+      {
+        "feature": "is_weekend",
+        "raw_coef": -64.6028,
+        "std_coef": -29.22
+      },
+      {
+        "feature": "cos_hour",
+        "raw_coef": -36.9291,
+        "std_coef": -26.11
+      },
+      {
+        "feature": "airTemperature",
+        "raw_coef": 1.4932,
+        "std_coef": 21.75
+      },
+      {
+        "feature": "temp_rh_interaction",
+        "raw_coef": 5.2049,
+        "std_coef": 18.28
+      },
+      {
+        "feature": "rel_humidity",
+        "raw_coef": -0.917,
+        "std_coef": -16.78
+      },
+      {
+        "feature": "hdd_18",
+        "raw_coef": 3.7935,
+        "std_coef": 13.19
+      },
+      {
+        "feature": "roll_mean_24h",
+        "raw_coef": -0.0822,
+        "std_coef": -12.75
+      },
+      {
+        "feature": "sin_hour_2",
+        "raw_coef": -10.7985,
+        "std_coef": -7.64
+      },
+      {
+        "feature": "seaLvlPressure",
+        "raw_coef": -1.4069,
+        "std_coef": -6.95
+      },
+      {
+        "feature": "is_off_hour",
+        "raw_coef": -9.1158,
+        "std_coef": -4.3
+      },
+      {
+        "feature": "sin_hour",
+        "raw_coef": -2.3666,
+        "std_coef": -1.67
+      },
+      {
+        "feature": "windSpeed",
+        "raw_coef": -0.6792,
+        "std_coef": -1.34
+      },
+      {
+        "feature": "cos_hour_2",
+        "raw_coef": 0.5923,
+        "std_coef": 0.42
+      }
+    ],
+    "k_sweep": [
+      {
+        "k": 2,
+        "inertia": 2777.26,
+        "silhouette": 0.3291
+      },
+      {
+        "k": 3,
+        "inertia": 1999.46,
+        "silhouette": 0.3561
+      },
+      {
+        "k": 4,
+        "inertia": 1550.3,
+        "silhouette": 0.3803
+      },
+      {
+        "k": 5,
+        "inertia": 1298.47,
+        "silhouette": 0.3419
+      },
+      {
+        "k": 6,
+        "inertia": 1115.7,
+        "silhouette": 0.3473
+      },
+      {
+        "k": 7,
+        "inertia": 985.38,
+        "silhouette": 0.3505
+      }
+    ],
+    "cluster_profiles": [
+      {
+        "cluster_id": 1,
+        "name": "Summer Peak Cooling & Drift",
+        "days_count": 243,
+        "share_days_pct": 33.2,
+        "mean_daily_kwh": 23001.7,
+        "off_hour_mean_kwh": 693.8,
+        "baseload_ratio": 0.557,
+        "mean_excess_kwh": 394.9,
+        "mean_temp_c": 32.2,
+        "weekend_pct": 0.0
+      },
+      {
+        "cluster_id": 3,
+        "name": "Weekend Setback Regime",
+        "days_count": 100,
+        "share_days_pct": 13.7,
+        "mean_daily_kwh": 19298.2,
+        "off_hour_mean_kwh": 672.1,
+        "baseload_ratio": 0.705,
+        "mean_excess_kwh": -343.8,
+        "mean_temp_c": 32.6,
+        "weekend_pct": 96.0
+      },
+      {
+        "cluster_id": 2,
+        "name": "Shoulder-Season Baseload Drift",
+        "days_count": 259,
+        "share_days_pct": 35.4,
+        "mean_daily_kwh": 17060.6,
+        "off_hour_mean_kwh": 518.5,
+        "baseload_ratio": 0.555,
+        "mean_excess_kwh": 115.0,
+        "mean_temp_c": 19.0,
+        "weekend_pct": 0.4
+      },
+      {
+        "cluster_id": 0,
+        "name": "Mild-Weather Efficient Baseline",
+        "days_count": 129,
+        "share_days_pct": 17.6,
+        "mean_daily_kwh": 13483.2,
+        "off_hour_mean_kwh": 484.4,
+        "baseload_ratio": 0.743,
+        "mean_excess_kwh": -406.4,
+        "mean_temp_c": 18.1,
+        "weekend_pct": 87.6
+      }
+    ],
+    "domain_excess_threshold_kwh": 1202.5,
+    "domain_wastage_days_total": 139,
+    "domain_wastage_days_2017": 93,
+    "ocsvm_flagged_days_total": 145,
+    "kmeans_flagged_days_total": 81,
+    "consensus_flagged_days_total": 157,
+    "consensus_excess_mwh_total": 233.03,
+    "consensus_excess_cost_usd_total": 27964.0,
+    "anomaly_evaluation_2017": {
+      "Unsupervised_OneClass_SVM": {
+        "accuracy": 0.8932,
+        "precision": 0.7455,
+        "recall": 0.8817,
+        "f1": 0.8079,
+        "tn": 244,
+        "fp": 28,
+        "fn": 11,
+        "tp": 82,
+        "roc_auc": 0.8214
+      },
+      "Unsupervised_KMeans_Distance": {
+        "accuracy": 0.8438,
+        "precision": 0.8333,
+        "recall": 0.4839,
+        "f1": 0.6122,
+        "tn": 263,
+        "fp": 9,
+        "fn": 48,
+        "tp": 45,
+        "roc_auc": 0.9039
+      },
+      "Hybrid_Consensus_Detector": {
+        "accuracy": 0.8877,
+        "precision": 0.7281,
+        "recall": 0.8925,
+        "f1": 0.8019,
+        "tn": 241,
+        "fp": 31,
+        "fn": 10,
+        "tp": 83,
+        "roc_auc": 0.8214
+      },
+      "Supervised_RBF_SVM": {
+        "accuracy": 0.8247,
+        "precision": 0.6883,
+        "recall": 0.5699,
+        "f1": 0.6235,
+        "tn": 248,
+        "fp": 24,
+        "fn": 40,
+        "tp": 53,
+        "roc_auc": 0.8505
+      },
+      "Supervised_Decision_Tree": {
+        "accuracy": 0.5863,
+        "precision": 0.2698,
+        "recall": 0.3656,
+        "f1": 0.3105,
+        "tn": 180,
+        "fp": 92,
+        "fn": 59,
+        "tp": 34,
+        "roc_auc": 0.5735
+      },
+      "Supervised_Gaussian_Naive_Bayes": {
+        "accuracy": 0.737,
+        "precision": 0.4681,
+        "recall": 0.2366,
+        "f1": 0.3143,
+        "tn": 247,
+        "fp": 25,
+        "fn": 71,
+        "tp": 22,
+        "roc_auc": 0.6786
+      }
+    },
+    "decision_tree_rules_text": "|--- min_kwh <= 450.76\n|   |--- class: 0\n|--- min_kwh >  450.76\n|   |--- min_kwh <= 730.90\n|   |   |--- mean_temp <= 30.51\n|   |   |   |--- class: 1\n|   |   |--- mean_temp >  30.51\n|   |   |   |--- class: 0\n|   |--- min_kwh >  730.90\n|   |   |--- class: 1\n",
+    "top_wastage_days": [
+      {
+        "date": "2017-04-26",
+        "day_name": "Wednesday",
+        "season": "Spring",
+        "actual_kwh": 21603.6,
+        "expected_kwh": 18631.3,
+        "excess_kwh": 2972.3,
+        "excess_pct": 16.0,
+        "off_hour_mean_kwh": 620.8,
+        "baseload_ratio": 0.514,
+        "mean_temp_c": 25.2,
+        "est_waste_cost_usd": 356.68,
+        "cluster_name": "Summer Peak Cooling & Drift"
+      },
+      {
+        "date": "2017-04-25",
+        "day_name": "Tuesday",
+        "season": "Spring",
+        "actual_kwh": 22143.4,
+        "expected_kwh": 19216.8,
+        "excess_kwh": 2926.6,
+        "excess_pct": 15.2,
+        "off_hour_mean_kwh": 636.2,
+        "baseload_ratio": 0.519,
+        "mean_temp_c": 25.7,
+        "est_waste_cost_usd": 351.19,
+        "cluster_name": "Summer Peak Cooling & Drift"
+      },
+      {
+        "date": "2017-06-26",
+        "day_name": "Monday",
+        "season": "Summer",
+        "actual_kwh": 27053.6,
+        "expected_kwh": 24199.2,
+        "excess_kwh": 2854.4,
+        "excess_pct": 11.8,
+        "off_hour_mean_kwh": 827.9,
+        "baseload_ratio": 0.578,
+        "mean_temp_c": 38.1,
+        "est_waste_cost_usd": 342.53,
+        "cluster_name": "Summer Peak Cooling & Drift"
+      },
+      {
+        "date": "2017-04-20",
+        "day_name": "Thursday",
+        "season": "Spring",
+        "actual_kwh": 21627.5,
+        "expected_kwh": 18786.5,
+        "excess_kwh": 2840.9,
+        "excess_pct": 15.1,
+        "off_hour_mean_kwh": 591.3,
+        "baseload_ratio": 0.466,
+        "mean_temp_c": 26.1,
+        "est_waste_cost_usd": 340.91,
+        "cluster_name": "Summer Peak Cooling & Drift"
+      },
+      {
+        "date": "2017-04-19",
+        "day_name": "Wednesday",
+        "season": "Spring",
+        "actual_kwh": 22183.7,
+        "expected_kwh": 19428.4,
+        "excess_kwh": 2755.3,
+        "excess_pct": 14.2,
+        "off_hour_mean_kwh": 625.8,
+        "baseload_ratio": 0.499,
+        "mean_temp_c": 27.2,
+        "est_waste_cost_usd": 330.64,
+        "cluster_name": "Summer Peak Cooling & Drift"
+      },
+      {
+        "date": "2017-04-18",
+        "day_name": "Tuesday",
+        "season": "Spring",
+        "actual_kwh": 22071.0,
+        "expected_kwh": 19324.1,
+        "excess_kwh": 2746.9,
+        "excess_pct": 14.2,
+        "off_hour_mean_kwh": 600.6,
+        "baseload_ratio": 0.464,
+        "mean_temp_c": 26.9,
+        "est_waste_cost_usd": 329.63,
+        "cluster_name": "Summer Peak Cooling & Drift"
+      },
+      {
+        "date": "2017-06-23",
+        "day_name": "Friday",
+        "season": "Summer",
+        "actual_kwh": 26916.3,
+        "expected_kwh": 24280.0,
+        "excess_kwh": 2636.3,
+        "excess_pct": 10.9,
+        "off_hour_mean_kwh": 869.2,
+        "baseload_ratio": 0.618,
+        "mean_temp_c": 37.8,
+        "est_waste_cost_usd": 316.35,
+        "cluster_name": "Summer Peak Cooling & Drift"
+      },
+      {
+        "date": "2017-04-24",
+        "day_name": "Monday",
+        "season": "Spring",
+        "actual_kwh": 22127.1,
+        "expected_kwh": 19546.6,
+        "excess_kwh": 2580.5,
+        "excess_pct": 13.2,
+        "off_hour_mean_kwh": 612.9,
+        "baseload_ratio": 0.487,
+        "mean_temp_c": 27.7,
+        "est_waste_cost_usd": 309.66,
+        "cluster_name": "Summer Peak Cooling & Drift"
+      },
+      {
+        "date": "2017-04-13",
+        "day_name": "Thursday",
+        "season": "Spring",
+        "actual_kwh": 21516.5,
+        "expected_kwh": 18968.3,
+        "excess_kwh": 2548.2,
+        "excess_pct": 13.4,
+        "off_hour_mean_kwh": 587.6,
+        "baseload_ratio": 0.472,
+        "mean_temp_c": 26.2,
+        "est_waste_cost_usd": 305.79,
+        "cluster_name": "Summer Peak Cooling & Drift"
+      },
+      {
+        "date": "2017-04-17",
+        "day_name": "Monday",
+        "season": "Spring",
+        "actual_kwh": 21272.0,
+        "expected_kwh": 18743.6,
+        "excess_kwh": 2528.4,
+        "excess_pct": 13.5,
+        "off_hour_mean_kwh": 587.5,
+        "baseload_ratio": 0.483,
+        "mean_temp_c": 25.8,
+        "est_waste_cost_usd": 303.41,
+        "cluster_name": "Summer Peak Cooling & Drift"
+      },
+      {
+        "date": "2017-04-12",
+        "day_name": "Wednesday",
+        "season": "Spring",
+        "actual_kwh": 20994.7,
+        "expected_kwh": 18479.3,
+        "excess_kwh": 2515.4,
+        "excess_pct": 13.6,
+        "off_hour_mean_kwh": 570.4,
+        "baseload_ratio": 0.467,
+        "mean_temp_c": 25.1,
+        "est_waste_cost_usd": 301.85,
+        "cluster_name": "Summer Peak Cooling & Drift"
+      },
+      {
+        "date": "2017-04-11",
+        "day_name": "Tuesday",
+        "season": "Spring",
+        "actual_kwh": 20453.0,
+        "expected_kwh": 17996.7,
+        "excess_kwh": 2456.3,
+        "excess_pct": 13.6,
+        "off_hour_mean_kwh": 560.3,
+        "baseload_ratio": 0.463,
+        "mean_temp_c": 23.5,
+        "est_waste_cost_usd": 294.75,
+        "cluster_name": "Shoulder-Season Baseload Drift"
+      },
+      {
+        "date": "2017-06-29",
+        "day_name": "Thursday",
+        "season": "Summer",
+        "actual_kwh": 25361.0,
+        "expected_kwh": 22946.4,
+        "excess_kwh": 2414.6,
+        "excess_pct": 10.5,
+        "off_hour_mean_kwh": 816.3,
+        "baseload_ratio": 0.602,
+        "mean_temp_c": 35.6,
+        "est_waste_cost_usd": 289.75,
+        "cluster_name": "Summer Peak Cooling & Drift"
+      },
+      {
+        "date": "2017-04-27",
+        "day_name": "Thursday",
+        "season": "Spring",
+        "actual_kwh": 22047.3,
+        "expected_kwh": 19644.7,
+        "excess_kwh": 2402.7,
+        "excess_pct": 12.2,
+        "off_hour_mean_kwh": 633.0,
+        "baseload_ratio": 0.509,
+        "mean_temp_c": 26.8,
+        "est_waste_cost_usd": 288.32,
+        "cluster_name": "Summer Peak Cooling & Drift"
+      },
+      {
+        "date": "2017-04-06",
+        "day_name": "Thursday",
+        "season": "Spring",
+        "actual_kwh": 20670.7,
+        "expected_kwh": 18276.7,
+        "excess_kwh": 2394.0,
+        "excess_pct": 13.1,
+        "off_hour_mean_kwh": 568.2,
+        "baseload_ratio": 0.472,
+        "mean_temp_c": 24.3,
+        "est_waste_cost_usd": 287.28,
+        "cluster_name": "Shoulder-Season Baseload Drift"
+      }
+    ],
+    "annual_baseline_kwh": 6838634.9,
+    "annual_baseline_mwh": 6838.63,
+    "annual_baseline_cost_usd": 820636.0,
+    "roadmap_levers": [
+      {
+        "id": "L1",
+        "lever": "Overnight BMS Setback & Lighting Sweep (22:00-06:00)",
+        "target_regime": "Off-hour baseload above 360 kWh critical floor (68% capture)",
+        "annual_kwh_saved": 461457.2,
+        "share_of_total_pct": 6.75,
+        "annual_cost_saved_usd": 55375.0,
+        "co2_avoided_tons": 192.4,
+        "comfort_impact": "Zero (unoccupied overnight hours)"
+      },
+      {
+        "id": "L2",
+        "lever": "Weekend & Academic-Break Deep HVAC Consolidation",
+        "target_regime": "Weekend daytime load above 400 kWh zone floor (62% capture)",
+        "annual_kwh_saved": 339534.3,
+        "share_of_total_pct": 4.96,
+        "annual_cost_saved_usd": 40744.0,
+        "co2_avoided_tons": 141.6,
+        "comfort_impact": "Zero (consolidates weekend study/work into zoned wings)"
+      },
+      {
+        "id": "L3",
+        "lever": "Automated OCSVM Anomaly Triage & Override Reset",
+        "target_regime": "82% mitigation of flagged multivariate wastage-day surges",
+        "annual_kwh_saved": 95544.1,
+        "share_of_total_pct": 1.4,
+        "annual_cost_saved_usd": 11465.0,
+        "co2_avoided_tons": 39.8,
+        "comfort_impact": "Positive (eliminates simultaneous heating/cooling faults)"
+      },
+      {
+        "id": "L4",
+        "lever": "Economizer Tuning, DCV & 1 C Deadband Optimization",
+        "target_regime": "32% trim on hot-weather (>24 C) weekday cooling increment",
+        "annual_kwh_saved": 368586.9,
+        "share_of_total_pct": 5.39,
+        "annual_cost_saved_usd": 44230.0,
+        "co2_avoided_tons": 153.7,
+        "comfort_impact": "Zero (ASHRAE 55 compliant 23.5-24.5 C comfort band)"
+      }
+    ],
+    "total_recommended_saved_kwh": 1265122.5,
+    "total_recommended_saved_pct": 18.5,
+    "total_recommended_saved_usd": 151815.0,
+    "total_recommended_co2_tons": 527.6,
+    "sensitivity_scenarios": [
+      {
+        "scenario": "Conservative (Low Capture)",
+        "capture_multiplier": 0.85,
+        "annual_kwh_saved": 1075354.1,
+        "savings_pct": 15.72,
+        "optimized_annual_mwh": 5763.3,
+        "annual_usd_saved": 129042.0,
+        "annual_inr_lakhs_saved": 107.54,
+        "co2_tons_avoided": 448.4
+      },
+      {
+        "scenario": "Recommended Target Plan",
+        "capture_multiplier": 1.0,
+        "annual_kwh_saved": 1265122.5,
+        "savings_pct": 18.5,
+        "optimized_annual_mwh": 5573.5,
+        "annual_usd_saved": 151815.0,
+        "annual_inr_lakhs_saved": 126.51,
+        "co2_tons_avoided": 527.6
+      },
+      {
+        "scenario": "Aggressive Smart-BMS Retrofit",
+        "capture_multiplier": 1.12,
+        "annual_kwh_saved": 1416937.2,
+        "savings_pct": 20.72,
+        "optimized_annual_mwh": 5421.7,
+        "annual_usd_saved": 170032.0,
+        "annual_inr_lakhs_saved": 141.69,
+        "co2_tons_avoided": 590.9
+      }
+    ]
+  },
+  "figures": {
+    "fig_3_1": "assets/figures/Fig-3-1-Portfolio-Overview.svg",
+    "fig_4_1": "assets/figures/Fig-4-1-Methodology-Workflow.svg",
+    "fig_4_2": "assets/figures/Fig-4-2-Train-Test-Split.svg",
+    "fig_5_1": "assets/figures/Fig-5-1-Hourly-Consumption-Profile.svg",
+    "fig_5_2": "assets/figures/Fig-5-2-Weekday-Weekend-Boxplots.svg",
+    "fig_5_3": "assets/figures/Fig-5-3-Consumption-Distribution-KDE.svg",
+    "fig_5_4": "assets/figures/Fig-5-4-Monthly-Baseload-Decomposition.svg",
+    "fig_5_5": "assets/figures/Fig-5-5-Temperature-Energy-Scatter.svg",
+    "fig_5_6": "assets/figures/Fig-5-6-Correlation-Heatmap.svg",
+    "fig_5_7": "assets/figures/Fig-5-7-Autocorrelation-Carpet.svg",
+    "fig_6_1": "assets/figures/Fig-6-1-Regression-Diagnostics.svg",
+    "fig_6_2": "assets/figures/Fig-6-2-Daily-Anomaly-Timeline.svg",
+    "fig_6_3": "assets/figures/Fig-6-3-OCSVM-Decision-Boundary.svg",
+    "fig_6_4": "assets/figures/Fig-6-4-KMeans-Cluster-Profiles.svg",
+    "fig_6_5": "assets/figures/Fig-6-5-Anomaly-Model-Evaluation.svg",
+    "fig_6_6": "assets/figures/Fig-6-6-Case-Study-Wastage-Days.svg",
+    "fig_7_1": "assets/figures/Fig-7-1-Savings-Waterfall-Roadmap.svg",
+    "fig_7_2": "assets/figures/Fig-7-2-Sensitivity-Analysis.svg"
+  }
+}

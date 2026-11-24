@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="841.32pt" height="250.92pt" viewBox="0 0 841.32 250.92" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-24T15:39:26.802521</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 250.92 
+L 841.32 250.92 
+L 841.32 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 24.4275 211.527 
+L 140.1963 211.527 
+Q 144.3309 211.527 144.3309 207.585 
+L 144.3309 90.639 
+Q 144.3309 86.697 140.1963 86.697 
+L 24.4275 86.697 
+Q 20.2929 86.697 20.2929 90.639 
+L 20.2929 207.585 
+Q 20.2929 211.527 24.4275 211.527 
+z
+" clip-path="url(#p1508d1cbf8)" style="fill: #ffffff; stroke: #0b1f3a; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 24.4275 93.267 
+L 140.1963 93.267 
+Q 144.3309 93.267 144.3309 89.325 
+L 144.3309 48.591 
+Q 144.3309 44.649 140.1963 44.649 
+L 24.4275 44.649 
+Q 20.2929 44.649 20.2929 48.591 
+L 20.2929 89.325 
+Q 20.2929 93.267 24.4275 93.267 
+z
+" clip-path="url(#p1508d1cbf8)" style="fill: #0000ff; stroke: #000000; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 159.4911 211.527 
+L 275.2599 211.527 
+Q 279.3945 211.527 279.3945 207.585 
+L 279.3945 90.639 
+Q 279.3945 86.697 275.2599 86.697 
+L 159.4911 86.697 
+Q 155.3565 86.697 155.3565 90.639 
+L 155.3565 207.585 
+Q 155.3565 211.527 159.4911 211.527 
+z
+" clip-path="url(#p1508d1cbf8)" style="fill: #ffffff; stroke: #0b1f3a; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 159.4911 93.267 
+L 275.2599 93.267 
+Q 279.3945 93.267 279.3945 89.325 
+L 279.3945 48.591 
+Q 279.3945 44.649 275.2599 44.649 
+L 159.4911 44.649 
+Q 155.3565 44.649 155.3565 48.591 
+L 155.3565 89.325 
+Q 155.3565 93.267 159.4911 93.267 
+z
+" clip-path="url(#p1508d1cbf8)" style="fill: #00ffff; stroke: #000000; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 294.5547 211.527 
+L 410.3235 211.527 
+Q 414.4581 211.527 414.4581 207.585 
+L 414.4581 90.639 
+Q 414.4581 86.697 410.3235 86.697 
+L 294.5547 86.697 
+Q 290.4201 86.697 290.4201 90.639 
+L 290.4201 207.585 
+Q 290.4201 211.527 294.5547 211.527 
+z
+" clip-path="url(#p1508d1cbf8)" style="fill: #ffffff; stroke: #0b1f3a; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 294.5547 93.267 
+L 410.3235 93.267 
+Q 414.4581 93.267 414.4581 89.325 
+L 414.4581 48.591 
+Q 414.4581 44.649 410.3235 44.649 
+L 294.5547 44.649 
+Q 290.4201 44.649 290.4201 48.591 
+L 290.4201 89.325 
+Q 290.4201 93.267 294.5547 93.267 
+z
+" clip-path="url(#p1508d1cbf8)" style="fill: #ffff00; stroke: #000000; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 429.6183 211.527 
+L 545.3871 211.527 
+Q 549.5217 211.527 549.5217 207.585 
+L 549.5217 90.639 
+Q 549.5217 86.697 545.3871 86.697 
+L 429.6183 86.697 
+Q 425.4837 86.697 425.4837 90.639 
+L 425.4837 207.585 
+Q 425.4837 211.527 429.6183 211.527 
+z
+" clip-path="url(#p1508d1cbf8)" style="fill: #ffffff; stroke: #0b1f3a; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 429.6183 93.267 
+L 545.3871 93.267 
+Q 549.5217 93.267 549.5217 89.325 
+L 549.5217 48.591 
+Q 549.5217 44.649 545.3871 44.649 
+L 429.6183 44.649 
+Q 425.4837 44.649 425.4837 48.591 
+L 425.4837 89.325 
+Q 425.4837 93.267 429.6183 93.267 
+z
+" clip-path="url(#p1508d1cbf8)" style="fill: #ff00ff; stroke: #000000; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 564.6819 211.527 
+L 680.4507 211.527 
+Q 684.5853 211.527 684.5853 207.585 
+L 684.5853 90.639 
+Q 684.5853 86.697 680.4507 86.697 
+L 564.6819 86.697 
+Q 560.5473 86.697 560.5473 90.639 
+L 560.5473 207.585 
+Q 560.5473 211.527 564.6819 211.527 
+z
+" clip-path="url(#p1508d1cbf8)" style="fill: #ffffff; stroke: #0b1f3a; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 564.6819 93.267 
+L 680.4507 93.267 
+Q 684.5853 93.267 684.5853 89.325 
+L 684.5853 48.591 
+Q 684.5853 44.649 680.4507 44.649 
+L 564.6819 44.649 
+Q 560.5473 44.649 560.5473 48.591 
+L 560.5473 89.325 
+Q 560.5473 93.267 564.6819 93.267 
+z
+" clip-path="url(#p1508d1cbf8)" style="fill: #ff0000; stroke: #000000; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 699.7455 211.527 
+L 815.5143 211.527 
+Q 819.6489 211.527 819.6489 207.585 
+L 819.6489 90.639 
+Q 819.6489 86.697 815.5143 86.697 
+L 699.7455 86.697 
+Q 695.6109 86.697 695.6109 90.639 
+L 695.6109 207.585 
+Q 695.6109 211.527 699.7455 211.527 
+z
+" clip-path="url(#p1508d1cbf8)" style="fill: #ffffff; stroke: #0b1f3a; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 699.7455 93.267 
+L 815.5143 93.267 
+Q 819.6489 93.267 819.6489 89.325 
+L 819.6489 48.591 
+Q 819.6489 44.649 815.5143 44.649 
+L 699.7455 44.649 
+Q 695.6109 44.649 695.6109 48.591 
+L 695.6109 89.325 
+Q 695.6109 93.267 699.7455 93.267 
+z
+" clip-path="url(#p1508d1cbf8)" style="fill: #00ff00; stroke: #000000; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 8.8px; font-family: 'Times New Roman Cyr'; text-anchor: middle; fill: #ffffff" x="82.3119" y="71.115203" transform="rotate(-0 82.3119 71.115203)">1. Data Acquisition</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 8.1px; font-family: 'Times New Roman Cyr'" transform="translate(55.476853 141.804558)">BDG2 Site Fox</text>
+    <text style="font-size: 8.1px; font-family: 'Times New Roman Cyr'" transform="translate(39.654642 151.955859)">6 Meters + ISD Weather</text>
+    <text style="font-size: 8.1px; font-family: 'Times New Roman Cyr'" transform="translate(46.744673 161.319942)">17,544 Hourly Rows</text>
+   </g>
+   <g id="patch_14">
+    <path d="M 144.954724 128.745 
+Q 149.845312 128.745 153.032329 128.745 
+" style="fill: none; stroke: #0b1f3a; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 148.307329 125.805 
+L 153.032329 128.745 
+L 148.307329 131.685 
+z
+" style="fill: #0b1f3a; stroke: #0b1f3a; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="text_3">
+    <text style="font-weight: 700; font-size: 8.8px; font-family: 'Times New Roman Cyr'; text-anchor: middle" x="217.3755" y="71.115203" transform="rotate(-0 217.3755 71.115203)">2. Preprocessing</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 8.1px; font-family: 'Times New Roman Cyr'" transform="translate(176.406586 141.011644)">Temporal Interpolation</text>
+    <text style="font-size: 8.1px; font-family: 'Times New Roman Cyr'" transform="translate(187.924406 151.172437)">IQR Spike Audit</text>
+    <text style="font-size: 8.1px; font-family: 'Times New Roman Cyr'" transform="translate(178.141125 161.329434)">Psychrometric RH (%)</text>
+   </g>
+   <g id="patch_15">
+    <path d="M 280.018324 128.745 
+Q 284.908912 128.745 288.095929 128.745 
+" style="fill: none; stroke: #0b1f3a; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 283.370929 125.805 
+L 288.095929 128.745 
+L 283.370929 131.685 
+z
+" style="fill: #0b1f3a; stroke: #0b1f3a; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="text_5">
+    <text style="font-weight: 700; font-size: 8.8px; font-family: 'Times New Roman Cyr'; text-anchor: middle" x="352.4391" y="71.098016" transform="rotate(-0 352.4391 71.098016)">3. Feature Eng.</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 8.1px; font-family: 'Times New Roman Cyr'" transform="translate(301.385686 141.007847)">CDD/HDD, Cyclical Sin/Cos</text>
+    <text style="font-size: 8.1px; font-family: 'Times New Roman Cyr'" transform="translate(327.379725 151.159148)">24h/168h Lags</text>
+    <text style="font-size: 8.1px; font-family: 'Times New Roman Cyr'" transform="translate(325.941342 162.13184)">Baseload Ratio</text>
+   </g>
+   <g id="patch_16">
+    <path d="M 415.081924 128.745 
+Q 419.972512 128.745 423.159529 128.745 
+" style="fill: none; stroke: #0b1f3a; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 418.434529 125.805 
+L 423.159529 128.745 
+L 418.434529 131.685 
+z
+" style="fill: #0b1f3a; stroke: #0b1f3a; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 8.8px; font-family: 'Times New Roman Cyr'; text-anchor: middle; fill: #ffffff" x="487.5027" y="71.115203" transform="rotate(-0 487.5027 71.115203)">4. EDA &amp; Stats</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 8.1px; font-family: 'Times New Roman Cyr'" transform="translate(433.792106 141.007847)">Welch t-Test &amp; Mann-Whitney</text>
+    <text style="font-size: 8.1px; font-family: 'Times New Roman Cyr'" transform="translate(454.043372 151.965352)">Diurnal &amp; Thermal</text>
+    <text style="font-size: 8.1px; font-family: 'Times New Roman Cyr'" transform="translate(456.579052 161.329434)">Wastage Profiling</text>
+   </g>
+   <g id="patch_17">
+    <path d="M 550.145524 128.745 
+Q 555.036112 128.745 558.223129 128.745 
+" style="fill: none; stroke: #0b1f3a; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 553.498129 125.805 
+L 558.223129 128.745 
+L 553.498129 131.685 
+z
+" style="fill: #0b1f3a; stroke: #0b1f3a; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 8.8px; font-family: 'Times New Roman Cyr'; text-anchor: middle; fill: #ffffff" x="622.5663" y="71.115203" transform="rotate(-0 622.5663 71.115203)">5. Syllabus ML</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 8.1px; font-family: 'Times New Roman Cyr'" transform="translate(586.23337 141.007847)">Multiple Linear Reg.</text>
+    <text style="font-size: 8.1px; font-family: 'Times New Roman Cyr'" transform="translate(573.327159 151.955859)">One-Class SVM &amp; K-Means</text>
+    <text style="font-size: 8.1px; font-family: 'Times New Roman Cyr'" transform="translate(579.268003 161.329434)">Dec. Tree &amp; Naive Bayes</text>
+   </g>
+   <g id="patch_18">
+    <path d="M 685.209124 128.745 
+Q 690.099712 128.745 693.286729 128.745 
+" style="fill: none; stroke: #0b1f3a; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 688.561729 125.805 
+L 693.286729 128.745 
+L 688.561729 131.685 
+z
+" style="fill: #0b1f3a; stroke: #0b1f3a; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="text_11">
+    <text style="font-weight: 700; font-size: 8.8px; font-family: 'Times New Roman Cyr'; text-anchor: middle" x="757.6299" y="71.115203" transform="rotate(-0 757.6299 71.115203)">6. Action Roadmap</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 8.1px; font-family: 'Times New Roman Cyr'" transform="translate(718.513228 141.007847)">Anomaly Triage Table</text>
+    <text style="font-size: 8.1px; font-family: 'Times New Roman Cyr'" transform="translate(716.659088 151.843219)">4 BMS Levers -&gt; 18.5%</text>
+    <text style="font-size: 8.1px; font-family: 'Times New Roman Cyr'" transform="translate(714.887845 162.116653)">Annual Cost &amp; CO2 Cut</text>
+   </g>
+   <g id="text_13">
+    <text style="font-style: italic; font-size: 8.8px; font-family: 'Times New Roman Cyr'; text-anchor: middle; fill: #0b1f3a" x="420.66" y="236.756203" transform="rotate(-0 420.66 236.756203)">Deterministic Pipeline (SEED = 42) | Single Source of Truth Across Notebook, PDF Report &amp; Interactive Web App</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p1508d1cbf8">
+   <rect x="7.2" y="7.2" width="826.92" height="236.52"/>
+  </clipPath>
+ </defs>
+</svg>
