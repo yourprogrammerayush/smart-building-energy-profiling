@@ -5,7 +5,7 @@ from __future__ import annotations
 import hashlib
 from pathlib import Path
 
-from report_lib import (ACADEMIC_YEAR, COURSE, DRIVE_FOLDER, LIVE_SITE, ROOT,
+from report_lib import (ACADEMIC_YEAR, COURSE, DRIVE_FOLDER, GITHUB_REPO, LIVE_SITE, ROOT,
                         TEAM, UNIVERSITY, decision, keyfinding, Registry)
 
 FIG = ROOT / "assets" / "figures"
@@ -1086,20 +1086,32 @@ course <strong>{COURSE}</strong> at {UNIVERSITY} in the academic year {ACADEMIC_
 
 
 def R_table_links() -> str:
+    """Deliverables table.
+
+    Every file link is expressed relative to the GitHub Pages project root,
+    which is the official deployment identity for this project, so the table
+    stays correct without embedding per-file Drive identifiers.
+    """
     rows = [
-        ["Interactive web application", f'<a href="{LIVE_SITE}">{LIVE_SITE}</a>',
-         "Live analytics dashboard, 18 charts, savings simulator"],
-        ["Final project report", f'<a href="{LIVE_SITE}/reports/Final-Project-Report.pdf">{LIVE_SITE}/reports/Final-Project-Report.pdf</a>',
-         "This document, downloadable"],
-        ["Executed notebook (HTML)", f'<a href="{LIVE_SITE}/notebook/Analysis-Notebook.html">{LIVE_SITE}/notebook/Analysis-Notebook.html</a>',
-         "Full rendered notebook with outputs"],
-        ["Analytical pipeline", f'<a href="{LIVE_SITE}/code/Energy-Analysis-Script.py">{LIVE_SITE}/code/Energy-Analysis-Script.py</a>',
-         "Reproducible Python source"],
-        ["Curated dataset", f'<a href="{LIVE_SITE}/data/dataset.csv">{LIVE_SITE}/data/dataset.csv</a>',
-         "17,544 hourly records, CSV"],
-        ["Repository archive (Google Drive)",
+        ["Live web application", f'<a href="{LIVE_SITE}">{LIVE_SITE}</a>',
+         "Interactive dashboard, charts, audit queue, savings simulator"],
+        ["Source repository", f'<a href="{GITHUB_REPO}">{GITHUB_REPO}</a>',
+         "Full Git history, pipeline, report source, data and site"],
+        ["Final project report (PDF)",
+         f'<a href="{LIVE_SITE}reports/Final-Project-Report.pdf">reports/Final-Project-Report.pdf</a>',
+         "This document, published with the site"],
+        ["Executed notebook (HTML)",
+         f'<a href="{LIVE_SITE}notebook/Analysis-Notebook.html">notebook/Analysis-Notebook.html</a>',
+         "Full rendered notebook with all outputs"],
+        ["Analytical pipeline (Python)",
+         f'<a href="{LIVE_SITE}code/Energy-Analysis-Script.py">code/Energy-Analysis-Script.py</a>',
+         "Reproducible deterministic source, SEED = 42"],
+        ["Curated dataset (CSV)",
+         f'<a href="{LIVE_SITE}data/dataset.csv">data/dataset.csv</a>',
+         "17,544 hourly records, 15 attributes, CC BY-SA 4.0"],
+        ["Archival mirror (Google Drive)",
          f'<a href="{DRIVE_FOLDER}">Google Drive project folder</a>',
-         "Complete repository ZIP plus report, notebook, code and data"],
+         "Complete repository ZIP, bundle, report, notebook, code and data"],
     ]
     body = "".join(
         f"<tr><td class='l'>{a}</td><td class='l'><span style='font-size:8.2pt'>{b}</span></td>"
@@ -1110,5 +1122,5 @@ def R_table_links() -> str:
   <table class="data"><colgroup><col style="width:24%"><col style="width:46%"><col style="width:30%"></colgroup>
   <thead><tr><th class="l">Deliverable</th><th class="l">Public URL</th><th class="l">Notes</th></tr></thead>
   <tbody>{body}</tbody></table>
-  <div class="tnote">Links resolve to the production Vercel deployment and the public Google Drive folder; both were verified with HTTP 200 checks during the final QA pass.</div>
+  <div class="tnote">The site links resolve inside the GitHub Pages publication and the remaining links resolve in the public Google Drive folder; both were re-verified with HTTP checks during the final quality-assurance pass.</div>
 </div>"""
