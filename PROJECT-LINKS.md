@@ -20,7 +20,7 @@ during the final quality-assurance pass (2026-11-24).
 | 5 | Analytical pipeline (.py) | https://drive.google.com/file/d/1_WAHattOaBqFc_xRNFKqwP_8OW9He29Q/view |
 | 6 | Curated dataset (.csv, 17,544 x 15) | https://drive.google.com/file/d/1TMp_QXR5y0Ip58CRa9MvR6lYcrgDwfj2/view |
 | 7 | Analysis results (.json) | https://drive.google.com/file/d/1M2QeY7CmWE0CHfLPJL-n-4OCcxdGZfwi/view |
-| 8 | Full repository archive (.zip, 7.7 MB) | https://drive.google.com/file/d/1Lk0E0FaeomvBcpYwc0EjjCDTsrDaw2sl/view |
+| 8 | Full repository archive (.zip, 7.9 MB, inside the Drive folder) | https://drive.google.com/drive/folders/11nythpv22YAKNrwq1X8lfrp4Fq-hj01C |
 | 9 | Google Drive project folder (all of the above) | https://drive.google.com/drive/folders/11nythpv22YAKNrwq1X8lfrp4Fq-hj01C |
 
 ## 2. Google Drive repository folder
@@ -58,7 +58,6 @@ for u in \
   https://drive.google.com/file/d/1juwjRrv5_8cwq4m-GBpNkO1_QCTALfur/view \
   https://drive.google.com/file/d/1_WAHattOaBqFc_xRNFKqwP_8OW9He29Q/view \
   https://drive.google.com/file/d/1TMp_QXR5y0Ip58CRa9MvR6lYcrgDwfj2/view \
-  https://drive.google.com/file/d/1Lk0E0FaeomvBcpYwc0EjjCDTsrDaw2sl/view \
   https://drive.google.com/drive/folders/11nythpv22YAKNrwq1X8lfrp4Fq-hj01C ; do
   printf '%s -> ' "$u"; curl -o /dev/null -s -w '%{http_code}\n' -L "$u"
 done
@@ -69,7 +68,7 @@ done
 The Vercel deployment (`deploy/index.html`, one self-contained file) is the canonical entry point:
 it carries the headline numbers, the interactive analysis and the audit queue, and every download
 button points at the Google Drive mirror. Heavy artefacts (2.4 MB PDF, 1.0 MB notebook HTML,
-1.7 MB dataset, 7.7 MB archive) are **not** bundled into the deployment — inline-only file uploads
+1.7 MB dataset, 7.9 MB archive) are **not** bundled into the deployment — inline-only file uploads
 make that impractical — so Drive is the single distribution point for files, and the site is the
 single distribution point for analysis.
 

@@ -67,7 +67,7 @@ served from the public Google Drive mirror and are linked from every page of the
 | Analytical pipeline (Python) | https://drive.google.com/file/d/1_WAHattOaBqFc_xRNFKqwP_8OW9He29Q/view |
 | Curated dataset (CSV, CC BY-SA 4.0) | https://drive.google.com/file/d/1TMp_QXR5y0Ip58CRa9MvR6lYcrgDwfj2/view |
 | Analysis results (JSON, single source of truth) | https://drive.google.com/file/d/1M2QeY7CmWE0CHfLPJL-n-4OCcxdGZfwi/view |
-| Full repository archive (ZIP, 7.7 MB) | https://drive.google.com/file/d/1Lk0E0FaeomvBcpYwc0EjjCDTsrDaw2sl/view |
+| Full repository archive (ZIP, 7.9 MB, in the Drive folder) | https://drive.google.com/drive/folders/11nythpv22YAKNrwq1X8lfrp4Fq-hj01C |
 | Google Drive project folder (everything above) | https://drive.google.com/drive/folders/11nythpv22YAKNrwq1X8lfrp4Fq-hj01C |
 
 ## 4. Repository layout
