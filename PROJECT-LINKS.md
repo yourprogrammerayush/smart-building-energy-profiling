@@ -14,10 +14,10 @@ during the final quality-assurance pass (2026-11-24).
 | # | Deliverable | Public URL |
 |---|---|---|
 | 1 | Interactive web application (charts, audit queue, savings simulator) | https://yourprogrammerayush.github.io/smart-building-energy-profiling/ |
-| 2 | Final project report (PDF, 80 pages) | https://drive.google.com/file/d/1Fgmeblm_4hibiQqlzque6yOk12RfPkdC/view |
-| 3 | Executed notebook (HTML) | https://drive.google.com/file/d/1-x3Xt8kvDKInc7wvPPYmnTjIA2vHIY8Z/view |
-| 4 | Notebook source (.ipynb) | https://drive.google.com/file/d/1juwjRrv5_8cwq4m-GBpNkO1_QCTALfur/view |
-| 5 | Analytical pipeline (.py) | https://drive.google.com/file/d/1_WAHattOaBqFc_xRNFKqwP_8OW9He29Q/view |
+| 2 | Final project report (PDF, 80 pages) | https://drive.google.com/file/d/1Zmvbd6ceHKiyJR5JYQm2yvqMDEn_h0i8/view |
+| 3 | Executed notebook (HTML) | https://drive.google.com/file/d/1BMZnurzsyCfuK6ojSgFpoE9TvPy0Srvj/view |
+| 4 | Notebook source (.ipynb) | https://drive.google.com/file/d/1OQsK2HLM7LBisKItB2OqP-sCPeFMlVHH/view |
+| 5 | Analytical pipeline (.py) | https://drive.google.com/file/d/1jIuetd6YCYJXPgj-YVSJ994Dhv2sR4nk/view |
 | 6 | Curated dataset (.csv, 17,544 x 15) | https://drive.google.com/file/d/1TMp_QXR5y0Ip58CRa9MvR6lYcrgDwfj2/view |
 | 7 | Analysis results (.json) | https://drive.google.com/file/d/1M2QeY7CmWE0CHfLPJL-n-4OCcxdGZfwi/view |
 | 8 | Full repository archive (.zip, 7.9 MB, inside the Drive folder) | https://drive.google.com/drive/folders/11nythpv22YAKNrwq1X8lfrp4Fq-hj01C |
@@ -53,10 +53,10 @@ Contents uploaded to this folder:
 # every link above should answer 200 (GitHub Pages) or 200/206 (Google Drive)
 for u in \
   https://yourprogrammerayush.github.io/smart-building-energy-profiling/ \
-  https://drive.google.com/file/d/1Fgmeblm_4hibiQqlzque6yOk12RfPkdC/view \
-  https://drive.google.com/file/d/1-x3Xt8kvDKInc7wvPPYmnTjIA2vHIY8Z/view \
-  https://drive.google.com/file/d/1juwjRrv5_8cwq4m-GBpNkO1_QCTALfur/view \
-  https://drive.google.com/file/d/1_WAHattOaBqFc_xRNFKqwP_8OW9He29Q/view \
+  https://drive.google.com/file/d/1Zmvbd6ceHKiyJR5JYQm2yvqMDEn_h0i8/view \
+  https://drive.google.com/file/d/1BMZnurzsyCfuK6ojSgFpoE9TvPy0Srvj/view \
+  https://drive.google.com/file/d/1OQsK2HLM7LBisKItB2OqP-sCPeFMlVHH/view \
+  https://drive.google.com/file/d/1jIuetd6YCYJXPgj-YVSJ994Dhv2sR4nk/view \
   https://drive.google.com/file/d/1TMp_QXR5y0Ip58CRa9MvR6lYcrgDwfj2/view \
   https://drive.google.com/drive/folders/11nythpv22YAKNrwq1X8lfrp4Fq-hj01C ; do
   printf '%s -> ' "$u"; curl -o /dev/null -s -w '%{http_code}\n' -L "$u"

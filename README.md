@@ -6,8 +6,8 @@
 **Faculty Guide:** Aditya Bangia · **Academic Year:** 2026-27
 
 [![Live Site](https://img.shields.io/badge/Live%20Site-yourprogrammerayush.github.io-0B6E4F?style=flat-square)](https://yourprogrammerayush.github.io/smart-building-energy-profiling/)
-[![Report](https://img.shields.io/badge/Report-Final--Project--Report.pdf-b31b1b?style=flat-square)](https://drive.google.com/file/d/1Fgmeblm_4hibiQqlzque6yOk12RfPkdC/view)
-[![Notebook](https://img.shields.io/badge/Notebook-HTML%20%2B%20.ipynb-f37626?style=flat-square)](https://drive.google.com/file/d/1-x3Xt8kvDKInc7wvPPYmnTjIA2vHIY8Z/view)
+[![Report](https://img.shields.io/badge/Report-Final--Project--Report.pdf-b31b1b?style=flat-square)](https://drive.google.com/file/d/1Zmvbd6ceHKiyJR5JYQm2yvqMDEn_h0i8/view)
+[![Notebook](https://img.shields.io/badge/Notebook-HTML%20%2B%20.ipynb-f37626?style=flat-square)](https://drive.google.com/file/d/1BMZnurzsyCfuK6ojSgFpoE9TvPy0Srvj/view)
 [![Data](https://img.shields.io/badge/Data-CC%20BY--SA%204.0-4c9f70?style=flat-square)](https://drive.google.com/file/d/1TMp_QXR5y0Ip58CRa9MvR6lYcrgDwfj2/view)
 [![License](https://img.shields.io/badge/Code%20License-MIT-blue?style=flat-square)](LICENSE)
 
@@ -61,10 +61,10 @@ served from the public Google Drive mirror and are linked from every page of the
 | Deliverable | Link |
 |---|---|
 | Interactive web application (charts, audit queue, savings simulator) | https://yourprogrammerayush.github.io/smart-building-energy-profiling/ |
-| Final project report (PDF, 80 pages, IEEE references, code appendix) | https://drive.google.com/file/d/1Fgmeblm_4hibiQqlzque6yOk12RfPkdC/view |
-| Executed notebook (HTML) | https://drive.google.com/file/d/1-x3Xt8kvDKInc7wvPPYmnTjIA2vHIY8Z/view |
-| Notebook source (.ipynb) | https://drive.google.com/file/d/1juwjRrv5_8cwq4m-GBpNkO1_QCTALfur/view |
-| Analytical pipeline (Python) | https://drive.google.com/file/d/1_WAHattOaBqFc_xRNFKqwP_8OW9He29Q/view |
+| Final project report (PDF, 80 pages, IEEE references, code appendix) | https://drive.google.com/file/d/1Zmvbd6ceHKiyJR5JYQm2yvqMDEn_h0i8/view |
+| Executed notebook (HTML) | https://drive.google.com/file/d/1BMZnurzsyCfuK6ojSgFpoE9TvPy0Srvj/view |
+| Notebook source (.ipynb) | https://drive.google.com/file/d/1OQsK2HLM7LBisKItB2OqP-sCPeFMlVHH/view |
+| Analytical pipeline (Python) | https://drive.google.com/file/d/1jIuetd6YCYJXPgj-YVSJ994Dhv2sR4nk/view |
 | Curated dataset (CSV, CC BY-SA 4.0) | https://drive.google.com/file/d/1TMp_QXR5y0Ip58CRa9MvR6lYcrgDwfj2/view |
 | Analysis results (JSON, single source of truth) | https://drive.google.com/file/d/1M2QeY7CmWE0CHfLPJL-n-4OCcxdGZfwi/view |
 | Full repository archive (ZIP, 7.9 MB, in the Drive folder) | https://drive.google.com/drive/folders/11nythpv22YAKNrwq1X8lfrp4Fq-hj01C |
