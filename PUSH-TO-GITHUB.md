@@ -13,10 +13,10 @@ sandbox has no credentials). Nothing else is missing or blocked.
 |---|---|
 | Branch | `main`, linear history, one commit per work phase |
 | Working tree | clean (`git status` returns nothing) |
-| Tracked files | 59 — code, data, 18 SVG figures, fonts, logos, notebook, report, site, docs |
+| Tracked files | 61 — code, data, 18 SVG figures, fonts, logos, notebook, report, site, docs |
 | Largest file | 2.5 MB (`Final-Project-Report.pdf`) — well under GitHub's 100 MB hard limit |
-| Repository size | ~13 MB including full history |
-| Archives | `*.zip` and `*.bundle` are **git-ignored** (the 8 MB archive is published on Drive, not in Git) |
+| Repository size | ~4.9 MB of Git history (61 files, largest 2.5 MB) |
+| Archives | `*.zip` and `*.bundle` are **git-ignored** and purged from history (the 8 MB archive is published on Drive, not in Git) |
 | Ready-to-serve site | `deploy/index.html` (single file, this is what Vercel serves) |
 | GitHub Pages workflow | `.github/workflows/pages.yml` (optional, see §5) |
 | Line endings / binary rules | `.gitattributes` |
@@ -24,7 +24,7 @@ sandbox has no credentials). Nothing else is missing or blocked.
 Commit history:
 
 ```
-chore: stop tracking the distribution archive (published to Drive instead)
+chore(github): gitattributes, optional Pages workflow and push handoff guide
 Point archive links at the stable Drive folder; refresh ZIP (76 files) and docs after the live deploy
 Deploy single-file web application to Vercel; point all download links at the public Drive mirror
 feat(report,site): 78-page report with audit gate and interactive dashboard
