@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart Building Energy Wastage &amp; Anomaly Profiling | IILM University</title>
+<meta name="description" content="Data-driven analysis of 17,544 hourly smart-meter records across a six-building campus portfolio: 25.30% of energy burned unoccupied, 157 anomaly days, 18.50% savings roadmap.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+<style>
+:root{--navy:#0B1F3A;--ink:#0f172a;--mut:#5b6878;--line:#dfe6ef;--blue:#1f4fd8;--red:#c62828;--green:#1b7a3d;--amber:#b45309;--cyan:#0e7490}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{margin:0;line-height:1.2;letter-spacing:-.02em}
+a{color:var(--blue);text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.nav{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800;color:var(--navy)}
+.mono{width:38px;height:38px;border-radius:10px;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:800;letter-spacing:.04em}
+.brand small{display:block;font-weight:500;font-size:11px;color:var(--mut);letter-spacing:.06em;text-transform:uppercase}
+.navlinks{display:flex;gap:22px;font-size:14px;font-weight:600}
+.navlinks a{color:#334155}
+.navlinks a:hover{color:var(--blue)}
+.hero{padding:64px 0 48px;background:linear-gradient(180deg,#f7faff 0%,#fff 100%);border-bottom:1px solid var(--line)}
+.tag{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);background:#eaf0ff;border-radius:999px;padding:6px 14px}
+.hero h1{font-size:clamp(28px,4.4vw,50px);margin:18px 0 16px;color:var(--navy);max-width:20ch}
+.hero p.lead{font-size:clamp(15px,1.5vw,18px);color:#334155;max-width:70ch;margin:0 0 26px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:26px}
+.chip{font-size:13px;font-weight:600;background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 14px;color:#243040}
+.chip b{color:var(--navy)}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14px;padding:12px 20px;border-radius:10px;border:1px solid transparent}
+.btn.primary{background:var(--navy);color:#fff}
+.btn.primary:hover{background:#132a4d}
+.btn.ghost{background:#fff;border-color:var(--line);color:var(--navy)}
+.btn.ghost:hover{border-color:var(--navy)}
+section{padding:56px 0;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+h2.sec{font-size:clamp(22px,2.6vw,30px);color:var(--navy);margin-bottom:10px}
+p.sub{color:var(--mut);max-width:78ch;margin:0 0 28px;font-size:15px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+.kpi{border:1px solid var(--line);border-top:3px solid var(--navy);border-radius:12px;padding:16px 18px;background:#fff}
+.kpi .v{font-size:23px;font-weight:800;color:var(--navy);letter-spacing:-.02em}
+.kpi .l{font-size:12px;color:var(--mut);margin-top:4px;font-weight:500}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.card{border:1px solid var(--line);border-radius:14px;padding:18px;background:#fff}
+.card h3{font-size:15px;color:var(--navy);margin-bottom:2px}
+.card .note{font-size:12.5px;color:var(--mut);margin:0 0 10px}
+.chart{width:100%;height:300px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:var(--navy);color:#fff;text-align:left;padding:10px 12px;font-weight:600;font-size:12px}
+td{padding:9px 12px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+tbody tr:nth-child(even){background:#f5f8fc}
+.r{text-align:right}
+.sim{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start}
+.simrow{display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:#243040;margin:14px 0 6px}
+input[type=range]{width:100%;accent-color:var(--blue)}
+.out{background:var(--navy);color:#fff;border-radius:14px;padding:22px}
+.out .big{font-size:38px;font-weight:800;letter-spacing:-.02em}
+.out .row{display:flex;justify-content:space-between;font-size:14px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.14)}
+.out .row:last-child{border:0}
+.out small{color:#a9bcd6}
+.dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.dl a{border:1px solid var(--line);border-radius:12px;padding:16px;background:#fff;color:var(--ink);display:block;transition:.15s}
+.dl a:hover{border-color:var(--blue);box-shadow:0 8px 24px rgba(31,79,216,.09);transform:translateY(-1px)}
+.dl b{display:block;color:var(--navy);font-size:14px;margin-bottom:4px}
+.dl span{font-size:12.5px;color:var(--mut)}
+.pill{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;margin-bottom:8px}
+.p-blue{background:#eaf0ff;color:var(--blue)}.p-green{background:#e8f6ed;color:var(--green)}.p-amber{background:#fdf2e4;color:var(--amber)}
+footer{padding:40px 0;background:var(--navy);color:#c9d6e8;font-size:13px}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+footer b{color:#fff;display:block;margin-bottom:4px}
+footer a{color:#8fb4ff}
+.finenote{font-size:12px;color:var(--mut);margin-top:16px}
+@media(max-width:860px){.grid2,.sim{grid-template-columns:1fr}.navlinks{display:none}}
+</style>
+</head>
+<body>
+<header class="nav"><div class="wrap">
+<a class="brand" href="#top"><span class="mono">IILM</span><span>Energy Wastage &amp; Anomaly Profiling<small>26CSEM321 &middot; IILM University</small></span></a>
+<nav class="navlinks"><a href="#results">Results</a><a href="#charts">Charts</a><a href="#audit">Audit queue</a><a href="#roadmap">Roadmap</a><a href="#downloads">Downloads</a></nav>
+</div></header>
+<div class="hero" id="top"><div class="wrap">
+<span class="tag">Mini Project &middot; Data Visualization &amp; Analysis &middot; 2026-27</span>
+<h1>Smart Building Energy Wastage &amp; Anomaly Profiling</h1>
+<p class="lead">A data-driven study of <b>17,544 hourly smart-meter records</b> from a six-building university and commercial portfolio (31,462.6 m&sup2;) joined to hourly weather data. The portfolio wastes a quarter of its electricity while nobody is in the building &mdash; and a counterfactual regression finally makes that waste measurable, rankable and costable.</p>
+<div class="chips"><span class="chip"><b>13,677.27</b> MWh over two years</span><span class="chip"><b>25.30%</b> of energy burned unoccupied</span><span class="chip"><b>157</b> anomaly days flagged</span><span class="chip"><b>18.50%</b> recoverable = <b>$151,815</b>/yr</span></div>
+<div class="btns">
+<a class="btn primary" href="https://drive.google.com/file/d/1Fgmeblm_4hibiQqlzque6yOk12RfPkdC/view" target="_blank" rel="noopener">Read the 78-page report</a>
+<a class="btn ghost" href="https://drive.google.com/file/d/1-x3Xt8kvDKInc7wvPPYmnTjIA2vHIY8Z/view" target="_blank" rel="noopener">Open executed notebook</a>
+<a class="btn ghost" href="#roadmap">Try the savings simulator</a>
+</div>
+</div></div>
+<section id="results"><div class="wrap">
+<div class="eyebrow">Headline findings</div>
+<h2 class="sec">Six numbers that describe the whole estate</h2>
+<p class="sub">Benchmark: Building Data Genome Project 2 (Miller et al., <i>Scientific Data</i> 2020), Site <i>Fox</i>, Tempe AZ, 1 Jan 2016 &ndash; 31 Dec 2017. Every figure below is regenerated by <code>code/Energy-Analysis-Script.py</code> (SEED = 42) and stored in <code>data/Analysis-Results.json</code>.</p>
+<div class="kpis">
+<div class="kpi"><div class="v">217.36</div><div class="l">kWh/m&sup2;/year energy use intensity</div></div>
+<div class="kpi"><div class="v">779.60</div><div class="l">kWh/h mean portfolio load</div></div>
+<div class="kpi"><div class="v">55.6%</div><div class="l">night trough as a share of the 15:00 peak</div></div>
+<div class="kpi"><div class="v">t = 129.27</div><div class="l">Welch test, occupied vs unoccupied hours</div></div>
+<div class="kpi"><div class="v">0.9351</div><div class="l">MLR R&sup2; on the unseen 2017 year</div></div>
+<div class="kpi"><div class="v">527.6 t</div><div class="l">CO&sup2;e avoidable per year</div></div>
+</div>
+<p class="finenote">Night hours (22:00&ndash;05:59) are 33.33% of clock time but absorb 3,460.7 MWh &mdash; a quarter of all energy &mdash; at a mean of 591.78 kWh/h against a work-hour mean of 994.55 kWh/h. Weekends add another 24.85% of consumption on 28.57% of days.</p>
+</div></section>
+<section id="charts"><div class="wrap">
+<div class="eyebrow">Interactive analysis</div>
+<h2 class="sec">Load shape, seasonality, anomalies and the roadmap</h2>
+<p class="sub">Hover, zoom and drag on any chart. Built with Plotly from the same JSON payload that generated the report's eighteen vector figures.</p>
+<div class="grid2">
+<div class="card"><h3>1 &middot; Diurnal load profile</h3><p class="note">Mean hourly demand, weekday vs weekend; shaded band = unoccupied window 22:00&ndash;05:59.</p><div id="c1" class="chart"></div></div>
+<div class="card"><h3>2 &middot; Monthly mean demand</h3><p class="note">24 months across the study period: summer peaks at 980 kWh/h, winter troughs near 560.</p><div id="c2" class="chart"></div></div>
+</div>
+<div class="grid2" style="margin-top:20px">
+<div class="card"><h3>3 &middot; Daily consumption timeline</h3><p class="note">731 daily totals with the ten highest-excess wastage days marked in red.</p><div id="c3" class="chart"></div></div>
+<div class="card"><h3>4 &middot; Savings waterfall</h3><p class="note">Annual baseline 6,838.63 MWh reduced by four physical levers to 5,573.5 MWh (18.50%).</p><div id="c4" class="chart"></div></div>
+</div>
+</div></section>
+<section id="audit"><div class="wrap">
+<div class="eyebrow">Facility audit queue</div>
+<h2 class="sec">Ten highest-excess days, ranked by counterfactual excess</h2>
+<p class="sub">Excess = metered daily consumption minus the weather-and-schedule regression expectation for the same day. The April 2017 cluster ran 12&ndash;16% above expectation in mild weather &mdash; a plant schedule that never returned to setback, not a cooling problem.</p>
+<div class="card" style="padding:0;overflow:auto"><table id="tbl"><thead><tr><th>#</th><th>Date</th><th class="r">Actual kWh</th><th class="r">Expected kWh</th><th class="r">Excess kWh</th><th class="r">Excess %</th><th class="r">Off-hour mean</th><th class="r">Baseload ratio</th><th class="r">Mean &deg;C</th><th class="r">Est. cost of waste</th></tr></thead><tbody></tbody></table></div>
+</div></section>
+<section id="roadmap"><div class="wrap">
+<div class="eyebrow">Decision support</div>
+<h2 class="sec">18.50% savings roadmap &amp; live simulator</h2>
+<p class="sub">Four levers sit above physical standby floors (360 kWh/h overnight, 400 kWh/h weekend), so no occupied hour is touched. Adjust the capture multiplier and tariff to stress-test the business case.</p>
+<div class="sim">
+<div class="card"><h3>Lever contributions</h3><p class="note">L1 and L2 are schedule interventions with no capital cost; together they deliver 63% of the opportunity.</p><div id="c5" class="chart" style="height:250px"></div>
+<div class="simrow"><span>Capture multiplier</span><span id="mv">1.00x (recommended)</span></div><input id="cap" type="range" min="85" max="112" value="100" step="1">
+<div class="simrow"><span>Electricity tariff</span><span id="tv">$0.12 / kWh</span></div><input id="tar" type="range" min="6" max="20" value="12" step="1">
+</div>
+<div class="out"><small>Annual savings</small><div class="big" id="pct">18.50%</div>
+<div class="row"><span>Energy saved</span><b id="kwh">1,265,123 kWh/yr</b></div>
+<div class="row"><span>Cost saved</span><b id="usd">$151,815 / yr</b></div>
+<div class="row"><span>Carbon avoided</span><b id="co2">527.6 tCO2e / yr</b></div>
+<div class="row"><span>Optimised demand</span><b id="opt">5,573.5 MWh/yr</b></div>
+<small style="display:block;margin-top:14px">Baseline 6,838.63 MWh/yr &middot; tariff 0.12 $/kWh &middot; emission factor 0.417 kg CO2e/kWh &middot; sensitivity band 15.72%&ndash;20.72%</small></div>
+</div>
+</div></section>
+<section id="downloads"><div class="wrap">
+<div class="eyebrow">Open science</div>
+<h2 class="sec">Deliverables &amp; downloads</h2>
+<p class="sub">All artefacts are public. The full multi-file application, the vector figure library and the source code also ship in the repository archive.</p>
+<div class="dl">
+<a href="https://drive.google.com/file/d/1Fgmeblm_4hibiQqlzque6yOk12RfPkdC/view" target="_blank" rel="noopener"><span class="pill p-blue">PDF &middot; 78 pages</span><b>Final project report</b><span>IEEE-cited, roman + arabic folios, 18 vector figures, full source-code appendix.</span></a>
+<a href="https://drive.google.com/file/d/1-x3Xt8kvDKInc7wvPPYmnTjIA2vHIY8Z/view" target="_blank" rel="noopener"><span class="pill p-green">HTML</span><b>Executed notebook</b><span>Top-to-bottom run with all tables, statistics and inline plots.</span></a>
+<a href="https://drive.google.com/file/d/1juwjRrv5_8cwq4m-GBpNkO1_QCTALfur/view" target="_blank" rel="noopener"><span class="pill p-green">.ipynb</span><b>Notebook source</b><span>Re-runnable Jupyter notebook (SEED = 42).</span></a>
+<a href="https://drive.google.com/file/d/1_WAHattOaBqFc_xRNFKqwP_8OW9He29Q/view" target="_blank" rel="noopener"><span class="pill p-amber">Python</span><b>Analytical pipeline</b><span>Statistics, five model families, 18 SVGs, JSON + web payload in one script.</span></a>
+<a href="https://drive.google.com/file/d/1TMp_QXR5y0Ip58CRa9MvR6lYcrgDwfj2/view" target="_blank" rel="noopener"><span class="pill p-blue">CSV &middot; CC BY-SA 4.0</span><b>Curated dataset</b><span>17,544 x 15 hourly smart-meter + weather records, 1.65 MB.</span></a>
+<a href="https://drive.google.com/file/d/1M2QeY7CmWE0CHfLPJL-n-4OCcxdGZfwi/view" target="_blank" rel="noopener"><span class="pill p-blue">JSON</span><b>Analysis results</b><span>Single source of truth for every number in the report and this page.</span></a>
+<a href="https://drive.google.com/file/d/1Lk0E0FaeomvBcpYwc0EjjCDTsrDaw2sl/view" target="_blank" rel="noopener"><span class="pill p-amber">ZIP &middot; 7.7 MB</span><b>Complete repository</b><span>Code, data, figures, notebook, report, web application and documentation.</span></a>
+<a href="https://drive.google.com/drive/folders/11nythpv22YAKNrwq1X8lfrp4Fq-hj01C" target="_blank" rel="noopener"><span class="pill p-green">Google Drive</span><b>Project folder</b><span>Everything above in one public folder for submission and team distribution.</span></a>
+</div>
+</div></section>
+<footer><div class="wrap">
+<div><b>IILM University, Greater Noida</b>School of Computer Science and Engineering &middot; 26CSEM321 Data Visualization and Analysis<br>Section 2CSE-4 &middot; Academic Year 2026-27 &middot; Faculty guide: Aditya Bangia</div>
+<div><b>Team</b>Ayush Jha (25SCS1003001336) &middot; Archit Baloni (25SCS1003003550) &middot; Ashutosh Sahoo (25SCS1003004011) &middot; Dev Bhaskar Singh (25SCS1003003174) &middot; Aman Kumar Gupta (25SCS1003003645)</div>
+</div></footer>
+<script>
+const WK=[573,555,567,559,549,610,695,761,857,938,979,1010,1032,1049,1064,1064,1046,979,921,878,843,811,730,657];
+const WE=[551,540,552,552,545,568,619,640,659,683,708,730,745,764,774,786,787,780,767,744,725,703,656,608];
+const MVAL=[559.1,633.7,702.6,717.2,802.8,918.1,963.4,980,908,810.5,715.6,602.4,593.3,654.4,712.2,803.4,857.1,959.9,983.4,927,887.8,781.7,659.1,566.9];
+const MDATES=["Jan 16","Feb 16","Mar 16","Apr 16","May 16","Jun 16","Jul 16","Aug 16","Sep 16","Oct 16","Nov 16","Dec 16","Jan 17","Feb 17","Mar 17","Apr 17","May 17","Jun 17","Jul 17","Aug 17","Sep 17","Oct 17","Nov 17","Dec 17"];
+const DAILY=[10177,11057,11044,13080,13653,13680,13959,13841,11994,11678,14387,14973,14705,15021,14203,12055,11817,11981,15047,15103,15211,14868,12268,11512,14668,15026,14930,15363,14593,12257,11825,13998,14758,14686,14725,14382,11736,11605,14967,16228,16077,16393,16072,13537,12557,15861,16928,17216,16940,16553,12903,12556,16212,16685,16666,17099,17268,14875,13818,17747,18624,18573,18801,18346,14591,14316,15947,15733,16207,16732,16649,13560,13415,17178,18169,18234,18416,17986,15596,15106,19492,20152,17730,18238,17098,14922,14457,17931,17035,16463,17030,17144,14491,14711,18435,19008,18651,18542,17716,14789,13561,16823,17709,17953,18508,17409,14068,14437,17959,18239,18825,19440,19433,16740,15422,18240,17596,18224,18201,18540,15580,15367,19472,21049,21905,21646,19273,15411,14942,17953,19576,20176,20860,20893,18809,17879,20316,20971,20804,20761,21098,18262,17356,18095,19120,19947,19947,19883,18635,18283,17787,20773,21665,21683,21465,18533,21857,22978,22373,23096,23079,22465,19879,18823,20980,20965,21149,21393,21376,19134,20653,24230,24367,24185,24161,23954,21296,20443,23377,24359,24415,22663,22381,20801,20831,20542,23153,23458,23840,22951,21763,21033,22496,22919,23505,24166,23320,22086,21235,23875,25131,24278,24471,24527,23038,22532,24081,24771,25191,25318,25016,22046,22029,23476,24064,23986,24342,23870,21854,21691,24374,24500,25340,25047,25366,21688,20693,24560,25700,25342,25107,24467,20666,19251,24502,24550,23660,24435,23873,19790,18475,23043,24891,26496,26250,25438,20403,18598,19282,23337,24360,24393,23808,20092,19089,24071,23914,23440,22482,21563,18351,16893,22248,23448,24409,24163,21383,16851,16989,21629,21596,22047,21742,21484,17082,15586,19682,19193,19633,20221,19892,17037,16564,19985,19845,20167,20154,19869,16594,15647,20138,20376,20488,20428,21102,18532,17845,21016,21432,22032,23220,22438,18383,17127,21329,20843,19934,20476,19468,16363,14937,20372,21005,20824,20263,17286,16370,15277,19766,20395,19706,18098,17353,15616,13072,17141,16050,14659,12743,13098,11842,11934,16300,16972,17065,16780,16229,13631,12676,16293,16793,16795,16807,16416,13985,12894,16215,15908,15975,15904,15257,12168,11762,14874,15148,14988,15132,13903,11711,11225,12320,12733,13916,14310,14020,11429,11222,12540,14421,14710,14577,14589,11943,11703,15554,16028,15710,15975,15320,11903,11550,12514,15627,16474,16156,15201,12600,11843,15674,15700,15005,15834,15088,12330,11549,15937,16173,16214,16299,15362,13842,12657,15912,17232,17158,17655,17520,14644,12927,16964,17244,17297,16952,17079,13610,11933,16466,17182,17522,16430,15778,12999,11854,16108,16919,16630,17266,16364,13593,12261,15672,16355,17160,18241,17982,15408,13947,18879,19493,19398,19613,18910,15892,14499,20187,20150,19054,16994,16692,13872,12974,17806,17807,19174,20145,17427,14998,15160,19212,19063,19638,20671,20790,15924,13697,19759,20453,20995,21517,20681,16317,16132,21272,22071,22184,21627,21160,18297,16968,22127,22143,21604,22047,20768,15728,15437,21071,22100,22934,23598,23404,18884,15958,19789,19537,19879,21124,22086,18875,17467,21341,19891,20278,20429,20013,16650,17564,22666,23355,23169,22802,21760,17500,17684,20012,22640,23188,22803,22659,19475,19479,24047,24280,24077,23609,23344,18468,18367,22331,21825,22006,23008,23347,18903,19225,25317,26175,25627,25835,26916,21229,21708,27054,25180,25101,25361,24371,19669,20303,25262,22701,25733,26102,26544,22074,21856,26267,25194,25206,25310,25393,21194,20784,25381,25646,25502,24854,25106,21520,20096,24113,25050,24539,24834,23865,18306,18316,24894,22682,21359,21827,20860,16830,16403,21240,21908,21764,22782,23279,19871,18969,24206,23173,22756,23221,23062,20630,20250,23670,24551,25162,24586,23931,19884,20928,25057,25241,25358,24259,23244,21248,20611,21987,24412,24135,24383,23220,20061,20309,24472,24892,24772,24315,22220,19345,18970,21526,21646,21710,21464,20361,16852,16072,18974,19494,20189,20348,20190,17765,16798,20494,20649,21244,21554,20176,15964,15376,18583,18738,20485,20174,19735,16889,16271,20748,21048,20489,20412,19326,15689,15273,19201,20423,20599,19141,18360,16074,15321,17984,18404,18153,18061,17284,15127,14666,17416,17781,17997,17945,15423,14596,14014,17699,17466,16204,16075,16124,13619,13095,15687,16033,14971,13649,13696,13674,13617,16066,16112,16071,16262,16037,13786,13596,15756,14815,15717,14944,14376,12344,12475,14994,14590,15058,14540,14513,11679,11320,14099,14138,14088,13662,13643,12252,11930,12207,12662,13726,13123,13472,11410,10856];
+const TOP=[["2017-04-26",21603.6,18631.3,2972.3,16.0,620.8,0.514,25.2,356.68],["2017-04-25",22143.4,19216.8,2926.6,15.2,636.2,0.519,25.7,351.19],["2017-06-26",27053.6,24199.2,2854.4,11.8,827.9,0.578,38.1,342.53],["2017-04-20",21627.5,18786.5,2840.9,15.1,591.3,0.466,26.1,340.91],["2017-04-19",22183.7,19428.4,2755.3,14.2,625.8,0.499,27.2,330.64],["2017-04-18",22071.0,19324.1,2746.9,14.2,600.6,0.464,26.9,329.63],["2017-06-23",26916.3,24280.0,2636.3,10.9,869.2,0.618,37.8,316.35],["2017-04-24",22127.1,19546.6,2580.5,13.2,612.9,0.487,27.7,309.66],["2017-04-13",21516.5,18968.3,2548.2,13.4,587.6,0.472,26.2,305.79],["2017-04-17",21272.0,18743.6,2528.4,13.5,587.5,0.483,25.8,303.41]];
+const LEV=[["L1 - Overnight BMS setback 22:00-06:00",461457.2,6.75,55375,192.4],["L2 - Weekend and break consolidation",339534.3,4.96,40744,141.6],["L3 - Automated anomaly triage",95544.1,1.4,11465,39.8],["L4 - Economizer, DCV and deadband",368586.9,5.39,44230,153.7]];
+const BASE_KWH=6838634.9, TOT_KWH=1265122.5, CO2=527.6;
+const fmt=n=>Math.round(n).toLocaleString("en-US");
+const LAY={margin:{l:56,r:18,t:14,b:46},font:{family:"Inter, sans-serif",size:11},paper_bgcolor:"rgba(0,0,0,0)",plot_bgcolor:"rgba(0,0,0,0)",hovermode:"x unified",xaxis:{gridcolor:"#eef2f7"},yaxis:{gridcolor:"#eef2f7"}};
+const CFG={displayModeBar:false,responsive:true};
+const line=(c)=>({color:c,mode:"lines",line:{width:2.6}});
+Plotly.newPlot("c1",[
+Object.assign(line("#0B1F3A"),{x:Array.from({length:24},(_,i)=>i),y:WK,name:"Weekday"}),
+Object.assign(line("#c62828"),{x:Array.from({length:24},(_,i)=>i),y:WE,name:"Weekend"}),
+{x:[22,23,0,1,2,3,4,5],y:[0,0,0,0,0,0,0,0],fill:"tozeroy",fillcolor:"rgba(31,79,216,.07)",line:{width:0},hoverinfo:"skip",showlegend:false}],
+Object.assign({},LAY,{yaxis:{title:"kWh/h",gridcolor:"#eef2f7",range:[0,1200]},xaxis:{title:"Hour of day",dtick:3,gridcolor:"#eef2f7"},legend:{orientation:"h",y:1.12}}),CFG);
+Plotly.newPlot("c2",[Object.assign(line("#1f4fd8"),{x:MDATES,y:MVAL,name:"Mean demand",fill:"tozeroy",fillcolor:"rgba(31,79,216,.10)"})],Object.assign({},LAY,{yaxis:{title:"kWh/h",gridcolor:"#eef2f7"}}),CFG);
+const d0=Date.UTC(2016,0,1);
+const dates=DAILY.map((_,i)=>new Date(d0+i*864e5).toISOString().slice(0,10));
+Plotly.newPlot("c3",[Object.assign(line("#0B1F3A"),{x:dates,y:DAILY,name:"Daily kWh",line:{width:1.4}}),
+{x:TOP.map(t=>t[0]),y:TOP.map(t=>t[1]),mode:"markers",type:"scatter",name:"Top-10 excess days",marker:{color:"#c62828",size:8,symbol:"diamond"}}],
+Object.assign({},LAY,{yaxis:{title:"kWh/day",gridcolor:"#eef2f7"},legend:{orientation:"h",y:1.12}}),CFG);
+Plotly.newPlot("c4",[{type:"waterfall",measure:["absolute","relative","relative","relative","relative","total"],x:["Baseline","L1","L2","L3","L4","Optimised"],y:[6838.63,-461.457,-339.534,-95.544,-368.587,0],text:["6,838.6","-461.5","-339.5","-95.5","-368.6","5,573.5"],textposition:"outside",connector:{line:{color:"#9fb0c4"}},increasing:{marker:{color:"#0B1F3A"}},decreasing:{marker:{color:"#1b7a3d"}},totals:{marker:{color:"#1f4fd8"}}}],Object.assign({},LAY,{yaxis:{title:"MWh/yr",gridcolor:"#eef2f7",range:[4800,7200]}}),CFG);
+Plotly.newPlot("c5",[{type:"bar",orientation:"h",y:LEV.map(l=>l[0]).slice().reverse(),x:LEV.map(l=>l[1]/1000).slice().reverse(),marker:{color:["#0e7490","#b45309","#c62828","#1b7a3d"]},text:LEV.map(l=>l[2]+"%").slice().reverse(),textposition:"outside"}],Object.assign({},LAY,{margin:{l:232,r:36,t:10,b:34},xaxis:{title:"MWh/yr",gridcolor:"#eef2f7"},yaxis:{gridcolor:"#eef2f7",tickfont:{size:10.5}}}),CFG);
+const tb=document.querySelector("#tbl tbody");
+TOP.forEach((t,i)=>{const tr=document.createElement("tr");tr.innerHTML="<td>"+(i+1)+"</td><td>"+t[0]+"</td><td class=r>"+fmt(t[1])+"</td><td class=r>"+fmt(t[2])+"</td><td class=r><b>"+fmt(t[3])+"</b></td><td class=r>"+t[4].toFixed(1)+"%</td><td class=r>"+t[5].toFixed(1)+"</td><td class=r>"+t[6].toFixed(3)+"</td><td class=r>"+t[7].toFixed(1)+"</td><td class=r>$"+t[8].toFixed(2)+"</td>";tb.appendChild(tr);});
+const cap=document.getElementById("cap"),tar=document.getElementById("tar");
+function sim(){const m=cap.value/100,p=tar.value/100,kwh=TOT_KWH*m,pct=kwh/BASE_KWH*100,usd=kwh*p,co2=CO2*m,opt=(BASE_KWH-kwh)/1000;
+document.getElementById("mv").textContent=m.toFixed(2)+"x";
+document.getElementById("tv").textContent="$"+p.toFixed(2)+" / kWh";
+document.getElementById("pct").textContent=pct.toFixed(2)+"%";
+document.getElementById("kwh").textContent=fmt(kwh)+" kWh/yr";
+document.getElementById("usd").textContent="$"+fmt(usd)+" / yr";
+document.getElementById("co2").textContent=co2.toFixed(1)+" tCO2e / yr";
+document.getElementById("opt").textContent=fmt(opt)+" MWh/yr";}
+cap.addEventListener("input",sim);tar.addEventListener("input",sim);sim();
+</script>
+</body>
+</html>

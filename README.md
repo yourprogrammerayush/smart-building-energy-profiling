@@ -6,9 +6,9 @@
 **Faculty Guide:** Aditya Bangia · **Academic Year:** 2026-27
 
 [![Live Site](https://img.shields.io/badge/Live%20Site-smart--building--energy--profiling.vercel.app-000000?style=flat-square)](https://smart-building-energy-profiling.vercel.app)
-[![Report](https://img.shields.io/badge/Report-Final--Project--Report.pdf-b31b1b?style=flat-square)](https://smart-building-energy-profiling.vercel.app/reports/Final-Project-Report.pdf)
-[![Notebook](https://img.shields.io/badge/Notebook-HTML%20%2B%20.ipynb-f37626?style=flat-square)](https://smart-building-energy-profiling.vercel.app/notebook/Analysis-Notebook.html)
-[![Data](https://img.shields.io/badge/Data-CC%20BY--SA%204.0-4c9f70?style=flat-square)](https://smart-building-energy-profiling.vercel.app/data/dataset.csv)
+[![Report](https://img.shields.io/badge/Report-Final--Project--Report.pdf-b31b1b?style=flat-square)](https://drive.google.com/file/d/1Fgmeblm_4hibiQqlzque6yOk12RfPkdC/view)
+[![Notebook](https://img.shields.io/badge/Notebook-HTML%20%2B%20.ipynb-f37626?style=flat-square)](https://drive.google.com/file/d/1-x3Xt8kvDKInc7wvPPYmnTjIA2vHIY8Z/view)
+[![Data](https://img.shields.io/badge/Data-CC%20BY--SA%204.0-4c9f70?style=flat-square)](https://drive.google.com/file/d/1TMp_QXR5y0Ip58CRa9MvR6lYcrgDwfj2/view)
 [![License](https://img.shields.io/badge/Code%20License-MIT-blue?style=flat-square)](LICENSE)
 
 ---
@@ -53,14 +53,22 @@ equipment problem — enforcing a real night setback and consolidating weekends 
 
 ## 3. Live deliverables
 
+The deployment is a single-page application (one `index.html`, no build step): headline KPIs,
+five interactive Plotly charts (diurnal profile, monthly means, 731-day timeline, savings waterfall,
+lever ranking), the ten highest-excess audit rows and a live savings simulator. Heavy artefacts are
+served from the public Google Drive mirror and are linked from every page of the site.
+
 | Deliverable | Link |
 |---|---|
-| Interactive web application (18 Plotly charts, anomaly explorer, savings simulator) | https://smart-building-energy-profiling.vercel.app |
-| Final project report (78 pages, IEEE references, full code appendix) | [/reports/Final-Project-Report.pdf](https://smart-building-energy-profiling.vercel.app/reports/Final-Project-Report.pdf) |
-| Executed notebook (HTML) | [/notebook/Analysis-Notebook.html](https://smart-building-energy-profiling.vercel.app/notebook/Analysis-Notebook.html) |
-| Analytical pipeline (Python) | [/code/Energy-Analysis-Script.py](https://smart-building-energy-profiling.vercel.app/code/Energy-Analysis-Script.py) |
-| Curated dataset (CSV) | [/data/dataset.csv](https://smart-building-energy-profiling.vercel.app/data/dataset.csv) |
-| Full repository archive (Google Drive) | https://drive.google.com/drive/folders/11nythpv22YAKNrwq1X8lfrp4Fq-hj01C |
+| Interactive web application (charts, audit queue, savings simulator) | https://smart-building-energy-profiling.vercel.app |
+| Final project report (PDF, 78 pages, IEEE references, code appendix) | https://drive.google.com/file/d/1Fgmeblm_4hibiQqlzque6yOk12RfPkdC/view |
+| Executed notebook (HTML) | https://drive.google.com/file/d/1-x3Xt8kvDKInc7wvPPYmnTjIA2vHIY8Z/view |
+| Notebook source (.ipynb) | https://drive.google.com/file/d/1juwjRrv5_8cwq4m-GBpNkO1_QCTALfur/view |
+| Analytical pipeline (Python) | https://drive.google.com/file/d/1_WAHattOaBqFc_xRNFKqwP_8OW9He29Q/view |
+| Curated dataset (CSV, CC BY-SA 4.0) | https://drive.google.com/file/d/1TMp_QXR5y0Ip58CRa9MvR6lYcrgDwfj2/view |
+| Analysis results (JSON, single source of truth) | https://drive.google.com/file/d/1M2QeY7CmWE0CHfLPJL-n-4OCcxdGZfwi/view |
+| Full repository archive (ZIP, 7.7 MB) | https://drive.google.com/file/d/1Lk0E0FaeomvBcpYwc0EjjCDTsrDaw2sl/view |
+| Google Drive project folder (everything above) | https://drive.google.com/drive/folders/11nythpv22YAKNrwq1X8lfrp4Fq-hj01C |
 
 ## 4. Repository layout
 
@@ -88,10 +96,11 @@ Smart-Building-Energy-Wastage-Anomaly-Profiling-Ayush-Jha-25SCS1003001336/
 │   ├── content_b.py                  # chapters 5-8, references, appendices
 │   ├── audit_report.py               # font / overflow / TOC / link QA audit
 │   └── audit_report.json             # machine-readable audit output
-├── site/                             # static web app (deployed to Vercel)
+├── site/                             # full multi-file web app (source of truth for the UI)
 │   ├── index.html                    # interactive dashboard
 │   ├── assets/                       # styles.css, app.js, project-data.js, logos
 │   ├── reports/  notebook/  code/  data/   # browser-downloadable copies
+├── deploy/index.html                 # single-file build actually served by Vercel
 ├── research/Research-Brief.md        # literature synthesis, dataset comparison matrix
 ├── DECISIONS.md                      # every architectural & methodological decision
 ├── PROJECT-LINKS.md                  # verified live URLs
