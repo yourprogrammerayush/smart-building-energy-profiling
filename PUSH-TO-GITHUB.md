@@ -75,12 +75,12 @@ git push -u origin main
 
 ## 4. Pushing from a different machine
 
-`09_PROJECT-GIT-BUNDLE.BUNDLE` (in this
+the Git bundle `09 PROJECT GIT BUNDLE.BUNDLE` (in this
 workspace) is a single-file copy of the whole repository **including history**. On any machine
 with Git:
 
 ```bash
-git clone 09_PROJECT-GIT-BUNDLE.BUNDLE repo
+git clone 09\ PROJECT\ GIT\ BUNDLE.BUNDLE repo
 cd repo
 git remote set-url origin https://github.com/<your-username>/smart-building-energy-profiling.git
 git push -u origin main

@@ -26,17 +26,17 @@ Live site (keep exactly):   https://yourprogrammerayush.github.io/smart-building
 Drive archive folder:       https://drive.google.com/drive/folders/11nythpv22YAKNrwq1X8lfrp4Fq-hj01C
 
 STEP 1 — get the authoritative history
-- Open the Drive folder above and download
-  09_PROJECT-GIT-BUNDLE.BUNDLE
-  to ~/Downloads (keep the exact filename).
-- In that same folder `08_PROJECT-ARCHIVE.ZIP` holds the full working tree
+- Open the Drive folder above and download the Git bundle ("09 PROJECT GIT BUNDLE")
+  to ~/Downloads, then rename it to project.bundle so the commands below need no
+  escaping.
+- In that same folder "08 PROJECT ARCHIVE" (a .zip) holds the full working tree
   (code, data, 18 SVG figures, notebook, 80-page PDF, deploy/ site); use it if the
   bundle route is inconvenient, but prefer the bundle because it carries the history.
 
 STEP 2 — bring it into a clone of my existing repository
     git clone https://github.com/yourprogrammerayush/smart-building-energy-profiling.git
     cd smart-building-energy-profiling
-    git fetch ~/Downloads/09_PROJECT-GIT-BUNDLE.BUNDLE main:incoming
+    git fetch ~/Downloads/project.bundle main:incoming
     git checkout main
     git merge --ff-only incoming
       # if that refuses because the remote history diverged, the bundle is the
