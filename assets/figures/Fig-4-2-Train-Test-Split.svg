@@ -6,7 +6,7 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-11-24T15:39:26.840838</dc:date>
+    <dc:date>2026-11-24T17:38:53.668217</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -35,7 +35,7 @@ L 399.84372 75.372
 L 399.84372 46.53 
 L 7.2 46.53 
 z
-" clip-path="url(#p433f5cdda5)" style="fill: #0000ff; stroke: #000000; stroke-width: 1.1; stroke-linejoin: miter"/>
+" clip-path="url(#pc2bad2fd9f)" style="fill: #2c5f87; stroke: #111418; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_3">
     <path d="M 399.84372 75.372 
@@ -43,7 +43,7 @@ L 790.92 75.372
 L 790.92 46.53 
 L 399.84372 46.53 
 z
-" clip-path="url(#p433f5cdda5)" style="fill: #00ffff; stroke: #000000; stroke-width: 1.1; stroke-linejoin: miter"/>
+" clip-path="url(#pc2bad2fd9f)" style="fill: #12707f; stroke: #111418; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
     <path d="M 7.2 143.544 
@@ -51,7 +51,7 @@ L 399.84372 143.544
 L 399.84372 114.702 
 L 7.2 114.702 
 z
-" clip-path="url(#p433f5cdda5)" style="fill: #ff00ff; stroke: #000000; stroke-width: 1.1; stroke-linejoin: miter"/>
+" clip-path="url(#pc2bad2fd9f)" style="fill: #5f4b8b; stroke: #111418; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_5">
     <path d="M 399.84372 143.544 
@@ -59,30 +59,30 @@ L 790.92 143.544
 L 790.92 114.702 
 L 399.84372 114.702 
 z
-" clip-path="url(#p433f5cdda5)" style="fill: #00ff00; stroke: #000000; stroke-width: 1.1; stroke-linejoin: miter"/>
+" clip-path="url(#pc2bad2fd9f)" style="fill: #2f7d52; stroke: #111418; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="text_1">
-    <text style="font-weight: 700; font-size: 9.8px; font-family: 'Times New Roman Cyr'; text-anchor: start; fill: #0b1f3a" x="7.2" y="36.042" transform="rotate(-0 7.2 36.042)">Hourly Regression Split (17,376 lag-complete rows):</text>
+    <text style="font-weight: 700; font-size: 9.8px; font-family: 'Times New Roman Cyr'; text-anchor: start; fill: #13303b" x="7.2" y="36.042" transform="rotate(-0 7.2 36.042)">Hourly Regression Split (17,376 lag-complete rows):</text>
    </g>
    <g id="text_2">
     <text style="font-weight: 700; font-size: 8.8px; font-family: 'Times New Roman Cyr'; text-anchor: middle; fill: #ffffff" x="203.13" y="63.378653" transform="rotate(-0 203.13 63.378653)">2016 Training + 5-Fold TimeSeriesSplit CV (8,616 hrs | 50.1%)</text>
    </g>
    <g id="text_3">
-    <text style="font-weight: 700; font-size: 8.8px; font-family: 'Times New Roman Cyr'; text-anchor: middle" x="594.99" y="63.378653" transform="rotate(-0 594.99 63.378653)">2017 Out-of-Sample Test Set (8,760 hrs | 49.9%)</text>
+    <text style="font-weight: 700; font-size: 8.8px; font-family: 'Times New Roman Cyr'; text-anchor: middle; fill: #111418" x="594.99" y="63.378653" transform="rotate(-0 594.99 63.378653)">2017 Out-of-Sample Test Set (8,760 hrs | 49.9%)</text>
    </g>
    <g id="text_4">
-    <text style="font-weight: 700; font-size: 9.8px; font-family: 'Times New Roman Cyr'; text-anchor: start; fill: #0b1f3a" x="7.2" y="104.214" transform="rotate(-0 7.2 104.214)">Daily Anomaly &amp; Classification Split (731 calendar days):</text>
+    <text style="font-weight: 700; font-size: 9.8px; font-family: 'Times New Roman Cyr'; text-anchor: start; fill: #13303b" x="7.2" y="104.214" transform="rotate(-0 7.2 104.214)">Daily Anomaly &amp; Classification Split (731 calendar days):</text>
    </g>
    <g id="text_5">
     <text style="font-weight: 700; font-size: 8.8px; font-family: 'Times New Roman Cyr'; text-anchor: middle; fill: #ffffff" x="203.13" y="131.550653" transform="rotate(-0 203.13 131.550653)">2016 Baseline Calibration &amp; 5-Fold Stratified CV (366 days)</text>
    </g>
    <g id="text_6">
-    <text style="font-weight: 700; font-size: 8.8px; font-family: 'Times New Roman Cyr'; text-anchor: middle" x="594.99" y="131.550653" transform="rotate(-0 594.99 131.550653)">2017 Independent Anomaly Evaluation (365 days)</text>
+    <text style="font-weight: 700; font-size: 8.8px; font-family: 'Times New Roman Cyr'; text-anchor: middle; fill: #111418" x="594.99" y="131.550653" transform="rotate(-0 594.99 131.550653)">2017 Independent Anomaly Evaluation (365 days)</text>
    </g>
   </g>
  </g>
  <defs>
-  <clipPath id="p433f5cdda5">
+  <clipPath id="pc2bad2fd9f">
    <rect x="7.2" y="7.2" width="783.72" height="157.32"/>
   </clipPath>
  </defs>

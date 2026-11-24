@@ -1,205 +1,1012 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Smart Building Energy Wastage &amp; Anomaly Profiling | IILM University</title>
-<meta name="description" content="Data-driven analysis of 17,544 hourly smart-meter records across a six-building campus portfolio: 25.30% of energy burned unoccupied, 157 anomaly days, 18.50% savings roadmap.">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
-<script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Smart Building Energy Wastage &amp; Anomaly Profiling — IILM University</title>
+<meta name="description" content="A data-driven study of operational energy wastage across a six-building smart-meter portfolio: 25.30% of metered energy is consumed while the buildings are unoccupied, and 18.50% of the annual baseline is recoverable through scheduling and control levers.">
+<meta name="theme-color" content="#08171E">
+<meta property="og:title" content="Smart Building Energy Wastage &amp; Anomaly Profiling">
+<meta property="og:description" content="25.30% of metered energy is burned while the portfolio is unoccupied. 18.50% of the annual baseline is recoverable.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://yourprogrammerayush.github.io/smart-building-energy-profiling/">
 <style>
-:root{--navy:#0B1F3A;--ink:#0f172a;--mut:#5b6878;--line:#dfe6ef;--blue:#1f4fd8;--red:#c62828;--green:#1b7a3d;--amber:#b45309;--cyan:#0e7490}
+:root{
+  --ink:#0C1519; --ink-2:#1D2E36; --muted:#5B716F; --surface:#FFFFFF; --paper:#F4F6F5;
+  --line:#DDE4E2; --line-2:#C9D4D1;
+  --deep:#08171E; --deep-2:#0D2530; --deep-line:rgba(255,255,255,.10);
+  --teal:#12707F; --teal-l:#7FE3D4; --amber:#B5771A; --coral:#B5462F; --plum:#5F4B8B; --green:#2F7D52;
+  --r:18px; --shell:1180px;
+  --sans:ui-sans-serif,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
+  --serif:ui-serif,"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;font-family:Inter,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased}
-h1,h2,h3,h4{margin:0;line-height:1.2;letter-spacing:-.02em}
-a{color:var(--blue);text-decoration:none}
-.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
-.nav{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
-.brand{display:flex;align-items:center;gap:12px;font-weight:800;color:var(--navy)}
-.mono{width:38px;height:38px;border-radius:10px;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:800;letter-spacing:.04em}
-.brand small{display:block;font-weight:500;font-size:11px;color:var(--mut);letter-spacing:.06em;text-transform:uppercase}
-.navlinks{display:flex;gap:22px;font-size:14px;font-weight:600}
-.navlinks a{color:#334155}
-.navlinks a:hover{color:var(--blue)}
-.hero{padding:64px 0 48px;background:linear-gradient(180deg,#f7faff 0%,#fff 100%);border-bottom:1px solid var(--line)}
-.tag{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);background:#eaf0ff;border-radius:999px;padding:6px 14px}
-.hero h1{font-size:clamp(28px,4.4vw,50px);margin:18px 0 16px;color:var(--navy);max-width:20ch}
-.hero p.lead{font-size:clamp(15px,1.5vw,18px);color:#334155;max-width:70ch;margin:0 0 26px}
-.chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:26px}
-.chip{font-size:13px;font-weight:600;background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 14px;color:#243040}
-.chip b{color:var(--navy)}
-.btns{display:flex;flex-wrap:wrap;gap:12px}
-.btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14px;padding:12px 20px;border-radius:10px;border:1px solid transparent}
-.btn.primary{background:var(--navy);color:#fff}
-.btn.primary:hover{background:#132a4d}
-.btn.ghost{background:#fff;border-color:var(--line);color:var(--navy)}
-.btn.ghost:hover{border-color:var(--navy)}
-section{padding:56px 0;border-bottom:1px solid var(--line)}
-.eyebrow{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
-h2.sec{font-size:clamp(22px,2.6vw,30px);color:var(--navy);margin-bottom:10px}
-p.sub{color:var(--mut);max-width:78ch;margin:0 0 28px;font-size:15px}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
-.kpi{border:1px solid var(--line);border-top:3px solid var(--navy);border-radius:12px;padding:16px 18px;background:#fff}
-.kpi .v{font-size:23px;font-weight:800;color:var(--navy);letter-spacing:-.02em}
-.kpi .l{font-size:12px;color:var(--mut);margin-top:4px;font-weight:500}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.card{border:1px solid var(--line);border-radius:14px;padding:18px;background:#fff}
-.card h3{font-size:15px;color:var(--navy);margin-bottom:2px}
-.card .note{font-size:12.5px;color:var(--mut);margin:0 0 10px}
-.chart{width:100%;height:300px}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th{background:var(--navy);color:#fff;text-align:left;padding:10px 12px;font-weight:600;font-size:12px}
-td{padding:9px 12px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
-tbody tr:nth-child(even){background:#f5f8fc}
-.r{text-align:right}
-.sim{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start}
-.simrow{display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:#243040;margin:14px 0 6px}
-input[type=range]{width:100%;accent-color:var(--blue)}
-.out{background:var(--navy);color:#fff;border-radius:14px;padding:22px}
-.out .big{font-size:38px;font-weight:800;letter-spacing:-.02em}
-.out .row{display:flex;justify-content:space-between;font-size:14px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.14)}
-.out .row:last-child{border:0}
-.out small{color:#a9bcd6}
-.dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
-.dl a{border:1px solid var(--line);border-radius:12px;padding:16px;background:#fff;color:var(--ink);display:block;transition:.15s}
-.dl a:hover{border-color:var(--blue);box-shadow:0 8px 24px rgba(31,79,216,.09);transform:translateY(-1px)}
-.dl b{display:block;color:var(--navy);font-size:14px;margin-bottom:4px}
-.dl span{font-size:12.5px;color:var(--mut)}
-.pill{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;margin-bottom:8px}
-.p-blue{background:#eaf0ff;color:var(--blue)}.p-green{background:#e8f6ed;color:var(--green)}.p-amber{background:#fdf2e4;color:var(--amber)}
-footer{padding:40px 0;background:var(--navy);color:#c9d6e8;font-size:13px}
-footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
-footer b{color:#fff;display:block;margin-bottom:4px}
-footer a{color:#8fb4ff}
-.finenote{font-size:12px;color:var(--mut);margin-top:16px}
-@media(max-width:860px){.grid2,.sim{grid-template-columns:1fr}.navlinks{display:none}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+  font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+h1,h2,h3,h4{margin:0;line-height:1.08;letter-spacing:-.024em;font-weight:650}
+p{margin:0 0 1em}
+a{color:var(--teal);text-underline-offset:3px}
+img{max-width:100%}
+:focus-visible{outline:2.5px solid var(--teal);outline-offset:3px;border-radius:4px}
+.skip{position:absolute;left:-9999px;top:0;background:#fff;padding:.9rem 1.2rem;z-index:100;border-radius:0 0 10px 0}
+.skip:focus{left:0}
+.wrap{width:min(100% - 3rem,var(--shell));margin-inline:auto}
+
+/* ---------- progress + nav ---------- */
+.progress{position:fixed;inset:0 0 auto;height:3px;z-index:60;background:transparent}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--green),var(--amber),var(--plum),var(--coral))}
+.nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
+  background:#071A22;border-bottom:1px solid var(--deep-line)}
+.nav .wrap{display:flex;align-items:center;gap:1.4rem;height:62px}
+.brand{display:flex;align-items:center;gap:.65rem;color:#EAF3F4;text-decoration:none;font-weight:650;letter-spacing:-.01em}
+.brand .dot{width:26px;height:26px;border-radius:8px;flex:none;
+  background:conic-gradient(from 210deg,var(--teal-l),var(--green),var(--amber),var(--plum),var(--coral),var(--teal-l))}
+.brand small{display:block;font-weight:450;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:#8FAEB3}
+.nav nav{margin-left:auto;display:flex;gap:.2rem;overflow:auto;scrollbar-width:none}
+.nav nav a{color:#C7DADE;text-decoration:none;font-size:.86rem;padding:.5rem .62rem;border-radius:8px;white-space:nowrap}
+.nav nav a:hover{color:#fff;background:rgba(255,255,255,.07)}
+.nav .ghost{border:1px solid var(--deep-line);color:#EAF3F4;text-decoration:none;font-size:.82rem;
+  padding:.5rem .85rem;border-radius:999px;white-space:nowrap}
+.nav .ghost:hover{border-color:var(--teal-l);color:#fff}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;background:
+  radial-gradient(1100px 520px at 78% -10%,rgba(18,112,127,.55),transparent 62%),
+  radial-gradient(760px 420px at 8% 8%,rgba(95,75,139,.30),transparent 60%),
+  radial-gradient(700px 500px at 50% 120%,rgba(181,70,47,.18),transparent 60%),
+  linear-gradient(180deg,#08171E,#0A1E27 55%,#081A22)}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+  background-size:64px 64px;mask-image:radial-gradient(80% 60% at 50% 40%,#000,transparent 78%)}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.06fr .94fr;gap:3rem;
+  align-items:center;padding:clamp(2.4rem,5vw,4.2rem) 0 clamp(2rem,4vw,3rem)}
+.eyebrow{display:inline-flex;align-items:center;gap:.6rem;font-size:.72rem;letter-spacing:.19em;
+  text-transform:uppercase;color:var(--teal-l);margin:0 0 1.1rem}
+.eyebrow::before{content:"";width:26px;height:1px;background:currentColor;opacity:.7}
+.hero h1{color:#F3FAFB;font-size:clamp(2.2rem,4.1vw,3.5rem);max-width:20ch;text-wrap:balance}
+.hero h1 em{font-family:var(--serif);font-style:italic;font-weight:400;color:#BFE9E2}
+.lede{color:#A9C4C9;font-size:clamp(1rem,1.35vw,1.12rem);max-width:52ch;margin-top:1.3rem}
+.cta{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.9rem}
+.btn{display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;font-size:.92rem;
+  font-weight:600;padding:.78rem 1.25rem;border-radius:999px;border:1px solid transparent;transition:.18s}
+.btn.primary{background:linear-gradient(135deg,var(--teal-l),#4EC3B4);color:#04252A;
+  box-shadow:0 10px 30px -12px rgba(127,227,212,.75)}
+.btn.primary:hover{transform:translateY(-1px);box-shadow:0 16px 36px -14px rgba(127,227,212,.9)}
+.btn.line{border-color:rgba(255,255,255,.24);color:#EAF3F4}
+.btn.line:hover{border-color:var(--teal-l);background:rgba(255,255,255,.05)}
+.kpis{list-style:none;padding:0;margin:2.1rem 0 0;display:grid;grid-template-columns:repeat(4,1fr);
+  gap:.8rem;border-top:1px solid var(--deep-line);padding-top:1.5rem}
+.kpis b{display:block;color:#F3FAFB;font-size:clamp(1.25rem,2.1vw,1.72rem);letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums}
+.kpis b i{font-style:normal;font-size:.6em;font-weight:600;letter-spacing:0;margin-left:.22rem;color:#8ED9CE}
+.kpis span{display:block;color:#8FAEB3;font-size:.74rem;line-height:1.35;margin-top:.3rem}
+.sky{position:relative}
+.sky svg{width:100%;height:auto;display:block;filter:drop-shadow(0 30px 60px rgba(0,0,0,.45))}
+.tower{transform-box:fill-box;transform-origin:50% 100%;animation:rise .95s cubic-bezier(.2,.8,.25,1) both;
+  animation-delay:var(--d)}
+@keyframes rise{from{opacity:0;transform:translateY(26px) scaleY(.82)}to{opacity:1;transform:none}}
+.pulse{stroke-dasharray:5 9;animation:flow 4.5s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-140}}
+.sky-cap{position:absolute;right:2%;bottom:-.4rem;color:#7FA0A6;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase}
+
+/* ---------- sections ---------- */
+section{padding:clamp(3.4rem,7vw,6rem) 0;position:relative;scroll-margin-top:74px}
+.sec-head{max-width:64ch;margin-bottom:2.6rem}
+.sec-head .num{font-family:var(--serif);font-style:italic;color:var(--teal);font-size:1rem;letter-spacing:.02em}
+.sec-head h2{font-size:clamp(1.75rem,3.1vw,2.5rem);margin:.5rem 0 .9rem}
+.sec-head p{color:var(--muted);font-size:1.02rem;max-width:60ch}
+.alt{background:var(--surface)}
+.deep{background:linear-gradient(180deg,#08171E,#0B2029);color:#DCE9EB}
+.deep h2,.deep h3{color:#F1F9FA}
+.deep p{color:#A6C1C6}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.6rem,3.4vw,3.2rem);align-items:start}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:1.5rem}
+.deep .card{background:rgba(255,255,255,.04);border-color:var(--deep-line)}
+
+/* stats */
+.stat{border-radius:16px;border:1px solid var(--line);background:var(--surface);padding:1.05rem 1.15rem;
+  position:relative;overflow:hidden}
+.stat::before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:var(--hue,var(--teal))}
+.stat b{display:block;font-size:clamp(1.2rem,1.9vw,1.55rem);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.stat span{color:var(--muted);font-size:.78rem;line-height:1.35;display:block;margin-top:.25rem}
+.stat em{font-style:normal;color:var(--hue,var(--teal));font-weight:600}
+
+/* composition */
+.comp-list{list-style:none;margin:0;padding:0;display:grid;gap:.55rem}
+.comp{display:grid;grid-template-columns:9.5rem 1fr 8.6rem;align-items:center;gap:1rem;
+  padding:.55rem .7rem;border-radius:12px;border:1px solid transparent;transition:.16s;cursor:default}
+.comp:hover,.comp:focus-visible{background:#EFF4F3;border-color:var(--line)}
+.comp-name{font-weight:620;font-size:.95rem}
+.comp-name em{display:block;font-style:normal;font-weight:450;color:var(--muted);font-size:.72rem;
+  text-transform:uppercase;letter-spacing:.11em}
+.comp-bar{height:12px;border-radius:999px;background:#E9EFEE;overflow:hidden}
+.comp-bar i{display:block;height:100%;border-radius:999px;background:var(--hue);
+  transition:width .9s cubic-bezier(.2,.8,.25,1)}
+.comp-val{text-align:right;font-variant-numeric:tabular-nums;font-weight:620;font-size:.95rem}
+.comp-val em{display:block;font-style:normal;font-weight:450;color:var(--muted);font-size:.72rem}
+
+/* steps */
+.step{position:relative;padding:1.4rem 1.4rem 1.2rem;border-radius:var(--r);
+  background:var(--surface);border:1px solid var(--line)}
+.step .no{font-family:var(--serif);font-style:italic;font-size:1.5rem;color:var(--hue)}
+.step h3{font-size:1.04rem;margin:.5rem 0 .5rem}
+.step p{font-size:.88rem;color:var(--muted);margin:0}
+.step .unit{display:inline-block;margin-top:.9rem;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--hue);border:1px solid currentColor;border-radius:999px;padding:.18rem .55rem;opacity:.85}
+
+/* chart */
+.chart{width:100%;height:auto;display:block;overflow:visible}
+.gl{stroke:#E3EAE8;stroke-width:1}
+.gt{fill:#7E918E;font-size:13px;font-family:var(--sans);font-variant-numeric:tabular-nums}
+.cap{fill:#7E918E;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.ln{stroke-width:2.4;stroke-linejoin:round;stroke-linecap:round}
+.ln-wd{stroke:#12707F}
+.ln-we{stroke:#B5462F}
+.xref{stroke:#0C1519;stroke-width:1;stroke-dasharray:3 4;opacity:0;transition:opacity .15s}
+.xdot{fill:#0C1519;opacity:0}
+.chart-wrap{position:relative}
+.tip{position:absolute;pointer-events:none;transform:translate(-50%,-115%);background:var(--ink);
+  color:#fff;font-size:.78rem;padding:.45rem .6rem;border-radius:9px;opacity:0;transition:opacity .14s;
+  white-space:nowrap;font-variant-numeric:tabular-nums;z-index:3}
+.tip b{color:var(--teal-l)}
+.legend{display:flex;gap:1.2rem;flex-wrap:wrap;font-size:.8rem;color:var(--muted);margin-top:.7rem}
+.legend i{display:inline-block;width:14px;height:3px;border-radius:2px;margin-right:.45rem;vertical-align:middle}
+.slider{display:flex;align-items:center;gap:.9rem;margin-top:1.1rem;font-size:.82rem;color:var(--muted)}
+.slider input{flex:1;accent-color:var(--teal)}
+
+/* models */
+.mcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:1.4rem;
+  display:flex;flex-direction:column;gap:1rem;position:relative}
+.mcard.best{border-color:var(--teal);box-shadow:0 16px 40px -28px rgba(18,112,127,.9)}
+.mcard.best::after{content:"Selected counterfactual";position:absolute;top:-.68rem;left:1.2rem;
+  background:var(--teal);color:#fff;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
+  padding:.2rem .55rem;border-radius:999px}
+.mcard h3{font-size:1.02rem}
+.mcard header p{font-size:.8rem;color:var(--muted);margin:.25rem 0 0}
+.ring{width:104px;height:104px;border-radius:50%;margin:.2rem auto .1rem;display:grid;place-items:center;
+  background:conic-gradient(var(--hue) calc(var(--p) * 1%),#E9EFEE 0);position:relative}
+.ring::before{content:"";position:absolute;inset:9px;background:var(--surface);border-radius:50%}
+.ring span{position:relative;text-align:center}
+.ring b{display:block;font-size:1.16rem;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.ring em{font-style:normal;font-size:.66rem;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+.mcard dl{display:grid;gap:.4rem;margin:0;font-size:.84rem}
+.mcard dl div{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:.4rem}
+.mcard dt{color:var(--muted)}
+.mcard dd{margin:0;font-weight:600;font-variant-numeric:tabular-nums}
+
+/* table */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.86rem;min-width:620px}
+th,td{text-align:left;padding:.62rem .9rem;border-bottom:1px solid var(--line)}
+th{background:#F0F5F4;font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:#3F5C5A;font-weight:650}
+tbody tr:hover{background:#F7FAF9}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+td.hi{color:var(--coral);font-weight:650}
+tr:last-child td{border-bottom:none}
+.deep table,.deep th,.deep td{color:var(--ink)}
+.deep th{background:#EAF1EF;color:#33514F}
+.deep td.hi{color:var(--coral)}
+.deep tbody tr:hover{background:#F2F7F6}
+.deep h3,.deep h2{color:#F1F9FA}
+
+/* levers */
+.lever{background:rgba(255,255,255,.045);border:1px solid var(--deep-line);border-radius:var(--r);padding:1.4rem}
+.lever .tag{display:inline-block;font-size:.68rem;letter-spacing:.14em;color:var(--hue);
+  border:1px solid currentColor;border-radius:999px;padding:.12rem .5rem;margin-bottom:.75rem}
+.lever h3{font-size:1rem;line-height:1.3}
+.lever .tgt{font-size:.8rem;color:#9DBAC0;margin:.55rem 0 1rem}
+.lever-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;border-top:1px solid var(--deep-line);padding-top:.85rem}
+.lever-nums b{display:block;color:#EAF6F7;font-size:.98rem;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.lever-nums em{font-style:normal;font-size:.66rem;color:#8FAEB3;letter-spacing:.06em;text-transform:uppercase}
+.lever .cmf{font-size:.76rem;color:#8FAEB3;margin:.9rem 0 0}
+
+/* scenario tabs */
+.tabs{display:inline-flex;gap:.25rem;background:rgba(255,255,255,.06);padding:.28rem;border-radius:999px}
+.tabs button{appearance:none;border:0;background:transparent;color:#C7DADE;font:inherit;font-size:.85rem;
+  padding:.5rem 1rem;border-radius:999px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--teal-l);color:#04252A;font-weight:650}
+.sc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1.4rem}
+.sc-grid b{display:block;font-size:clamp(1.2rem,2.2vw,1.65rem);color:#F1F9FA;letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums}
+.sc-grid em{font-style:normal;font-size:.74rem;color:#8FAEB3;display:block;margin-top:.25rem}
+.sc-note{font-size:.8rem;color:#8FAEB3;margin-top:1rem}
+
+/* deliverables */
+.dl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.dl{display:flex;flex-direction:column;gap:.35rem;text-decoration:none;color:inherit;background:var(--surface);
+  border:1px solid var(--line);border-radius:var(--r);padding:1.15rem 1.2rem;transition:.18s}
+.dl:hover{transform:translateY(-2px);border-color:var(--teal);box-shadow:0 18px 36px -26px rgba(12,21,25,.55)}
+.dl-kind{font-size:.66rem;letter-spacing:.14em;color:var(--teal);text-transform:uppercase}
+.dl strong{font-size:.98rem;letter-spacing:-.01em}
+.dl-note{font-size:.78rem;color:var(--muted)}
+.dl-size{margin-top:.5rem;font-size:.72rem;color:var(--muted);letter-spacing:.06em}
+
+/* figures */
+figure{margin:0}
+figure img{border:1px solid var(--line);border-radius:14px;background:#fff;padding:.6rem}
+figcaption{font-size:.78rem;color:var(--muted);margin-top:.55rem}
+
+/* footer */
+footer{background:var(--deep);color:#9DBAC0;padding:3rem 0 2.2rem;border-top:1px solid var(--deep-line)}
+footer .wrap{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:2rem}
+footer h4{color:#EAF6F7;font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.8rem}
+footer a{color:#C7DADE;text-decoration:none}
+footer a:hover{color:var(--teal-l);text-decoration:underline}
+footer ul{list-style:none;margin:0;padding:0;display:grid;gap:.4rem;font-size:.86rem}
+footer .fine{grid-column:1/-1;border-top:1px solid var(--deep-line);padding-top:1.2rem;margin-top:.6rem;
+  font-size:.75rem;color:#7FA0A6;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+
+/* reveal */
+.js .reveal{opacity:0;transform:translateY(16px)}
+.js .reveal.in{opacity:1;transform:none;transition:opacity .7s cubic-bezier(.2,.8,.25,1),transform .7s cubic-bezier(.2,.8,.25,1)}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .js .reveal{opacity:1!important;transform:none!important}
+  .tower,.pulse{animation:none!important}
+  .comp-bar i{transition:none}
+}
+@media (max-width:1000px){
+  .hero .wrap{grid-template-columns:1fr;padding-top:3rem}
+  .sky{order:-1;max-width:520px;margin-inline:auto}
+  .grid-2,.grid-3,.grid-4,.dl-grid,.sc-grid,footer .wrap{grid-template-columns:1fr 1fr}
+  .kpis{grid-template-columns:1fr 1fr}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .nav nav{display:none}
+  .grid-2,.grid-3,.grid-4,.dl-grid,.sc-grid,footer .wrap{grid-template-columns:1fr}
+  .comp{grid-template-columns:1fr auto;row-gap:.4rem}
+  .comp-bar{grid-column:1/-1}
+  .comp-val{text-align:right}
+}
 </style>
 </head>
 <body>
-<header class="nav"><div class="wrap">
-<a class="brand" href="#top"><span class="mono">IILM</span><span>Energy Wastage &amp; Anomaly Profiling<small>26CSEM321 &middot; IILM University</small></span></a>
-<nav class="navlinks"><a href="#results">Results</a><a href="#charts">Charts</a><a href="#audit">Audit queue</a><a href="#roadmap">Roadmap</a><a href="#downloads">Downloads</a></nav>
-</div></header>
-<div class="hero" id="top"><div class="wrap">
-<span class="tag">Mini Project &middot; Data Visualization &amp; Analysis &middot; 2026-27</span>
-<h1>Smart Building Energy Wastage &amp; Anomaly Profiling</h1>
-<p class="lead">A data-driven study of <b>17,544 hourly smart-meter records</b> from a six-building university and commercial portfolio (31,462.6 m&sup2;) joined to hourly weather data. The portfolio wastes a quarter of its electricity while nobody is in the building &mdash; and a counterfactual regression finally makes that waste measurable, rankable and costable.</p>
-<div class="chips"><span class="chip"><b>13,677.27</b> MWh over two years</span><span class="chip"><b>25.30%</b> of energy burned unoccupied</span><span class="chip"><b>157</b> anomaly days flagged</span><span class="chip"><b>18.50%</b> recoverable = <b>$151,815</b>/yr</span></div>
-<div class="btns">
-<a class="btn primary" href="https://drive.google.com/file/d/1Fgmeblm_4hibiQqlzque6yOk12RfPkdC/view" target="_blank" rel="noopener">Read the 78-page report</a>
-<a class="btn ghost" href="https://drive.google.com/file/d/1-x3Xt8kvDKInc7wvPPYmnTjIA2vHIY8Z/view" target="_blank" rel="noopener">Open executed notebook</a>
-<a class="btn ghost" href="#roadmap">Try the savings simulator</a>
-</div>
-</div></div>
-<section id="results"><div class="wrap">
-<div class="eyebrow">Headline findings</div>
-<h2 class="sec">Six numbers that describe the whole estate</h2>
-<p class="sub">Benchmark: Building Data Genome Project 2 (Miller et al., <i>Scientific Data</i> 2020), Site <i>Fox</i>, Tempe AZ, 1 Jan 2016 &ndash; 31 Dec 2017. Every figure below is regenerated by <code>code/Energy-Analysis-Script.py</code> (SEED = 42) and stored in <code>data/Analysis-Results.json</code>.</p>
-<div class="kpis">
-<div class="kpi"><div class="v">217.36</div><div class="l">kWh/m&sup2;/year energy use intensity</div></div>
-<div class="kpi"><div class="v">779.60</div><div class="l">kWh/h mean portfolio load</div></div>
-<div class="kpi"><div class="v">55.6%</div><div class="l">night trough as a share of the 15:00 peak</div></div>
-<div class="kpi"><div class="v">t = 129.27</div><div class="l">Welch test, occupied vs unoccupied hours</div></div>
-<div class="kpi"><div class="v">0.9351</div><div class="l">MLR R&sup2; on the unseen 2017 year</div></div>
-<div class="kpi"><div class="v">527.6 t</div><div class="l">CO&sup2;e avoidable per year</div></div>
-</div>
-<p class="finenote">Night hours (22:00&ndash;05:59) are 33.33% of clock time but absorb 3,460.7 MWh &mdash; a quarter of all energy &mdash; at a mean of 591.78 kWh/h against a work-hour mean of 994.55 kWh/h. Weekends add another 24.85% of consumption on 28.57% of days.</p>
-</div></section>
-<section id="charts"><div class="wrap">
-<div class="eyebrow">Interactive analysis</div>
-<h2 class="sec">Load shape, seasonality, anomalies and the roadmap</h2>
-<p class="sub">Hover, zoom and drag on any chart. Built with Plotly from the same JSON payload that generated the report's eighteen vector figures.</p>
-<div class="grid2">
-<div class="card"><h3>1 &middot; Diurnal load profile</h3><p class="note">Mean hourly demand, weekday vs weekend; shaded band = unoccupied window 22:00&ndash;05:59.</p><div id="c1" class="chart"></div></div>
-<div class="card"><h3>2 &middot; Monthly mean demand</h3><p class="note">24 months across the study period: summer peaks at 980 kWh/h, winter troughs near 560.</p><div id="c2" class="chart"></div></div>
-</div>
-<div class="grid2" style="margin-top:20px">
-<div class="card"><h3>3 &middot; Daily consumption timeline</h3><p class="note">731 daily totals with the ten highest-excess wastage days marked in red.</p><div id="c3" class="chart"></div></div>
-<div class="card"><h3>4 &middot; Savings waterfall</h3><p class="note">Annual baseline 6,838.63 MWh reduced by four physical levers to 5,573.5 MWh (18.50%).</p><div id="c4" class="chart"></div></div>
-</div>
-</div></section>
-<section id="audit"><div class="wrap">
-<div class="eyebrow">Facility audit queue</div>
-<h2 class="sec">Ten highest-excess days, ranked by counterfactual excess</h2>
-<p class="sub">Excess = metered daily consumption minus the weather-and-schedule regression expectation for the same day. The April 2017 cluster ran 12&ndash;16% above expectation in mild weather &mdash; a plant schedule that never returned to setback, not a cooling problem.</p>
-<div class="card" style="padding:0;overflow:auto"><table id="tbl"><thead><tr><th>#</th><th>Date</th><th class="r">Actual kWh</th><th class="r">Expected kWh</th><th class="r">Excess kWh</th><th class="r">Excess %</th><th class="r">Off-hour mean</th><th class="r">Baseload ratio</th><th class="r">Mean &deg;C</th><th class="r">Est. cost of waste</th></tr></thead><tbody></tbody></table></div>
-</div></section>
-<section id="roadmap"><div class="wrap">
-<div class="eyebrow">Decision support</div>
-<h2 class="sec">18.50% savings roadmap &amp; live simulator</h2>
-<p class="sub">Four levers sit above physical standby floors (360 kWh/h overnight, 400 kWh/h weekend), so no occupied hour is touched. Adjust the capture multiplier and tariff to stress-test the business case.</p>
-<div class="sim">
-<div class="card"><h3>Lever contributions</h3><p class="note">L1 and L2 are schedule interventions with no capital cost; together they deliver 63% of the opportunity.</p><div id="c5" class="chart" style="height:250px"></div>
-<div class="simrow"><span>Capture multiplier</span><span id="mv">1.00x (recommended)</span></div><input id="cap" type="range" min="85" max="112" value="100" step="1">
-<div class="simrow"><span>Electricity tariff</span><span id="tv">$0.12 / kWh</span></div><input id="tar" type="range" min="6" max="20" value="12" step="1">
-</div>
-<div class="out"><small>Annual savings</small><div class="big" id="pct">18.50%</div>
-<div class="row"><span>Energy saved</span><b id="kwh">1,265,123 kWh/yr</b></div>
-<div class="row"><span>Cost saved</span><b id="usd">$151,815 / yr</b></div>
-<div class="row"><span>Carbon avoided</span><b id="co2">527.6 tCO2e / yr</b></div>
-<div class="row"><span>Optimised demand</span><b id="opt">5,573.5 MWh/yr</b></div>
-<small style="display:block;margin-top:14px">Baseline 6,838.63 MWh/yr &middot; tariff 0.12 $/kWh &middot; emission factor 0.417 kg CO2e/kWh &middot; sensitivity band 15.72%&ndash;20.72%</small></div>
-</div>
-</div></section>
-<section id="downloads"><div class="wrap">
-<div class="eyebrow">Open science</div>
-<h2 class="sec">Deliverables &amp; downloads</h2>
-<p class="sub">All artefacts are public. The full multi-file application, the vector figure library and the source code also ship in the repository archive.</p>
-<div class="dl">
-<a href="https://drive.google.com/file/d/1Fgmeblm_4hibiQqlzque6yOk12RfPkdC/view" target="_blank" rel="noopener"><span class="pill p-blue">PDF &middot; 78 pages</span><b>Final project report</b><span>IEEE-cited, roman + arabic folios, 18 vector figures, full source-code appendix.</span></a>
-<a href="https://drive.google.com/file/d/1-x3Xt8kvDKInc7wvPPYmnTjIA2vHIY8Z/view" target="_blank" rel="noopener"><span class="pill p-green">HTML</span><b>Executed notebook</b><span>Top-to-bottom run with all tables, statistics and inline plots.</span></a>
-<a href="https://drive.google.com/file/d/1juwjRrv5_8cwq4m-GBpNkO1_QCTALfur/view" target="_blank" rel="noopener"><span class="pill p-green">.ipynb</span><b>Notebook source</b><span>Re-runnable Jupyter notebook (SEED = 42).</span></a>
-<a href="https://drive.google.com/file/d/1_WAHattOaBqFc_xRNFKqwP_8OW9He29Q/view" target="_blank" rel="noopener"><span class="pill p-amber">Python</span><b>Analytical pipeline</b><span>Statistics, five model families, 18 SVGs, JSON + web payload in one script.</span></a>
-<a href="https://drive.google.com/file/d/1TMp_QXR5y0Ip58CRa9MvR6lYcrgDwfj2/view" target="_blank" rel="noopener"><span class="pill p-blue">CSV &middot; CC BY-SA 4.0</span><b>Curated dataset</b><span>17,544 x 15 hourly smart-meter + weather records, 1.65 MB.</span></a>
-<a href="https://drive.google.com/file/d/1M2QeY7CmWE0CHfLPJL-n-4OCcxdGZfwi/view" target="_blank" rel="noopener"><span class="pill p-blue">JSON</span><b>Analysis results</b><span>Single source of truth for every number in the report and this page.</span></a>
-<a href="https://drive.google.com/drive/folders/11nythpv22YAKNrwq1X8lfrp4Fq-hj01C" target="_blank" rel="noopener"><span class="pill p-amber">ZIP &middot; 7.9 MB</span><b>Complete repository</b><span>Code, data, figures, notebook, report, web application and documentation &mdash; as a single .zip in the Drive folder.</span></a>
-<a href="https://drive.google.com/drive/folders/11nythpv22YAKNrwq1X8lfrp4Fq-hj01C" target="_blank" rel="noopener"><span class="pill p-green">Google Drive</span><b>Project folder</b><span>Everything above in one public folder for submission and team distribution.</span></a>
-</div>
-</div></section>
-<footer><div class="wrap">
-<div><b>IILM University, Greater Noida</b>School of Computer Science and Engineering &middot; 26CSEM321 Data Visualization and Analysis<br>Section 2CSE-4 &middot; Academic Year 2026-27 &middot; Faculty guide: Aditya Bangia</div>
-<div><b>Team</b>Ayush Jha (25SCS1003001336) &middot; Archit Baloni (25SCS1003003550) &middot; Ashutosh Sahoo (25SCS1003004011) &middot; Dev Bhaskar Singh (25SCS1003003174) &middot; Aman Kumar Gupta (25SCS1003003645)</div>
-</div></footer>
+<a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"><i></i></div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top">
+      <span class="dot" aria-hidden="true"></span>
+      <span>Energy Profiling<small>IILM · 26CSEM321</small></span>
+    </a>
+    <nav aria-label="Sections">
+      <a href="#scope">Portfolio</a>
+      <a href="#method">Method</a>
+      <a href="#findings">Findings</a>
+      <a href="#models">Models</a>
+      <a href="#anomalies">Anomalies</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#deliverables">Deliverables</a>
+    </nav>
+    <a class="ghost" href="https://github.com/yourprogrammerayush/smart-building-energy-profiling" target="_blank" rel="noopener">Source ↗</a>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" id="top">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">IILM University · School of CSE · Semester III</p>
+        <h1>Smart Building Energy Wastage &amp; <em>Anomaly Profiling</em></h1>
+        <p class="lede">Two years of hourly smart-meter telemetry across six buildings, joined to
+          weather and calendar data, are used to separate genuine demand from operational waste —
+          then priced, ranked and turned into a funded remediation roadmap.</p>
+        <div class="cta">
+          <a class="btn primary" href="reports/Final-Project-Report.pdf">Read the 80-page report</a>
+          <a class="btn line" href="notebook/Analysis-Notebook.html">Open the notebook</a>
+          <a class="btn line" href="https://drive.google.com/drive/folders/11nythpv22YAKNrwq1X8lfrp4Fq-hj01C" target="_blank" rel="noopener">Drive archive ↗</a>
+        </div>
+        <ul class="kpis"><li><b data-count="13677.27" data-dp="0">13,677<i>MWh</i></b><span>metered over two years</span></li><li><b data-count="25.3" data-dp="2">25.30<i>%</i></b><span>of all energy burned while unoccupied</span></li><li><b data-count="157" data-dp="0">157</b><span>anomalous days in 731</span></li><li><b data-count="18.5" data-dp="2">18.50<i>%</i></b><span>recoverable annual baseline</span></li></ul>
+      </div>
+      <div class="sky">
+        <svg viewBox="0 0 520 400" role="img"
+             aria-label="Six isometric towers whose heights are proportional to each building's two-year energy use.">
+          <defs>
+            <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#12707F" stop-opacity=".22"/>
+              <stop offset="100%" stop-color="#12707F" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <ellipse cx="250" cy="300" rx="236" ry="92" fill="url(#floor)"/>
+          <g stroke="#7FE3D4" stroke-opacity=".16" stroke-width="1">
+            <path d="M30,300 L250,214 L470,300 L250,386 Z" fill="none"/>
+            <path d="M104,271 L420,271 M177,242 L347,242" fill="none" opacity=".7"/>
+          </g>
+          
+  <g class="tower" style="--d:0.00s">
+    <ellipse cx="250.0" cy="222.5" rx="42" ry="11"
+             fill="#04121A" opacity=".55"/>
+    <polygon points="216.0,20.0 250.0,37.0 250.0,231.0 216.0,214.0" fill="#2F8F9D"/>
+    <polygon points="250.0,37.0 284.0,20.0 284.0,214.0 250.0,231.0" fill="#0A222B"/>
+    <polygon points="250.0,3.0 284.0,20.0 250.0,37.0 216.0,20.0" fill="#2F8F9D" opacity=".78"/>
+    <polygon points="250.0,3.0 284.0,20.0 250.0,37.0 216.0,20.0" fill="none" stroke="#D8F4F2" stroke-opacity=".5" stroke-width="1.1"/>
+    <path d="M216.0,175.2 L250.0,192.2 L250.0,194.4 L216.0,177.4 Z" fill="#08171E" opacity=".22"/><path d="M250.0,192.2 L284.0,175.2 L284.0,177.4 L250.0,194.4 Z" fill="#000" opacity=".30"/><path d="M216.0,136.4 L250.0,153.4 L250.0,155.6 L216.0,138.6 Z" fill="#08171E" opacity=".22"/><path d="M250.0,153.4 L284.0,136.4 L284.0,138.6 L250.0,155.6 Z" fill="#000" opacity=".30"/><path d="M216.0,97.6 L250.0,114.6 L250.0,116.8 L216.0,99.8 Z" fill="#08171E" opacity=".22"/><path d="M250.0,114.6 L284.0,97.6 L284.0,99.8 L250.0,116.8 Z" fill="#000" opacity=".30"/><path d="M216.0,58.8 L250.0,75.8 L250.0,78.0 L216.0,61.0 Z" fill="#08171E" opacity=".22"/><path d="M250.0,75.8 L284.0,58.8 L284.0,61.0 L250.0,78.0 Z" fill="#000" opacity=".30"/>
+  </g>
+
+  <g class="tower" style="--d:0.08s">
+    <ellipse cx="200.0" cy="255.5" rx="42" ry="11"
+             fill="#04121A" opacity=".55"/>
+    <polygon points="166.0,115.0 200.0,132.0 200.0,264.0 166.0,247.0" fill="#C05B4D"/>
+    <polygon points="200.0,132.0 234.0,115.0 234.0,247.0 200.0,264.0" fill="#0A222B"/>
+    <polygon points="200.0,98.0 234.0,115.0 200.0,132.0 166.0,115.0" fill="#C05B4D" opacity=".78"/>
+    <polygon points="200.0,98.0 234.0,115.0 200.0,132.0 166.0,115.0" fill="none" stroke="#D8F4F2" stroke-opacity=".5" stroke-width="1.1"/>
+    <path d="M166.0,203.0 L200.0,220.0 L200.0,222.2 L166.0,205.2 Z" fill="#08171E" opacity=".22"/><path d="M200.0,220.0 L234.0,203.0 L234.0,205.2 L200.0,222.2 Z" fill="#000" opacity=".30"/><path d="M166.0,159.0 L200.0,176.0 L200.0,178.2 L166.0,161.2 Z" fill="#08171E" opacity=".22"/><path d="M200.0,176.0 L234.0,159.0 L234.0,161.2 L200.0,178.2 Z" fill="#000" opacity=".30"/>
+  </g>
+
+  <g class="tower" style="--d:0.16s">
+    <ellipse cx="300.0" cy="255.5" rx="42" ry="11"
+             fill="#04121A" opacity=".55"/>
+    <polygon points="266.0,78.7 300.0,95.7 300.0,264.0 266.0,247.0" fill="#B07C3E"/>
+    <polygon points="300.0,95.7 334.0,78.7 334.0,247.0 300.0,264.0" fill="#0A222B"/>
+    <polygon points="300.0,61.7 334.0,78.7 300.0,95.7 266.0,78.7" fill="#B07C3E" opacity=".78"/>
+    <polygon points="300.0,61.7 334.0,78.7 300.0,95.7 266.0,78.7" fill="none" stroke="#D8F4F2" stroke-opacity=".5" stroke-width="1.1"/>
+    <path d="M266.0,204.9 L300.0,221.9 L300.0,224.1 L266.0,207.1 Z" fill="#08171E" opacity=".22"/><path d="M300.0,221.9 L334.0,204.9 L334.0,207.1 L300.0,224.1 Z" fill="#000" opacity=".30"/><path d="M266.0,162.9 L300.0,179.9 L300.0,182.1 L266.0,165.1 Z" fill="#08171E" opacity=".22"/><path d="M300.0,179.9 L334.0,162.9 L334.0,165.1 L300.0,182.1 Z" fill="#000" opacity=".30"/><path d="M266.0,120.8 L300.0,137.8 L300.0,140.0 L266.0,123.0 Z" fill="#08171E" opacity=".22"/><path d="M300.0,137.8 L334.0,120.8 L334.0,123.0 L300.0,140.0 Z" fill="#000" opacity=".30"/>
+  </g>
+
+  <g class="tower" style="--d:0.24s">
+    <ellipse cx="250.0" cy="288.5" rx="42" ry="11"
+             fill="#04121A" opacity=".55"/>
+    <polygon points="216.0,148.9 250.0,165.9 250.0,297.0 216.0,280.0" fill="#4E9E6A"/>
+    <polygon points="250.0,165.9 284.0,148.9 284.0,280.0 250.0,297.0" fill="#0A222B"/>
+    <polygon points="250.0,131.9 284.0,148.9 250.0,165.9 216.0,148.9" fill="#4E9E6A" opacity=".78"/>
+    <polygon points="250.0,131.9 284.0,148.9 250.0,165.9 216.0,148.9" fill="none" stroke="#D8F4F2" stroke-opacity=".5" stroke-width="1.1"/>
+    <path d="M216.0,236.3 L250.0,253.3 L250.0,255.5 L216.0,238.5 Z" fill="#08171E" opacity=".22"/><path d="M250.0,253.3 L284.0,236.3 L284.0,238.5 L250.0,255.5 Z" fill="#000" opacity=".30"/><path d="M216.0,192.6 L250.0,209.6 L250.0,211.8 L216.0,194.8 Z" fill="#08171E" opacity=".22"/><path d="M250.0,209.6 L284.0,192.6 L284.0,194.8 L250.0,211.8 Z" fill="#000" opacity=".30"/>
+  </g>
+
+  <g class="tower" style="--d:0.32s">
+    <ellipse cx="350.0" cy="288.5" rx="42" ry="11"
+             fill="#04121A" opacity=".55"/>
+    <polygon points="316.0,115.0 350.0,132.0 350.0,297.0 316.0,280.0" fill="#3E7CB1"/>
+    <polygon points="350.0,132.0 384.0,115.0 384.0,280.0 350.0,297.0" fill="#0A222B"/>
+    <polygon points="350.0,98.0 384.0,115.0 350.0,132.0 316.0,115.0" fill="#3E7CB1" opacity=".78"/>
+    <polygon points="350.0,98.0 384.0,115.0 350.0,132.0 316.0,115.0" fill="none" stroke="#D8F4F2" stroke-opacity=".5" stroke-width="1.1"/>
+    <path d="M316.0,238.8 L350.0,255.8 L350.0,258.0 L316.0,241.0 Z" fill="#08171E" opacity=".22"/><path d="M350.0,255.8 L384.0,238.8 L384.0,241.0 L350.0,258.0 Z" fill="#000" opacity=".30"/><path d="M316.0,197.5 L350.0,214.5 L350.0,216.7 L316.0,199.7 Z" fill="#08171E" opacity=".22"/><path d="M350.0,214.5 L384.0,197.5 L384.0,199.7 L350.0,216.7 Z" fill="#000" opacity=".30"/><path d="M316.0,156.3 L350.0,173.3 L350.0,175.5 L316.0,158.5 Z" fill="#08171E" opacity=".22"/><path d="M350.0,173.3 L384.0,156.3 L384.0,158.5 L350.0,175.5 Z" fill="#000" opacity=".30"/>
+  </g>
+
+  <g class="tower" style="--d:0.40s">
+    <ellipse cx="300.0" cy="321.5" rx="42" ry="11"
+             fill="#04121A" opacity=".55"/>
+    <polygon points="266.0,196.7 300.0,213.7 300.0,330.0 266.0,313.0" fill="#6C6FB0"/>
+    <polygon points="300.0,213.7 334.0,196.7 334.0,313.0 300.0,330.0" fill="#0A222B"/>
+    <polygon points="300.0,179.7 334.0,196.7 300.0,213.7 266.0,196.7" fill="#6C6FB0" opacity=".78"/>
+    <polygon points="300.0,179.7 334.0,196.7 300.0,213.7 266.0,196.7" fill="none" stroke="#D8F4F2" stroke-opacity=".5" stroke-width="1.1"/>
+    <path d="M266.0,274.2 L300.0,291.2 L300.0,293.4 L266.0,276.4 Z" fill="#08171E" opacity=".22"/><path d="M300.0,291.2 L334.0,274.2 L334.0,276.4 L300.0,293.4 Z" fill="#000" opacity=".30"/><path d="M266.0,235.5 L300.0,252.5 L300.0,254.7 L266.0,237.7 Z" fill="#08171E" opacity=".22"/><path d="M300.0,252.5 L334.0,235.5 L334.0,237.7 L300.0,254.7 Z" fill="#000" opacity=".30"/>
+  </g>
+          <g class="pulse" stroke="#7FE3D4" stroke-width="2" fill="none" opacity=".55">
+            <path d="M118,330 C168,286 206,320 246,266 C288,210 330,268 392,214"/>
+            <path d="M156,360 C210,326 250,352 302,286"/>
+          </g>
+        </svg>
+        <span class="sky-cap">Tower height ∝ metered MWh</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="scope" class="alt">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="num">01 — The portfolio</p>
+        <h2>17,544 hourly records, 731 days, six meters</h2>
+        <p>A single university-commercial district in Tempe, Arizona: three office blocks and three
+          campus buildings behind independent meters, sharing one weather station. The dataset is the
+          open Building Data Genome Project 2 extract for Site <em>Fox</em>.</p>
+      </div>
+      <div>
+        <div class="reveal">
+          <ul class="comp-list">
+    <li class="comp" style="--hue:#2F8F9D" tabindex="0"
+        aria-label="Joy: 3,191 MWh over two years, 23.34% of portfolio demand">
+      <span class="comp-name">Joy<em>office</em></span>
+      <span class="comp-bar"><i style="width:100.0%"></i></span>
+      <span class="comp-val">3,191<em>MWh · 23.34%</em></span>
+    </li>
+    <li class="comp" style="--hue:#B07C3E" tabindex="0"
+        aria-label="Tamika: 2,644 MWh over two years, 19.34% of portfolio demand">
+      <span class="comp-name">Tamika<em>campus</em></span>
+      <span class="comp-bar"><i style="width:82.9%"></i></span>
+      <span class="comp-val">2,644<em>MWh · 19.34%</em></span>
+    </li>
+    <li class="comp" style="--hue:#3E7CB1" tabindex="0"
+        aria-label="Vicki: 2,574 MWh over two years, 18.82% of portfolio demand">
+      <span class="comp-name">Vicki<em>office</em></span>
+      <span class="comp-bar"><i style="width:80.7%"></i></span>
+      <span class="comp-val">2,574<em>MWh · 18.82%</em></span>
+    </li>
+    <li class="comp" style="--hue:#C05B4D" tabindex="0"
+        aria-label="Kris: 1,873 MWh over two years, 13.70% of portfolio demand">
+      <span class="comp-name">Kris<em>campus</em></span>
+      <span class="comp-bar"><i style="width:58.7%"></i></span>
+      <span class="comp-val">1,873<em>MWh · 13.70%</em></span>
+    </li>
+    <li class="comp" style="--hue:#4E9E6A" tabindex="0"
+        aria-label="Carleen: 1,853 MWh over two years, 13.55% of portfolio demand">
+      <span class="comp-name">Carleen<em>campus</em></span>
+      <span class="comp-bar"><i style="width:58.0%"></i></span>
+      <span class="comp-val">1,853<em>MWh · 13.55%</em></span>
+    </li>
+    <li class="comp" style="--hue:#6C6FB0" tabindex="0"
+        aria-label="Clayton: 1,538 MWh over two years, 11.25% of portfolio demand">
+      <span class="comp-name">Clayton<em>office</em></span>
+      <span class="comp-bar"><i style="width:48.2%"></i></span>
+      <span class="comp-val">1,538<em>MWh · 11.25%</em></span>
+    </li></ul>
+          <div class="grid-3" style="margin-top:1.6rem">
+            <div class="stat" style="--hue:var(--teal)"><b>217.36</b>
+              <span>kWh/m²·yr energy use intensity across 31,462.6 m²</span></div>
+            <div class="stat" style="--hue:var(--green)"><b>779.6</b>
+              <span>kWh mean hourly portfolio demand</span></div>
+            <div class="stat" style="--hue:var(--amber)"><b>0.595</b>
+              <span>off-hour to work-hour demand ratio</span></div>
+          </div>
+        </div>
+        <figure class="reveal" style="margin-top:2rem">
+          <img src="assets/figures/Fig-3-1-Portfolio-Overview.svg" loading="lazy"
+               alt="Portfolio composition, energy share and energy use intensity against a commercial benchmark band.">
+          <figcaption>Figure 3.1 — Portfolio composition, energy share and energy use intensity
+            against the commercial benchmark band.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="method">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="num">02 — Method</p>
+        <h2>One deterministic pipeline, mapped to the syllabus</h2>
+        <p>Every stage is syllabus-locked to <em>26CSEM321</em>, seeded (<code>SEED = 42</code>) and
+          reproducible from the published notebook and script. No stage uses a model the course
+          does not teach.</p>
+      </div>
+      <div class="grid-4">
+        <article class="step reveal" style="--hue:#2F8F9D"><span class="no">01</span>
+          <h3>Curate &amp; audit</h3><p>Schema repair, sentinel screening, 1–3 h interpolation,
+          thermodynamic features (CDD, ΔT, lags).</p><span class="unit">Unit I–II</span></article>
+        <article class="step reveal" style="--hue:#3E7CB1"><span class="no">02</span>
+          <h3>Test the regimes</h3><p>Welch and Mann–Whitney tests on weekday versus weekend and
+          occupied versus unoccupied demand.</p><span class="unit">Unit III</span></article>
+        <article class="step reveal" style="--hue:#B07C3E"><span class="no">03</span>
+          <h3>Build the counterfactual</h3><p>Weather-plus-calendar regression and a tuned
+          decision tree define what <em>should</em> have been consumed.</p><span class="unit">Unit II &amp; IV</span></article>
+        <article class="step reveal" style="--hue:#5F4B8B"><span class="no">04</span>
+          <h3>Detect &amp; price</h3><p>OC-SVM, K-Means and a domain rule vote into a consensus
+          anomaly queue, priced at tariff and emission factor.</p><span class="unit">Unit IV</span></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="findings" class="alt">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="num">03 — Findings</p>
+        <h2>The overnight floor never falls</h2>
+        <p>Weekday demand peaks in the afternoon and then settles — but it settles onto a night-time
+          floor of roughly 570–600 kWh per hour that a scheduled commercial building should not
+          maintain. Drag across the chart, or use the slider, to read any hour.</p>
+      </div>
+      <div class="card reveal" style="padding:1.2rem 1.4rem 1rem">
+        <div class="chart-wrap">
+            <div class="tip" role="status" aria-live="polite"></div>
+            <svg data-hours="[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]" data-weekday="[572.5, 554.7, 566.6, 559.0, 548.5, 610.2, 695.2, 760.9, 857.2, 937.6, 979.4, 1009.7, 1032.0, 1049.2, 1063.3, 1063.6, 1044.2, 979.3, 920.9, 878.1, 843.3, 811.2, 730.2, 656.9]" data-weekend="[551.4, 539.5, 551.9, 552.1, 544.5, 568.3, 618.6, 640.0, 658.3, 683.0, 707.3, 728.9, 743.3, 764.1, 773.7, 785.6, 786.9, 780.3, 767.3, 743.6, 725.3, 703.1, 656.5, 608.4]" viewBox="0 0 880 300" class="chart" role="img"
+     aria-labelledby="lsTitle lsDesc">
+  <title id="lsTitle">Mean hourly portfolio demand, weekday versus weekend</title>
+  <desc id="lsDesc">Weekday demand peaks on weekday afternoons and stays high overnight;
+  weekend demand is lower but keeps a substantial night-time floor.</desc>
+  <defs>
+    <linearGradient id="gWd" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2F8F9D" stop-opacity=".38"/>
+      <stop offset="100%" stop-color="#2F8F9D" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="gWe" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C05B4D" stop-opacity=".10"/>
+      <stop offset="100%" stop-color="#C05B4D" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <g><line x1="44" y1="260.0" x2="868" y2="260.0" class="gl"/><text x="35" y="263.5" class="gt">0</text><line x1="44" y1="217.1" x2="868" y2="217.1" class="gl"/><text x="35" y="220.6" class="gt">200</text><line x1="44" y1="174.1" x2="868" y2="174.1" class="gl"/><text x="35" y="177.6" class="gt">400</text><line x1="44" y1="131.2" x2="868" y2="131.2" class="gl"/><text x="35" y="134.7" class="gt">600</text><line x1="44" y1="88.3" x2="868" y2="88.3" class="gl"/><text x="35" y="91.8" class="gt">800</text><line x1="44" y1="45.3" x2="868" y2="45.3" class="gl"/><text x="35" y="48.8" class="gt">1000</text><text x="44.0" y="278.0" class="gt" text-anchor="middle">0</text><text x="115.7" y="278.0" class="gt" text-anchor="middle">2</text><text x="187.3" y="278.0" class="gt" text-anchor="middle">4</text><text x="259.0" y="278.0" class="gt" text-anchor="middle">6</text><text x="330.6" y="278.0" class="gt" text-anchor="middle">8</text><text x="402.3" y="278.0" class="gt" text-anchor="middle">10</text><text x="473.9" y="278.0" class="gt" text-anchor="middle">12</text><text x="545.6" y="278.0" class="gt" text-anchor="middle">14</text><text x="617.2" y="278.0" class="gt" text-anchor="middle">16</text><text x="688.9" y="278.0" class="gt" text-anchor="middle">18</text><text x="760.5" y="278.0" class="gt" text-anchor="middle">20</text><text x="832.2" y="278.0" class="gt" text-anchor="middle">22</text></g>
+  <path d="M44.0,137.1 79.8,140.9 115.7,138.4 151.5,140.0 187.3,142.3 223.1,129.0 259.0,110.8 294.8,96.7 330.6,76.0 366.4,58.7 402.3,49.8 438.1,43.3 473.9,38.5 509.7,34.8 545.6,31.8 581.4,31.7 617.2,35.9 653.0,49.8 688.9,62.3 724.7,71.5 760.5,79.0 796.3,85.9 832.2,103.3 868.0,119.0 L868.0,260.0 L44.0,260.0 Z" fill="url(#gWd)"/>
+  <path d="M44.0,137.1 79.8,140.9 115.7,138.4 151.5,140.0 187.3,142.3 223.1,129.0 259.0,110.8 294.8,96.7 330.6,76.0 366.4,58.7 402.3,49.8 438.1,43.3 473.9,38.5 509.7,34.8 545.6,31.8 581.4,31.7 617.2,35.9 653.0,49.8 688.9,62.3 724.7,71.5 760.5,79.0 796.3,85.9 832.2,103.3 868.0,119.0" class="ln ln-wd" fill="none"/>
+  <path d="M44.0,141.6 79.8,144.2 115.7,141.5 151.5,141.5 187.3,143.1 223.1,138.0 259.0,127.2 294.8,122.6 330.6,118.7 366.4,113.4 402.3,108.2 438.1,103.5 473.9,100.5 509.7,96.0 545.6,93.9 581.4,91.4 617.2,91.1 653.0,92.5 688.9,95.3 724.7,100.4 760.5,104.3 796.3,109.1 832.2,119.1 868.0,129.4" class="ln ln-we" fill="none" stroke-dasharray="7 5"/>
+  <g class="dots"><circle cx="44.0" cy="137.1" r="3.1" fill="#2F8F9D"/><circle cx="79.8" cy="140.9" r="3.1" fill="#2F8F9D"/><circle cx="115.7" cy="138.4" r="3.1" fill="#2F8F9D"/><circle cx="151.5" cy="140.0" r="3.1" fill="#2F8F9D"/><circle cx="187.3" cy="142.3" r="3.1" fill="#2F8F9D"/><circle cx="223.1" cy="129.0" r="3.1" fill="#2F8F9D"/><circle cx="259.0" cy="110.8" r="3.1" fill="#2F8F9D"/><circle cx="294.8" cy="96.7" r="3.1" fill="#2F8F9D"/><circle cx="330.6" cy="76.0" r="3.1" fill="#2F8F9D"/><circle cx="366.4" cy="58.7" r="3.1" fill="#2F8F9D"/><circle cx="402.3" cy="49.8" r="3.1" fill="#2F8F9D"/><circle cx="438.1" cy="43.3" r="3.1" fill="#2F8F9D"/><circle cx="473.9" cy="38.5" r="3.1" fill="#2F8F9D"/><circle cx="509.7" cy="34.8" r="3.1" fill="#2F8F9D"/><circle cx="545.6" cy="31.8" r="3.1" fill="#2F8F9D"/><circle cx="581.4" cy="31.7" r="3.1" fill="#2F8F9D"/><circle cx="617.2" cy="35.9" r="3.1" fill="#2F8F9D"/><circle cx="653.0" cy="49.8" r="3.1" fill="#2F8F9D"/><circle cx="688.9" cy="62.3" r="3.1" fill="#2F8F9D"/><circle cx="724.7" cy="71.5" r="3.1" fill="#2F8F9D"/><circle cx="760.5" cy="79.0" r="3.1" fill="#2F8F9D"/><circle cx="796.3" cy="85.9" r="3.1" fill="#2F8F9D"/><circle cx="832.2" cy="103.3" r="3.1" fill="#2F8F9D"/><circle cx="868.0" cy="119.0" r="3.1" fill="#2F8F9D"/></g>
+  <line class="xref" x1="0" y1="18" x2="0" y2="260.0"/>
+  <circle class="xdot" r="5.5"/>
+  <text x="44" y="12" class="cap">kWh / h</text>
+  <text x="456" y="294" class="cap" text-anchor="middle">Hour of day</text>
+</svg>
+        </div>
+        <div class="legend">
+          <span><i style="background:#12707F"></i>Weekday mean</span>
+          <span><i style="background:repeating-linear-gradient(90deg,#B5462F 0 5px,transparent 5px 9px)"></i>Weekend mean</span>
+        </div>
+        <div class="slider">
+          <label for="hour">Hour</label>
+          <input id="hour" type="range" min="0" max="23" value="3" step="1" data-hour>
+          <output for="hour"></output>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-top:1.6rem">
+        <div class="reveal">
+          <div class="grid-2" style="gap:.8rem">
+            <div class="stat" style="--hue:var(--teal)"><b>994.55</b>
+              <span>work-hour mean demand (kWh/h)</span></div>
+            <div class="stat" style="--hue:var(--coral)"><b>591.78</b>
+              <span>off-hour mean demand (kWh/h)</span></div>
+            <div class="stat" style="--hue:var(--green)"><b>822.00</b>
+              <span>weekday mean (kWh/h)</span></div>
+            <div class="stat" style="--hue:var(--amber)"><b>674.40</b>
+              <span>weekend mean (kWh/h)</span></div>
+          </div>
+          <div class="card" style="margin-top:.9rem">
+            <p style="margin:0 0 .6rem"><strong>Both regime gaps are not sampling noise.</strong></p>
+            <p style="margin:0;font-size:.9rem;color:var(--muted)">
+              Weekday versus weekend: Welch <em>t</em> = 45.76, Mann–Whitney
+              <em>p</em> = 2.94e-283. Occupied versus unoccupied:
+              <em>t</em> = 129.27. Outdoor temperature explains
+              <em>r</em> = 0.7505 of hourly demand, so the counterfactual
+              must be weather-aware.</p>
+          </div>
+        </div>
+      </div>
+      <figure class="reveal" style="margin-top:2.4rem">
+        <img src="assets/figures/Fig-5-4-Monthly-Baseload-Decomposition.svg" loading="lazy"
+             alt="Monthly baseload decomposition, separating weather-driven load from the persistent overnight floor.">
+        <figcaption>Figure 5.4 — Monthly baseload decomposition: the persistent floor is the largest
+          single addressable waste pool and is invisible in a monthly invoice.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="models">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="num">04 — Counterfactual models</p>
+        <h2>Forecast first, then judge the residual</h2>
+        <p>Three syllabus models were fitted on 2016 and scored on the untouched 2017 holdout. The
+          autoregressive weather model is the counterfactual used throughout the report.</p>
+      </div>
+      <div class="grid-3">
+    <article class="mcard" style="--hue:#3E7CB1">
+      <header><h3>Counterfactual MLR</h3><p>Weather + calendar drivers</p></header>
+      <div class="ring" style="--p:90.0">
+        <span><b>0.900</b><em>R²</em></span>
+      </div>
+      <dl>
+        <div><dt>RMSE</dt><dd>75.43 kWh</dd></div>
+        <div><dt>MAE</dt><dd>56.33 kWh</dd></div>
+        <div><dt>MAPE</dt><dd>7.60%</dd></div>
+      </dl>
+    </article>
+    <article class="mcard best" style="--hue:#2F8F9D">
+      <header><h3>Autoregressive MLR</h3><p>Adds hourly and weekly lags</p></header>
+      <div class="ring" style="--p:93.5">
+        <span><b>0.935</b><em>R²</em></span>
+      </div>
+      <dl>
+        <div><dt>RMSE</dt><dd>60.76 kWh</dd></div>
+        <div><dt>MAE</dt><dd>44.65 kWh</dd></div>
+        <div><dt>MAPE</dt><dd>6.01%</dd></div>
+      </dl>
+    </article>
+    <article class="mcard" style="--hue:#B07C3E">
+      <header><h3>Decision tree</h3><p>Tuned depth 12, leaf 10</p></header>
+      <div class="ring" style="--p:92.1">
+        <span><b>0.921</b><em>R²</em></span>
+      </div>
+      <dl>
+        <div><dt>RMSE</dt><dd>67.19 kWh</dd></div>
+        <div><dt>MAE</dt><dd>47.00 kWh</dd></div>
+        <div><dt>MAPE</dt><dd>6.20%</dd></div>
+      </dl>
+    </article></div>
+      <div class="grid-3 reveal" style="margin-top:1.4rem">
+        <div class="stat" style="--hue:var(--plum)"><b>145</b>
+          <span>days flagged by the one-class SVM (ν = 0.08)</span></div>
+        <div class="stat" style="--hue:var(--amber)"><b>81</b>
+          <span>days flagged by K-Means distance (k = 4)</span></div>
+        <div class="stat" style="--hue:var(--coral)"><b>139</b>
+          <span>days flagged by the auditable domain rule</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="anomalies" class="deep">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="num">05 — Anomalies</p>
+        <h2>157 days carry the signature of wastage</h2>
+        <p>Where the unsupervised detectors and the domain rule agree, the day enters the audit
+          queue: 233.03 MWh of excess consumption above the
+          weather-adjusted counterfactual, worth $27,964.</p>
+      </div>
+      <div class="grid-4 reveal">
+        <div class="stat" style="--hue:#4EC3B4;background:rgba(255,255,255,.05);border-color:var(--deep-line)">
+          <b>157</b><span>consensus anomalous days</span></div>
+        <div class="stat" style="--hue:#E8B04B;background:rgba(255,255,255,.05);border-color:var(--deep-line)">
+          <b>233.03</b><span>MWh excess above counterfactual</span></div>
+        <div class="stat" style="--hue:#E8735A;background:rgba(255,255,255,.05);border-color:var(--deep-line)">
+          <b>$27,964</b><span>cost of that excess at tariff</span></div>
+        <div class="stat" style="--hue:#A48BE0;background:rgba(255,255,255,.05);border-color:var(--deep-line)">
+          <b>0.8079</b>
+          <span>2017 holdout F1, one-class SVM</span></div>
+      </div>
+      <div class="grid-2" style="margin-top:2rem">
+        <div class="reveal">
+          <h3 style="font-size:1.02rem;margin-bottom:.9rem;color:#F1F9FA">Ten highest-excess days</h3>
+          <div class="tbl-wrap">
+            <table>
+              <caption class="sr-only" style="position:absolute;left:-9999px">Ten highest-excess audit rows</caption>
+              <thead><tr><th>Date</th><th>Day</th><th class="num">Actual</th><th class="num">Expected</th>
+                <th class="num">Excess</th><th class="num">Δ%</th><th class="num">Cost</th></tr></thead>
+              <tbody><tr><td>2017-04-26</td><td>Wed</td>
+      <td class="num">21,604</td><td class="num">18,631</td>
+      <td class="num hi">+2,972</td><td class="num">16.0%</td>
+      <td class="num">$357</td></tr><tr><td>2017-04-25</td><td>Tue</td>
+      <td class="num">22,143</td><td class="num">19,217</td>
+      <td class="num hi">+2,927</td><td class="num">15.2%</td>
+      <td class="num">$351</td></tr><tr><td>2017-06-26</td><td>Mon</td>
+      <td class="num">27,054</td><td class="num">24,199</td>
+      <td class="num hi">+2,854</td><td class="num">11.8%</td>
+      <td class="num">$343</td></tr><tr><td>2017-04-20</td><td>Thu</td>
+      <td class="num">21,628</td><td class="num">18,786</td>
+      <td class="num hi">+2,841</td><td class="num">15.1%</td>
+      <td class="num">$341</td></tr><tr><td>2017-04-19</td><td>Wed</td>
+      <td class="num">22,184</td><td class="num">19,428</td>
+      <td class="num hi">+2,755</td><td class="num">14.2%</td>
+      <td class="num">$331</td></tr><tr><td>2017-04-18</td><td>Tue</td>
+      <td class="num">22,071</td><td class="num">19,324</td>
+      <td class="num hi">+2,747</td><td class="num">14.2%</td>
+      <td class="num">$330</td></tr><tr><td>2017-06-23</td><td>Fri</td>
+      <td class="num">26,916</td><td class="num">24,280</td>
+      <td class="num hi">+2,636</td><td class="num">10.9%</td>
+      <td class="num">$316</td></tr><tr><td>2017-04-24</td><td>Mon</td>
+      <td class="num">22,127</td><td class="num">19,547</td>
+      <td class="num hi">+2,580</td><td class="num">13.2%</td>
+      <td class="num">$310</td></tr><tr><td>2017-04-13</td><td>Thu</td>
+      <td class="num">21,516</td><td class="num">18,968</td>
+      <td class="num hi">+2,548</td><td class="num">13.4%</td>
+      <td class="num">$306</td></tr><tr><td>2017-04-17</td><td>Mon</td>
+      <td class="num">21,272</td><td class="num">18,744</td>
+      <td class="num hi">+2,528</td><td class="num">13.5%</td>
+      <td class="num">$303</td></tr></tbody>
+            </table>
+          </div>
+          <p style="font-size:.76rem;color:#8FAEB3;margin-top:.6rem">kWh per day; cost at the
+            $0.12/kWh commercial tariff.</p>
+        </div>
+        <figure class="reveal">
+          <img src="assets/figures/Fig-6-2-Daily-Anomaly-Timeline.svg" loading="lazy"
+               alt="Daily anomaly timeline for 731 days, marking flagged wastage days against the weather-adjusted expected demand.">
+          <figcaption>Figure 6.2 — Daily anomaly timeline across the full 731-day window.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="roadmap" class="deep" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="num">06 — Remediation roadmap</p>
+        <h2>Four levers recover 18.50% of the baseline</h2>
+        <p>1,265,122 kWh per year — $151,815
+          at the modelled tariff and 527.6 t CO₂e avoided — without
+          touching a single thermostat setpoint that occupants can feel.</p>
+      </div>
+      <div class="grid-4">
+    <article class="lever" style="--hue:#2F8F9D">
+      <span class="tag">L1</span>
+      <h3>Overnight BMS Setback & Lighting Sweep (22:00-06:00)</h3>
+      <p class="tgt">Off-hour baseload above 360 kWh critical floor (68% capture)</p>
+      <div class="lever-nums">
+        <div><b>461.5</b><em>MWh / yr</em></div>
+        <div><b>$55,375</b><em>USD / yr</em></div>
+        <div><b>192.4</b><em>t CO₂e</em></div>
+      </div>
+      <p class="cmf">Zero (unoccupied overnight hours)</p>
+    </article>
+    <article class="lever" style="--hue:#3E7CB1">
+      <span class="tag">L2</span>
+      <h3>Weekend & Academic-Break Deep HVAC Consolidation</h3>
+      <p class="tgt">Weekend daytime load above 400 kWh zone floor (62% capture)</p>
+      <div class="lever-nums">
+        <div><b>339.5</b><em>MWh / yr</em></div>
+        <div><b>$40,744</b><em>USD / yr</em></div>
+        <div><b>141.6</b><em>t CO₂e</em></div>
+      </div>
+      <p class="cmf">Zero (consolidates weekend study/work into zoned wings)</p>
+    </article>
+    <article class="lever" style="--hue:#6C6FB0">
+      <span class="tag">L3</span>
+      <h3>Automated OCSVM Anomaly Triage & Override Reset</h3>
+      <p class="tgt">82% mitigation of flagged multivariate wastage-day surges</p>
+      <div class="lever-nums">
+        <div><b>95.5</b><em>MWh / yr</em></div>
+        <div><b>$11,465</b><em>USD / yr</em></div>
+        <div><b>39.8</b><em>t CO₂e</em></div>
+      </div>
+      <p class="cmf">Positive (eliminates simultaneous heating/cooling faults)</p>
+    </article>
+    <article class="lever" style="--hue:#B07C3E">
+      <span class="tag">L4</span>
+      <h3>Economizer Tuning, DCV & 1 C Deadband Optimization</h3>
+      <p class="tgt">32% trim on hot-weather (>24 C) weekday cooling increment</p>
+      <div class="lever-nums">
+        <div><b>368.6</b><em>MWh / yr</em></div>
+        <div><b>$44,230</b><em>USD / yr</em></div>
+        <div><b>153.7</b><em>t CO₂e</em></div>
+      </div>
+      <p class="cmf">Zero (ASHRAE 55 compliant 23.5-24.5 C comfort band)</p>
+    </article></div>
+      <div class="card reveal" style="margin-top:1.6rem;background:rgba(255,255,255,.05);border-color:var(--deep-line)">
+        <div class="tabs" role="tablist" aria-label="Capture scenario"><button role="tab" id="sc0" aria-controls="sp0" aria-selected="false" tabindex="-1">Conservative</button><button role="tab" id="sc1" aria-controls="sp1" aria-selected="true" tabindex="0">Planned</button><button role="tab" id="sc2" aria-controls="sp2" aria-selected="false" tabindex="-1">Aggressive</button></div>
+        <div role="tabpanel" id="sp0" aria-labelledby="sc0" hidden>
+      <div class="sc-grid">
+        <div><b>1,075.4</b><em>MWh saved per year</em></div>
+        <div><b>15.72%</b><em>of the annual baseline</em></div>
+        <div><b>$129,042</b><em>annual cost avoided</em></div>
+        <div><b>448.4</b><em>tonnes CO₂e avoided</em></div>
+      </div>
+      <p class="sc-note">Conservative case: capture multiplier 0.85, leaving
+      5,763.3 MWh of optimised annual demand.</p>
+    </div><div role="tabpanel" id="sp1" aria-labelledby="sc1" >
+      <div class="sc-grid">
+        <div><b>1,265.1</b><em>MWh saved per year</em></div>
+        <div><b>18.50%</b><em>of the annual baseline</em></div>
+        <div><b>$151,815</b><em>annual cost avoided</em></div>
+        <div><b>527.6</b><em>tonnes CO₂e avoided</em></div>
+      </div>
+      <p class="sc-note">Planned case: capture multiplier 1.00, leaving
+      5,573.5 MWh of optimised annual demand.</p>
+    </div><div role="tabpanel" id="sp2" aria-labelledby="sc2" hidden>
+      <div class="sc-grid">
+        <div><b>1,416.9</b><em>MWh saved per year</em></div>
+        <div><b>20.72%</b><em>of the annual baseline</em></div>
+        <div><b>$170,032</b><em>annual cost avoided</em></div>
+        <div><b>590.9</b><em>tonnes CO₂e avoided</em></div>
+      </div>
+      <p class="sc-note">Aggressive case: capture multiplier 1.12, leaving
+      5,421.7 MWh of optimised annual demand.</p>
+    </div>
+      </div>
+      <div class="grid-2" style="margin-top:2rem">
+        <figure class="reveal">
+          <img src="assets/figures/Fig-7-1-Savings-Waterfall-Roadmap.svg" loading="lazy"
+               alt="Savings waterfall from the annual baseline through four levers to the optimised annual demand.">
+          <figcaption>Figure 7.1 — Savings waterfall from baseline to optimised demand.</figcaption>
+        </figure>
+        <figure class="reveal">
+          <img src="assets/figures/Fig-7-2-Sensitivity-Analysis.svg" loading="lazy"
+               alt="Sensitivity of the savings estimate to capture rate and tariff assumptions.">
+          <figcaption>Figure 7.2 — Sensitivity of the savings estimate to capture rate and tariff.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="deliverables">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="num">07 — Deliverables</p>
+        <h2>Everything is reproducible</h2>
+        <p>Served from this site, plus a mirrored archive in the shared Drive folder. The report and
+          the notebook are generated from the same deterministic pipeline as the numbers above.</p>
+      </div>
+      <div class="dl-grid reveal">
+    <a class="dl" href="reports/Final-Project-Report.pdf" download>
+      <span class="dl-kind">PDF</span>
+      <strong>Final project report</strong>
+      <span class="dl-note">Full 80-page report</span>
+      <span class="dl-size">1.3 MB ↓</span>
+    </a>
+    <a class="dl" href="notebook/Analysis-Notebook.html" download>
+      <span class="dl-kind">HTML</span>
+      <strong>Executed notebook</strong>
+      <span class="dl-note">All 22 cells, outputs included</span>
+      <span class="dl-size">1.0 MB ↓</span>
+    </a>
+    <a class="dl" href="notebook/Analysis-Notebook.ipynb" download>
+      <span class="dl-kind">IPYNB</span>
+      <strong>Notebook source</strong>
+      <span class="dl-note">Re-runnable, SEED = 42</span>
+      <span class="dl-size">681 KB ↓</span>
+    </a>
+    <a class="dl" href="code/Energy-Analysis-Script.py" download>
+      <span class="dl-kind">PY</span>
+      <strong>Analytical pipeline</strong>
+      <span class="dl-note">Figures, models, JSON export</span>
+      <span class="dl-size">79 KB ↓</span>
+    </a>
+    <a class="dl" href="data/dataset.csv" download>
+      <span class="dl-kind">CSV</span>
+      <strong>Curated dataset</strong>
+      <span class="dl-note">17,544 h × 15 columns</span>
+      <span class="dl-size">1.6 MB ↓</span>
+    </a>
+    <a class="dl" href="data/Analysis-Results.json" download>
+      <span class="dl-kind">JSON</span>
+      <strong>Analysis results</strong>
+      <span class="dl-note">Single source of truth</span>
+      <span class="dl-size">21 KB ↓</span>
+    </a></div>
+      <div class="grid-2 reveal" style="margin-top:2rem">
+        <figure>
+          <img src="assets/figures/Fig-4-1-Methodology-Workflow.svg" loading="lazy"
+               alt="End-to-end analytical workflow from benchmark acquisition to the interactive dissemination layer.">
+          <figcaption>Figure 4.1 — End-to-end workflow, from open benchmark acquisition to this page.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/figures/Fig-6-4-KMeans-Cluster-Profiles.svg" loading="lazy"
+               alt="Four operational regime profiles recovered by K-Means clustering of daily load shapes.">
+          <figcaption>Figure 6.4 — Four operational regimes recovered from daily load shapes.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <h4>Smart Building Energy Wastage &amp; Anomaly Profiling</h4>
+      <p style="font-size:.86rem;max-width:34ch">A mini project for <em>Data Visualization and
+        Analysis</em> (26CSEM321), B.Tech CSE, Year 2, Semester 3, Section 2CSE-4, IILM University,
+        Greater Noida. Guide: Aditya Bangia. Academic year 2026-27.</p>
+    </div>
+    <div>
+      <h4>Team</h4>
+      <ul>
+        <li>Ayush Jha · 25SCS1003001336</li>
+        <li>Archit Baloni · 25SCS1003003550</li>
+        <li>Ashutosh Sahoo · 25SCS1003004011</li>
+        <li>Dev Bhaskar Singh · 25SCS1003003174</li>
+        <li>Aman Kumar Gupta · 25SCS1003003645</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Links</h4>
+      <ul>
+        <li><a href="https://github.com/yourprogrammerayush/smart-building-energy-profiling" target="_blank" rel="noopener">Source repository ↗</a></li>
+        <li><a href="https://yourprogrammerayush.github.io/smart-building-energy-profiling/">Project site</a></li>
+        <li><a href="https://drive.google.com/drive/folders/11nythpv22YAKNrwq1X8lfrp4Fq-hj01C" target="_blank" rel="noopener">Drive archive ↗</a></li>
+        <li><a href="reports/Final-Project-Report.pdf">Final report (PDF)</a></li>
+      </ul>
+    </div>
+    <div class="fine">
+      <span>Data: Building Data Genome Project 2 (CC BY-SA 4.0), Site Fox. Code: MIT.</span>
+      <span>Energy figures are model-based estimates, not metered savings.</span>
+    </div>
+  </div>
+</footer>
 <script>
-const WK=[573,555,567,559,549,610,695,761,857,938,979,1010,1032,1049,1064,1064,1046,979,921,878,843,811,730,657];
-const WE=[551,540,552,552,545,568,619,640,659,683,708,730,745,764,774,786,787,780,767,744,725,703,656,608];
-const MVAL=[559.1,633.7,702.6,717.2,802.8,918.1,963.4,980,908,810.5,715.6,602.4,593.3,654.4,712.2,803.4,857.1,959.9,983.4,927,887.8,781.7,659.1,566.9];
-const MDATES=["Jan 16","Feb 16","Mar 16","Apr 16","May 16","Jun 16","Jul 16","Aug 16","Sep 16","Oct 16","Nov 16","Dec 16","Jan 17","Feb 17","Mar 17","Apr 17","May 17","Jun 17","Jul 17","Aug 17","Sep 17","Oct 17","Nov 17","Dec 17"];
-const DAILY=[10177,11057,11044,13080,13653,13680,13959,13841,11994,11678,14387,14973,14705,15021,14203,12055,11817,11981,15047,15103,15211,14868,12268,11512,14668,15026,14930,15363,14593,12257,11825,13998,14758,14686,14725,14382,11736,11605,14967,16228,16077,16393,16072,13537,12557,15861,16928,17216,16940,16553,12903,12556,16212,16685,16666,17099,17268,14875,13818,17747,18624,18573,18801,18346,14591,14316,15947,15733,16207,16732,16649,13560,13415,17178,18169,18234,18416,17986,15596,15106,19492,20152,17730,18238,17098,14922,14457,17931,17035,16463,17030,17144,14491,14711,18435,19008,18651,18542,17716,14789,13561,16823,17709,17953,18508,17409,14068,14437,17959,18239,18825,19440,19433,16740,15422,18240,17596,18224,18201,18540,15580,15367,19472,21049,21905,21646,19273,15411,14942,17953,19576,20176,20860,20893,18809,17879,20316,20971,20804,20761,21098,18262,17356,18095,19120,19947,19947,19883,18635,18283,17787,20773,21665,21683,21465,18533,21857,22978,22373,23096,23079,22465,19879,18823,20980,20965,21149,21393,21376,19134,20653,24230,24367,24185,24161,23954,21296,20443,23377,24359,24415,22663,22381,20801,20831,20542,23153,23458,23840,22951,21763,21033,22496,22919,23505,24166,23320,22086,21235,23875,25131,24278,24471,24527,23038,22532,24081,24771,25191,25318,25016,22046,22029,23476,24064,23986,24342,23870,21854,21691,24374,24500,25340,25047,25366,21688,20693,24560,25700,25342,25107,24467,20666,19251,24502,24550,23660,24435,23873,19790,18475,23043,24891,26496,26250,25438,20403,18598,19282,23337,24360,24393,23808,20092,19089,24071,23914,23440,22482,21563,18351,16893,22248,23448,24409,24163,21383,16851,16989,21629,21596,22047,21742,21484,17082,15586,19682,19193,19633,20221,19892,17037,16564,19985,19845,20167,20154,19869,16594,15647,20138,20376,20488,20428,21102,18532,17845,21016,21432,22032,23220,22438,18383,17127,21329,20843,19934,20476,19468,16363,14937,20372,21005,20824,20263,17286,16370,15277,19766,20395,19706,18098,17353,15616,13072,17141,16050,14659,12743,13098,11842,11934,16300,16972,17065,16780,16229,13631,12676,16293,16793,16795,16807,16416,13985,12894,16215,15908,15975,15904,15257,12168,11762,14874,15148,14988,15132,13903,11711,11225,12320,12733,13916,14310,14020,11429,11222,12540,14421,14710,14577,14589,11943,11703,15554,16028,15710,15975,15320,11903,11550,12514,15627,16474,16156,15201,12600,11843,15674,15700,15005,15834,15088,12330,11549,15937,16173,16214,16299,15362,13842,12657,15912,17232,17158,17655,17520,14644,12927,16964,17244,17297,16952,17079,13610,11933,16466,17182,17522,16430,15778,12999,11854,16108,16919,16630,17266,16364,13593,12261,15672,16355,17160,18241,17982,15408,13947,18879,19493,19398,19613,18910,15892,14499,20187,20150,19054,16994,16692,13872,12974,17806,17807,19174,20145,17427,14998,15160,19212,19063,19638,20671,20790,15924,13697,19759,20453,20995,21517,20681,16317,16132,21272,22071,22184,21627,21160,18297,16968,22127,22143,21604,22047,20768,15728,15437,21071,22100,22934,23598,23404,18884,15958,19789,19537,19879,21124,22086,18875,17467,21341,19891,20278,20429,20013,16650,17564,22666,23355,23169,22802,21760,17500,17684,20012,22640,23188,22803,22659,19475,19479,24047,24280,24077,23609,23344,18468,18367,22331,21825,22006,23008,23347,18903,19225,25317,26175,25627,25835,26916,21229,21708,27054,25180,25101,25361,24371,19669,20303,25262,22701,25733,26102,26544,22074,21856,26267,25194,25206,25310,25393,21194,20784,25381,25646,25502,24854,25106,21520,20096,24113,25050,24539,24834,23865,18306,18316,24894,22682,21359,21827,20860,16830,16403,21240,21908,21764,22782,23279,19871,18969,24206,23173,22756,23221,23062,20630,20250,23670,24551,25162,24586,23931,19884,20928,25057,25241,25358,24259,23244,21248,20611,21987,24412,24135,24383,23220,20061,20309,24472,24892,24772,24315,22220,19345,18970,21526,21646,21710,21464,20361,16852,16072,18974,19494,20189,20348,20190,17765,16798,20494,20649,21244,21554,20176,15964,15376,18583,18738,20485,20174,19735,16889,16271,20748,21048,20489,20412,19326,15689,15273,19201,20423,20599,19141,18360,16074,15321,17984,18404,18153,18061,17284,15127,14666,17416,17781,17997,17945,15423,14596,14014,17699,17466,16204,16075,16124,13619,13095,15687,16033,14971,13649,13696,13674,13617,16066,16112,16071,16262,16037,13786,13596,15756,14815,15717,14944,14376,12344,12475,14994,14590,15058,14540,14513,11679,11320,14099,14138,14088,13662,13643,12252,11930,12207,12662,13726,13123,13472,11410,10856];
-const TOP=[["2017-04-26",21603.6,18631.3,2972.3,16.0,620.8,0.514,25.2,356.68],["2017-04-25",22143.4,19216.8,2926.6,15.2,636.2,0.519,25.7,351.19],["2017-06-26",27053.6,24199.2,2854.4,11.8,827.9,0.578,38.1,342.53],["2017-04-20",21627.5,18786.5,2840.9,15.1,591.3,0.466,26.1,340.91],["2017-04-19",22183.7,19428.4,2755.3,14.2,625.8,0.499,27.2,330.64],["2017-04-18",22071.0,19324.1,2746.9,14.2,600.6,0.464,26.9,329.63],["2017-06-23",26916.3,24280.0,2636.3,10.9,869.2,0.618,37.8,316.35],["2017-04-24",22127.1,19546.6,2580.5,13.2,612.9,0.487,27.7,309.66],["2017-04-13",21516.5,18968.3,2548.2,13.4,587.6,0.472,26.2,305.79],["2017-04-17",21272.0,18743.6,2528.4,13.5,587.5,0.483,25.8,303.41]];
-const LEV=[["L1 - Overnight BMS setback 22:00-06:00",461457.2,6.75,55375,192.4],["L2 - Weekend and break consolidation",339534.3,4.96,40744,141.6],["L3 - Automated anomaly triage",95544.1,1.4,11465,39.8],["L4 - Economizer, DCV and deadband",368586.9,5.39,44230,153.7]];
-const BASE_KWH=6838634.9, TOT_KWH=1265122.5, CO2=527.6;
-const fmt=n=>Math.round(n).toLocaleString("en-US");
-const LAY={margin:{l:56,r:18,t:14,b:46},font:{family:"Inter, sans-serif",size:11},paper_bgcolor:"rgba(0,0,0,0)",plot_bgcolor:"rgba(0,0,0,0)",hovermode:"x unified",xaxis:{gridcolor:"#eef2f7"},yaxis:{gridcolor:"#eef2f7"}};
-const CFG={displayModeBar:false,responsive:true};
-const line=(c)=>({color:c,mode:"lines",line:{width:2.6}});
-Plotly.newPlot("c1",[
-Object.assign(line("#0B1F3A"),{x:Array.from({length:24},(_,i)=>i),y:WK,name:"Weekday"}),
-Object.assign(line("#c62828"),{x:Array.from({length:24},(_,i)=>i),y:WE,name:"Weekend"}),
-{x:[22,23,0,1,2,3,4,5],y:[0,0,0,0,0,0,0,0],fill:"tozeroy",fillcolor:"rgba(31,79,216,.07)",line:{width:0},hoverinfo:"skip",showlegend:false}],
-Object.assign({},LAY,{yaxis:{title:"kWh/h",gridcolor:"#eef2f7",range:[0,1200]},xaxis:{title:"Hour of day",dtick:3,gridcolor:"#eef2f7"},legend:{orientation:"h",y:1.12}}),CFG);
-Plotly.newPlot("c2",[Object.assign(line("#1f4fd8"),{x:MDATES,y:MVAL,name:"Mean demand",fill:"tozeroy",fillcolor:"rgba(31,79,216,.10)"})],Object.assign({},LAY,{yaxis:{title:"kWh/h",gridcolor:"#eef2f7"}}),CFG);
-const d0=Date.UTC(2016,0,1);
-const dates=DAILY.map((_,i)=>new Date(d0+i*864e5).toISOString().slice(0,10));
-Plotly.newPlot("c3",[Object.assign(line("#0B1F3A"),{x:dates,y:DAILY,name:"Daily kWh",line:{width:1.4}}),
-{x:TOP.map(t=>t[0]),y:TOP.map(t=>t[1]),mode:"markers",type:"scatter",name:"Top-10 excess days",marker:{color:"#c62828",size:8,symbol:"diamond"}}],
-Object.assign({},LAY,{yaxis:{title:"kWh/day",gridcolor:"#eef2f7"},legend:{orientation:"h",y:1.12}}),CFG);
-Plotly.newPlot("c4",[{type:"waterfall",measure:["absolute","relative","relative","relative","relative","total"],x:["Baseline","L1","L2","L3","L4","Optimised"],y:[6838.63,-461.457,-339.534,-95.544,-368.587,0],text:["6,838.6","-461.5","-339.5","-95.5","-368.6","5,573.5"],textposition:"outside",connector:{line:{color:"#9fb0c4"}},increasing:{marker:{color:"#0B1F3A"}},decreasing:{marker:{color:"#1b7a3d"}},totals:{marker:{color:"#1f4fd8"}}}],Object.assign({},LAY,{yaxis:{title:"MWh/yr",gridcolor:"#eef2f7",range:[4800,7200]}}),CFG);
-Plotly.newPlot("c5",[{type:"bar",orientation:"h",y:LEV.map(l=>l[0]).slice().reverse(),x:LEV.map(l=>l[1]/1000).slice().reverse(),marker:{color:["#0e7490","#b45309","#c62828","#1b7a3d"]},text:LEV.map(l=>l[2]+"%").slice().reverse(),textposition:"outside"}],Object.assign({},LAY,{margin:{l:232,r:36,t:10,b:34},xaxis:{title:"MWh/yr",gridcolor:"#eef2f7"},yaxis:{gridcolor:"#eef2f7",tickfont:{size:10.5}}}),CFG);
-const tb=document.querySelector("#tbl tbody");
-TOP.forEach((t,i)=>{const tr=document.createElement("tr");tr.innerHTML="<td>"+(i+1)+"</td><td>"+t[0]+"</td><td class=r>"+fmt(t[1])+"</td><td class=r>"+fmt(t[2])+"</td><td class=r><b>"+fmt(t[3])+"</b></td><td class=r>"+t[4].toFixed(1)+"%</td><td class=r>"+t[5].toFixed(1)+"</td><td class=r>"+t[6].toFixed(3)+"</td><td class=r>"+t[7].toFixed(1)+"</td><td class=r>$"+t[8].toFixed(2)+"</td>";tb.appendChild(tr);});
-const cap=document.getElementById("cap"),tar=document.getElementById("tar");
-function sim(){const m=cap.value/100,p=tar.value/100,kwh=TOT_KWH*m,pct=kwh/BASE_KWH*100,usd=kwh*p,co2=CO2*m,opt=(BASE_KWH-kwh)/1000;
-document.getElementById("mv").textContent=m.toFixed(2)+"x";
-document.getElementById("tv").textContent="$"+p.toFixed(2)+" / kWh";
-document.getElementById("pct").textContent=pct.toFixed(2)+"%";
-document.getElementById("kwh").textContent=fmt(kwh)+" kWh/yr";
-document.getElementById("usd").textContent="$"+fmt(usd)+" / yr";
-document.getElementById("co2").textContent=co2.toFixed(1)+" tCO2e / yr";
-document.getElementById("opt").textContent=fmt(opt)+" MWh/yr";}
-cap.addEventListener("input",sim);tar.addEventListener("input",sim);sim();
+(() => {
+  const root = document.documentElement;
+  root.classList.add('js');
+
+  /* scroll progress */
+  const bar = document.querySelector('.progress i');
+  const onScroll = () => {
+    const h = root.scrollHeight - innerHeight;
+    bar.style.width = (h > 0 ? (scrollY / h) * 100 : 0) + '%';
+  };
+  addEventListener('scroll', onScroll, {passive: true}); onScroll();
+
+  /* reveal on view */
+  const io = new IntersectionObserver((es) => {
+    es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {rootMargin: '0px 0px -8% 0px', threshold: .08});
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    el.style.transitionDelay = Math.min(i % 6, 5) * 60 + 'ms';
+    io.observe(el);
+  });
+
+  /* count-up KPIs */
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const counters = document.querySelectorAll('[data-count]');
+  const paint = (el, v) => {
+    const dp = +(el.dataset.dp || 0);
+    const txt = v.toLocaleString('en-US', {minimumFractionDigits: dp, maximumFractionDigits: dp});
+    const unit = el.querySelector('i');
+    el.textContent = txt;
+    if (unit) el.appendChild(unit);          // keep the unit span after the digits
+  };
+  if (reduce) { counters.forEach(el => paint(el, +el.dataset.count)); }
+  else {
+    const co = new IntersectionObserver((es) => {
+      es.forEach(e => {
+        if (!e.isIntersecting) return;
+        const el = e.target, target = +el.dataset.count, t0 = performance.now(), dur = 1100;
+        const step = (t) => {
+          const k = Math.min(1, (t - t0) / dur), e2 = 1 - Math.pow(1 - k, 3);
+          paint(el, target * e2);
+          if (k < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step); co.unobserve(el);
+      });
+    }, {threshold: .4});
+    counters.forEach(el => { paint(el, 0); co.observe(el); });
+  }
+
+  /* interactive load-shape chart */
+  const chart = document.querySelector('.chart[data-hours]');
+  if (chart) {
+    const hours = JSON.parse(chart.dataset.hours);
+    const wd = JSON.parse(chart.dataset.weekday);
+    const we = JSON.parse(chart.dataset.weekend);
+    const tip = document.querySelector('.tip');
+    const xref = chart.querySelector('.xref');
+    const xdot = chart.querySelector('.xdot');
+    const box = chart.getBoundingClientRect();
+    const vb = chart.viewBox.baseVal;
+    const PL = 44, PR = 12;
+    const xFor = (h) => PL + (vb.width - PL - PR) * h / 23;
+    const yMax = Math.max(...wd, ...we) * 1.06, PT = 18, PB = 40;
+    const yFor = (v) => vb.height - PB - (vb.height - PT - PB) * v / yMax;
+
+    const show = (h) => {
+      const x = xFor(h);
+      xref.setAttribute('x1', x); xref.setAttribute('x2', x); xref.style.opacity = 1;
+      xdot.setAttribute('cx', x); xdot.setAttribute('cy', yFor(wd[h])); xdot.style.opacity = 1;
+      tip.innerHTML = `<b>${String(h).padStart(2, '0')}:00</b> &nbsp; weekday ${wd[h].toFixed(0)} kWh
+        &nbsp;·&nbsp; weekend ${we[h].toFixed(0)} kWh`;
+      tip.style.left = (x / vb.width * chart.clientWidth) + 'px';
+      tip.style.top = (yFor(wd[h]) / vb.height * chart.clientHeight) + 'px';
+      tip.style.opacity = 1;
+      const readout = document.querySelector('.slider output');
+      if (readout) readout.textContent = `${String(h).padStart(2, '0')}:00 — weekday ${wd[h].toFixed(0)} kWh, weekend ${we[h].toFixed(0)} kWh`;
+    };
+    const hide = () => { xref.style.opacity = 0; xdot.style.opacity = 0; tip.style.opacity = 0; };
+    chart.addEventListener('pointermove', (ev) => {
+      const r = chart.getBoundingClientRect();
+      const rel = (ev.clientX - r.left) / r.width * vb.width;
+      const h = Math.round((rel - PL) / (vb.width - PL - PR) * 23);
+      if (h >= 0 && h <= 23) show(h);
+    });
+    chart.addEventListener('pointerleave', hide);
+    const range = document.querySelector('input[data-hour]');
+    if (range) {
+      range.addEventListener('input', () => show(+range.value));
+      show(+range.value);                       // fill the readout on load …
+      hide();                                   // … but leave the tooltip hidden
+      const out = document.querySelector('.slider output');
+      if (out) out.textContent = `${String(range.value).padStart(2, '0')}:00 — weekday ${wd[+range.value].toFixed(0)} kWh, weekend ${we[+range.value].toFixed(0)} kWh`;
+    }
+  }
+
+  /* scenario tabs */
+  const tabs = [...document.querySelectorAll('[role="tab"]')];
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => select(i));
+    t.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      e.preventDefault();
+      const n = (i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+      select(n); tabs[n].focus();
+    });
+  });
+  function select(n) {
+    tabs.forEach((t, i) => {
+      const on = i === n;
+      t.setAttribute('aria-selected', on);
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+  }
+
+  /* active nav link */
+  const links = [...document.querySelectorAll('.nav nav a')];
+  const secs = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const spy = new IntersectionObserver((es) => {
+    es.forEach(e => {
+      if (!e.isIntersecting) return;
+      links.forEach(a => a.style.color = a.getAttribute('href') === '#' + e.target.id ? '#fff' : '');
+    });
+  }, {rootMargin: '-45% 0px -50% 0px'});
+  secs.forEach(s => spy.observe(s));
+})();
 </script>
 </body>
 </html>

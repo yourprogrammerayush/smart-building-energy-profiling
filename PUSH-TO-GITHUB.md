@@ -16,8 +16,8 @@ sandbox has no credentials). Nothing else is missing or blocked.
 | Tracked files | 61 — code, data, 18 SVG figures, fonts, logos, notebook, report, site, docs |
 | Largest file | 2.5 MB (`Final-Project-Report.pdf`) — well under GitHub's 100 MB hard limit |
 | Repository size | ~4.9 MB of Git history (61 files, largest 2.5 MB) |
-| Archives | `*.zip` and `*.bundle` are **git-ignored** and purged from history (the 8 MB archive is published on Drive, not in Git) |
-| Ready-to-serve site | `deploy/index.html` (single file, this is what Vercel serves) |
+| Archives | `*.zip` and `*.bundle` are **git-ignored** and purged from history (the 15 MB archive is published on Drive, not in Git) |
+| Ready-to-serve site | `deploy/` — published to GitHub Pages by `.github/workflows/pages.yml` |
 | GitHub Pages workflow | `.github/workflows/pages.yml` (optional, see §5) |
 | Line endings / binary rules | `.gitattributes` |
 
@@ -75,12 +75,12 @@ git push -u origin main
 
 ## 4. Pushing from a different machine
 
-`Smart-Building-Energy-Wastage-Anomaly-Profiling-Ayush-Jha-25SCS1003001336.bundle` (in this
+the Git bundle `09 PROJECT GIT BUNDLE.BUNDLE` (in this
 workspace) is a single-file copy of the whole repository **including history**. On any machine
 with Git:
 
 ```bash
-git clone Smart-Building-Energy-Wastage-Anomaly-Profiling-Ayush-Jha-25SCS1003001336.bundle repo
+git clone 09\ PROJECT\ GIT\ BUNDLE.BUNDLE repo
 cd repo
 git remote set-url origin https://github.com/<your-username>/smart-building-energy-profiling.git
 git push -u origin main
@@ -96,17 +96,22 @@ Verify the bundle before trusting it: `git bundle verify <file>.bundle`.
 
 - *Description:* Data-driven detection of energy wastage and anomalies in a six-building
   smart-meter portfolio (BDG2 Site Fox) — 25.30% of energy is burned while unoccupied.
-- *Website:* `https://smart-building-energy-profiling.vercel.app`
+- *Website:* `https://yourprogrammerayush.github.io/smart-building-energy-profiling/`
 - *Topics:* `energy-analytics` `anomaly-detection` `smart-buildings` `time-series`
   `scikit-learn` `plotly` `data-visualization` `building-data-genome` `sustainability`
 
-**Optional — a second live copy on GitHub Pages**
+**GitHub Pages — the canonical publication**
 
 The workflow in `.github/workflows/pages.yml` publishes `deploy/` to Pages on every push to
-`main`. To switch it on: *Settings → Pages → Build and deployment → Source = **GitHub Actions***,
-then re-run the workflow. It publishes the same single-file app that Vercel serves; change
-`path: deploy` to `path: site` in the workflow if you would rather publish the multi-file
-version. Vercel remains the canonical URL either way.
+`main`. Switch it on once: *Settings → Pages → Build and deployment → Source = **GitHub
+Actions***, then re-run the workflow. The site then answers at
+
+    https://yourprogrammerayush.github.io/smart-building-energy-profiling/
+
+`deploy/` contains `index.html` plus the copies it links to (report PDF, executed notebook,
+dataset, pipeline script, figures), so every download is same-origin and needs no third-party
+host. Keep the workflow path at `deploy`; it is rebuilt from `build_site.py`, which reads the
+JSON results and the dataset directly.
 
 **Optional — pin the repo** on your profile and add the link to the submission sheet.
 
@@ -119,8 +124,8 @@ version. Vercel remains the canonical URL either way.
 - [ ] `deploy/index.html` renders in the repo's *Preview* tab or via Pages (§5)
 - [ ] PDF, notebook and dataset links in the README open (they point at the public Drive folder)
 - [ ] Licence reads MIT for code and CC BY-SA 4.0 for the dataset extract
-- [ ] Add the GitHub URL next to the Vercel and Drive URLs in `PROJECT-LINKS.md`, then
-      `git commit -am "docs: record GitHub mirror" && git push`
+- [ ] Confirm the Repository and Live Site URLs in `PROJECT-LINKS.md` answer 200, then
+      `git commit -am "docs: verify publication" && git push`
 
 ---
 
