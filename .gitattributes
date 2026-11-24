@@ -1,0 +1,28 @@
+# Normalise line endings so the same tree works on Windows and POSIX
+* text=auto eol=lf
+
+# Text formats that must never be converted
+*.py      text eol=lf
+*.md      text eol=lf
+*.html    text eol=lf
+*.css     text eol=lf
+*.js      text eol=lf
+*.json    text eol=lf
+*.ipynb   text eol=lf
+*.csv     text eol=lf
+*.yml     text eol=lf
+*.svg     text eol=lf
+
+# Binary formats: never diff, never merge, never re-encode
+*.pdf     binary
+*.zip     binary
+*.ttf     binary
+*.png     binary
+*.jpg     binary
+*.ico     binary
+
+# Generated artefacts: GitHub language stats should ignore vendored data/figures
+data/*.csv linguist-vendored
+assets/figures/*.svg linguist-documentation
+site/** linguist-documentation
+reports/*.pdf linguist-documentation

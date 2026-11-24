@@ -19,3 +19,7 @@ reports/page_map.json
 
 # The final PDF is a tracked deliverable, but intermediate renders are not
 reports/_intermediate/
+
+# Distribution archives are published to Google Drive, not committed
+*.zip
+*.bundle
